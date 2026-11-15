@@ -16,6 +16,7 @@ export interface TodayDoseSlot {
   administeredAt?: string;
   deviationMinutes?: number;
   snoozedUntil?: string;
+  visualIdentity?: Medication['visualIdentity'];
 }
 
 export interface AdherenceMetrics {
@@ -94,6 +95,7 @@ export function getTodaySchedule(patientId: string): TodayDoseSlot[] {
         status,
         administeredAt: existingEvent?.recordedAt,
         deviationMinutes: existingEvent?.deviationMinutes,
+        visualIdentity: med.visualIdentity,
       });
     }
   }

@@ -68,6 +68,16 @@ export type MedicationForm =
 
 export type FoodRelation = 'BEFORE_MEAL' | 'WITH_MEAL' | 'AFTER_MEAL' | 'NO_RESTRICTION';
 
+export interface MedicationVisualIdentity {
+  shape: 'ROUND_TABLET' | 'OVAL_TABLET' | 'CAPSULE' | 'TRIANGLE_TABLET';
+  color: string;
+  secondaryColor?: string;
+  colorLabel: string;
+  purposeLabelHindi: string;
+  purposeLabelEnglish: string;
+  mealTimingHindi: string;
+}
+
 export interface Medication {
   id: string;
   patientId: string;
@@ -82,6 +92,7 @@ export interface Medication {
   startDate: string;
   endDate?: string;
   plainLanguageSummary?: string; // AI-generated simple description for seniors
+  visualIdentity?: MedicationVisualIdentity;
   interactionWarnings?: DrugInteractionReport[];
   status: 'ACTIVE' | 'DISCONTINUED';
   createdAt: string;

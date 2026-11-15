@@ -6,21 +6,21 @@ export function useVoiceAnnouncement() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
-  const activeUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [voiceEngine, setVoiceEngine] = useState<'SARVAM_AI' | 'INDIC_DEVICE'>('INDIC_DEVICE');
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
 
-  // Load and prioritize Indian English & Hindi voices
+  // Load and prioritize Indian English & Hindi voices for fallback
   const refreshVoices = useCallback(() => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     const available = window.speechSynthesis.getVoices();
     if (available.length > 0) {
       setVoices(available);
 
-      // Prioritize Indian English / Hindi voices
       const indianVoice =
+        available.find((v) => v.lang === 'hi-IN') ||
         available.find((v) => v.lang === 'en-IN') ||
         available.find((v) => v.name.toLowerCase().includes('india') || v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('veena') || v.name.toLowerCase().includes('rishi')) ||
         available.find((v) => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google'))) ||
-        available.find((v) => v.lang.startsWith('en')) ||
         available[0];
 
       if (indianVoice) {
@@ -35,60 +35,100 @@ export function useVoiceAnnouncement() {
       window.speechSynthesis.onvoiceschanged = refreshVoices;
     }
     return () => {
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stop();
     };
   }, [refreshVoices]);
 
-  const speak = useCallback(
-    (text: string, options?: { rate?: number; pitch?: number; lang?: string }) => {
-      if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel();
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = options?.rate ?? 0.78; // Gentle, clear speed for seniors
-      utterance.pitch = options?.pitch ?? 1.0;
-
-      // Find matching voice or use preselected Indian voice
-      let chosenVoice = selectedVoice;
-      if (options?.lang) {
-        const matching = voices.find((v) => v.lang.startsWith(options.lang!));
-        if (matching) chosenVoice = matching;
-      }
-
-      if (chosenVoice) {
-        utterance.voice = chosenVoice;
-        utterance.lang = chosenVoice.lang;
-      }
-
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = (e) => {
-        console.warn('[VoiceAnnouncement] Speech error:', e);
-        setIsSpeaking(false);
-      };
-
-      activeUtteranceRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
-    },
-    [selectedVoice, voices]
-  );
-
   const stop = useCallback(() => {
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.pause();
+      audioPlayerRef.current = null;
+    }
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      setIsSpeaking(false);
     }
+    setIsSpeaking(false);
   }, []);
 
-  return { 
-    speak, 
-    stop, 
-    isSpeaking, 
-    voices, 
-    selectedVoiceName: selectedVoice?.name || 'Standard Voice' 
+  const speak = useCallback(
+    async (text: string, options?: { lang?: string; rate?: number; pitch?: number }) => {
+      stop();
+      setIsSpeaking(true);
+
+      const targetLang = options?.lang || 'hi-IN';
+
+      // 1. Try Sarvam AI Indic Neural TTS First
+      try {
+        const res = await fetch('/api/voice/sarvam', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text,
+            language: targetLang,
+            speaker: 'meera',
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.audioDataUrl) {
+            setVoiceEngine('SARVAM_AI');
+            const audio = new Audio(data.audioDataUrl);
+            audioPlayerRef.current = audio;
+            audio.onended = () => {
+              setIsSpeaking(false);
+              audioPlayerRef.current = null;
+            };
+            audio.onerror = () => {
+              setIsSpeaking(false);
+              audioPlayerRef.current = null;
+            };
+            await audio.play();
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('[Voice] Sarvam AI endpoint error, using Indic client voice:', e);
+      }
+
+      // 2. Client-side Speech Synthesis Fallback
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        setVoiceEngine('INDIC_DEVICE');
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = options?.rate ?? 0.76; // Calm, slow pace for elders
+        utterance.pitch = options?.pitch ?? 1.0;
+
+        let chosenVoice = selectedVoice;
+        if (targetLang.startsWith('hi')) {
+          const hindiVoice = voices.find((v) => v.lang.startsWith('hi'));
+          if (hindiVoice) chosenVoice = hindiVoice;
+        } else {
+          const indianEn = voices.find((v) => v.lang === 'en-IN');
+          if (indianEn) chosenVoice = indianEn;
+        }
+
+        if (chosenVoice) {
+          utterance.voice = chosenVoice;
+          utterance.lang = chosenVoice.lang;
+        }
+
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+
+        window.speechSynthesis.speak(utterance);
+      } else {
+        setIsSpeaking(false);
+      }
+    },
+    [selectedVoice, voices, stop]
+  );
+
+  return {
+    speak,
+    stop,
+    isSpeaking,
+    voiceEngine,
+    selectedVoiceName: voiceEngine === 'SARVAM_AI' ? 'Sarvam AI (Meera • Hindi Neural)' : selectedVoice?.name || 'Indic Voice',
   };
 }
