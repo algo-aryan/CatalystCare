@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { TodayDoseSlot, AdherenceMetrics } from '@/lib/clinical/adherence-engine';
 
-export function useAdherence(patientId: string = 'patient_eleanor_vance') {
+export function useAdherence(patientId: string = 'patient_savita_sharma') {
   const [schedule, setSchedule] = useState<TodayDoseSlot[]>([]);
   const [metrics, setMetrics] = useState<AdherenceMetrics | null>(null);
   const [loading, setLoading] = useState(true);
@@ -46,9 +46,9 @@ export function useAdherence(patientId: string = 'patient_eleanor_vance') {
             patientId,
             scheduledDateTime: slot.scheduledDateTime,
             status,
-            actorName: 'Eleanor Vance',
+            actorName: 'Savita Sharma',
             actorRole: 'PATIENT',
-            actorUserId: 'user_patient_eleanor',
+            actorUserId: 'user_patient_savita',
             notes,
           }),
         });
@@ -60,13 +60,21 @@ export function useAdherence(patientId: string = 'patient_eleanor_vance') {
     [patientId, fetchSchedule]
   );
 
+  const untakenSlots = schedule.filter((s) => s.status !== 'ADMINISTERED');
+  const nextDueSlot = 
+    untakenSlots.find((s) => s.status === 'DUE' || s.status === 'OVERDUE') ||
+    untakenSlots.find((s) => s.status === 'MISSED') ||
+    untakenSlots.find((s) => s.status === 'UPCOMING') ||
+    untakenSlots[0] ||
+    null;
+
   return {
     schedule,
     metrics,
     loading,
     refresh: fetchSchedule,
     confirmDose,
-    nextDueSlot: schedule.find((s) => s.status === 'DUE' || s.status === 'OVERDUE' || s.status === 'UPCOMING'),
+    nextDueSlot,
     takenCount: schedule.filter((s) => s.status === 'ADMINISTERED').length,
     totalCount: schedule.length,
   };

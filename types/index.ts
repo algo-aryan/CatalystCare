@@ -82,6 +82,8 @@ export interface MedicationVisualIdentity {
   mealTimingHindi: string;
   voiceHindiScript: string;
   voiceEnglishScript: string;
+  photoUrl?: string;
+  photoAlt?: string;
 }
 
 export interface Medication {

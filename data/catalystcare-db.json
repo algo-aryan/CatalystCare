@@ -84,7 +84,7 @@
         "voiceEnglishScript": "Savita ji, this is your morning acidity relief tablet. It is a pale yellow oval pill. Take 1 tablet on an empty stomach before breakfast."
       },
       "interactionWarnings": [],
-      "status": "ACTIVE",
+      "status": "DISCONTINUED",
       "createdAt": "2026-10-16T05:34:29.761Z"
     },
     {
@@ -789,6 +789,42 @@
       "timestamp": "2026-11-15T05:44:11.948Z",
       "hash": "043559c557b5eb13f59c3b26183ac1032ad52ff8ac2d7b1f5a244ec81ad7ef19",
       "previousHash": "933c1d5ca374226f391fe75832e466636a649608533dbc4e7ffb4025921d30f8"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_eleanor",
+      "actorName": "Eleanor Vance",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T14:30:00.000Z. Deviation: -522 min",
+      "id": "audit_1794721656837_j7qz",
+      "timestamp": "2026-11-15T05:47:36.837Z",
+      "hash": "2d555b48618373d41d004adef073d12add3a5527acc15b7ba33c24b36dfbb3bd",
+      "previousHash": "043559c557b5eb13f59c3b26183ac1032ad52ff8ac2d7b1f5a244ec81ad7ef19"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_eleanor",
+      "actorName": "Eleanor Vance",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Pantoprazole 40 mg (Pan 40) at 2026-11-15T02:00:00.000Z. Deviation: 229 min",
+      "id": "audit_1794721761564_gk94",
+      "timestamp": "2026-11-15T05:49:21.564Z",
+      "hash": "806ac18c1d9320e864c73de41e38db3fd7e591fc6bcda91f171297646dc06d9b",
+      "previousHash": "2d555b48618373d41d004adef073d12add3a5527acc15b7ba33c24b36dfbb3bd"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Discontinued medication: Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794721818429_31lh",
+      "timestamp": "2026-11-15T05:50:18.428Z",
+      "hash": "0ed68a07addb7975fa583187f985560cfd145e9fa9d561895b3b3e1b465f01bd",
+      "previousHash": "806ac18c1d9320e864c73de41e38db3fd7e591fc6bcda91f171297646dc06d9b"
     }
   ],
   "outboxEmails": []
