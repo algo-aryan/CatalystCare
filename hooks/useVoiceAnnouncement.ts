@@ -83,8 +83,12 @@ export function useVoiceAnnouncement() {
               setIsSpeaking(false);
               audioPlayerRef.current = null;
             };
-            await audio.play();
-            return;
+            try {
+              await audio.play();
+              return;
+            } catch (playErr) {
+              console.warn('[Voice] Audio play error:', playErr);
+            }
           }
         }
       } catch (e) {

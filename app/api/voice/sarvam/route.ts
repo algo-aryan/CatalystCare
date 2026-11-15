@@ -5,11 +5,13 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { text, language = 'hi-IN', speaker = 'meera' } = body;
 
-    if (!text) {
+    if (!text || typeof text !== 'string') {
       return NextResponse.json({ error: 'Text required' }, { status: 400 });
     }
 
-    const sarvamApiKey = process.env.SARVAM_API_KEY;
+    const sarvamApiKey = process.env.SARVAM_API_KEY?.trim();
+    const targetLang = language.toLowerCase().startsWith('en') ? 'en-IN' : 'hi-IN';
+    const truncatedText = text.length > 450 ? text.substring(0, 450) : text;
 
     // If Sarvam AI API Key is provided, call Sarvam AI Indic Bulbul TTS
     if (sarvamApiKey) {
@@ -21,13 +23,13 @@ export async function POST(request: Request) {
             'api-subscription-key': sarvamApiKey,
           },
           body: JSON.stringify({
-            inputs: [text],
-            target_language_code: language,
-            speaker: speaker, // 'meera', 'arvind', 'amartya', 'ananya'
+            inputs: [truncatedText],
+            target_language_code: targetLang,
+            speaker: speaker, // 'meera', 'arvind'
             pitch: 0,
-            pace: 0.82, // Slower pace for elderly comprehension
+            pace: 0.85,
             loudness: 1.5,
-            speech_sample_rate: 8000,
+            speech_sample_rate: 16000,
             enable_preprocessing: true,
             model: 'bulbul:v1',
           }),
@@ -44,7 +46,8 @@ export async function POST(request: Request) {
             });
           }
         } else {
-          console.warn('[Sarvam AI] API returned status:', response.status);
+          const errorText = await response.text();
+          console.warn('[Sarvam AI] API returned status:', response.status, errorText);
         }
       } catch (err) {
         console.warn('[Sarvam AI] Network fetch failed, falling back to client-side speech:', err);
@@ -56,7 +59,7 @@ export async function POST(request: Request) {
       success: false,
       fallback: true,
       engine: 'WEB_SPEECH_INDIC_FALLBACK',
-      message: 'Sarvam AI key not configured or unreachable; using client-side Indic voice synthesis.',
+      message: 'Using client-side Indic voice synthesis.',
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
