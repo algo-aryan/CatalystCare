@@ -10,16 +10,47 @@ export async function GET(request: Request) {
   return NextResponse.json({ medications });
 }
 
+function normalizeTime(t: string): string {
+  const s = t.trim();
+  if (/^\d:[0-5]\d$/.test(s)) return `0${s}`;
+  const ampmMatch = s.match(/^(\d{1,2})(?::([0-5]\d))?\s*(am|pm)$/i);
+  if (ampmMatch) {
+    let hours = parseInt(ampmMatch[1], 10);
+    const minutes = ampmMatch[2] || '00';
+    const isPm = ampmMatch[3].toLowerCase() === 'pm';
+    if (isPm && hours < 12) hours += 12;
+    if (!isPm && hours === 12) hours = 0;
+    return `${String(hours).padStart(2, '0')}:${minutes}`;
+  }
+  return s;
+}
+
+function normalizeDosage(d: string): string {
+  const s = (d || '').trim();
+  if (/^\d+$/.test(s)) return `${s} mg`;
+  return s;
+}
+
 export async function POST(request: Request) {
   try {
     const rawBody = await request.json();
+
+    if (rawBody.dosage) {
+      rawBody.dosage = normalizeDosage(rawBody.dosage);
+    }
+    if (Array.isArray(rawBody.scheduledTimes)) {
+      rawBody.scheduledTimes = rawBody.scheduledTimes.map((t: string) => normalizeTime(t));
+    }
+
     const validationResult = MedicationCreateSchema.safeParse(rawBody);
 
     if (!validationResult.success) {
+      const fieldErrors = validationResult.error.flatten().fieldErrors;
+      const firstError = Object.values(fieldErrors).flat()[0] || 'Validation failed';
       return NextResponse.json(
         {
-          error: 'Validation failed',
-          details: validationResult.error.flatten().fieldErrors,
+          error: firstError,
+          details: fieldErrors,
         },
         { status: 400 }
       );

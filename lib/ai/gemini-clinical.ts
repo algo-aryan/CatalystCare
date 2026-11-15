@@ -1,8 +1,27 @@
+import fs from 'fs';
+import path from 'path';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { DrugInteractionReport } from '@/types';
 
-const apiKey = process.env.GEMINI_API_KEY;
-const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+function getGeminiClient(): GoogleGenerativeAI | null {
+  let key = process.env.GEMINI_API_KEY?.trim();
+  if (!key) {
+    try {
+      const envPath = path.join(process.cwd(), '.env.local');
+      if (fs.existsSync(envPath)) {
+        const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith('GEMINI_API_KEY=')) {
+            key = trimmed.substring('GEMINI_API_KEY='.length).trim();
+            break;
+          }
+        }
+      }
+    } catch {}
+  }
+  return key ? new GoogleGenerativeAI(key) : null;
+}
 
 // Embedded Clinical Safety Rules (Fallback when API key is not provided)
 const CLINICAL_RULES_FALLBACK: Record<string, { target: string; severity: 'CONTRAINDICATED' | 'HIGH' | 'MODERATE' | 'LOW'; effect: string; rec: string }[]> = {
@@ -86,9 +105,10 @@ export async function analyzeDrugInteractions(
   const normalizedNew = newDrug.toLowerCase().trim();
 
   // Try Gemini AI first if configured
+  const genAI = getGeminiClient();
   if (genAI) {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const prompt = `
 You are an expert geriatric clinical pharmacist reviewing a prescription for an elderly patient.
 Patient Diagnoses: ${conditions.join(', ') || 'Hypertension, Type 2 Diabetes'}
@@ -156,9 +176,10 @@ export async function generatePlainLanguageSummary(
   dosage: string,
   instructions: string
 ): Promise<string> {
+  const genAI = getGeminiClient();
   if (genAI) {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
       const prompt = `
 Explain this medication to an 80-year-old grandmother in 1 or 2 warm, very simple, reassuring sentences.
 Medication: ${drugName} ${dosage}

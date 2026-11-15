@@ -203,6 +203,42 @@
       ],
       "status": "ACTIVE",
       "createdAt": "2026-10-16T05:34:29.761Z"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "name": "Amlodipine 5 mg",
+      "genericName": "Amlodipine 5 mg",
+      "dosage": "5 mg",
+      "form": "TABLET",
+      "instructions": "Take 1 tablet every morning",
+      "foodRelation": "NO_RESTRICTION",
+      "scheduledTimes": [
+        "08:00"
+      ],
+      "isCritical": false,
+      "startDate": "2026-11-15",
+      "plainLanguageSummary": "\"This gentle medicine helps keep your blood pressure nice and calm, which makes it easier for your heart to work and keeps you feeling your best.\"",
+      "interactionWarnings": [
+        {
+          "drugA": "Amlodipine 5 mg",
+          "drugB": "Telmisartan 40 mg",
+          "severity": "MODERATE",
+          "clinicalEffect": "Both amlodipine (a dihydropyridine calcium channel blocker) and telmisartan (an angiotensin receptor blocker) lower blood pressure through different mechanisms. Coadministration can lead to an additive antihypertensive effect, increasing the risk of excessive hypotension, dizziness, and syncope, especially in elderly patients who may be more susceptible to orthostatic changes and falls.",
+          "recommendation": "Monitor blood pressure closely, particularly upon initiation and during dose titrations. Educate the patient on symptoms of hypotension (e.g., dizziness, lightheadedness) and advise on slow position changes to minimize orthostatic effects. While the combination is often beneficial for achieving target blood pressure, vigilance is required.",
+          "source": "GEMINI_CLINICAL_AI"
+        },
+        {
+          "drugA": "Amlodipine 5 mg",
+          "drugB": "Elderly patient",
+          "severity": "MODERATE",
+          "clinicalEffect": "Elderly patients may have a prolonged elimination half-life of amlodipine, leading to higher plasma concentrations and increased systemic exposure. This can increase the risk of dose-dependent adverse effects such as peripheral edema, dizziness, and orthostatic hypotension, which significantly contribute to an increased risk of falls in this vulnerable population.",
+          "recommendation": "While 5 mg is a common starting dose, monitor the patient closely for the development of peripheral edema (e.g., ankle swelling) and symptoms of hypotension (e.g., dizziness, fatigue). Advise the patient on methods to reduce edema (e.g., leg elevation, compression stockings) and fall prevention strategies (e.g., slow position changes, ensuring adequate lighting). If adverse effects are problematic, consider a dose reduction to 2.5 mg if blood pressure control allows, or explore alternative antihypertensive options.",
+          "source": "GEMINI_CLINICAL_AI"
+        }
+      ],
+      "status": "DISCONTINUED",
+      "id": "med_1794726270450_nf92p",
+      "createdAt": "2026-11-15T07:04:30.450Z"
     }
   ],
   "careRelationships": [
@@ -1023,6 +1059,30 @@
       "timestamp": "2026-11-15T06:43:44.330Z",
       "hash": "91dd1a9f17784d743d024ffd85c26b07996e88f3dbf7e0c94a4ad2a6b5af0ce7",
       "previousHash": "d5635d668ee07119bd9176acc802dba1c3300b9d01964f44adec9c5f949b14d3"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Added new medication: Amlodipine 5 mg (5 mg, 08:00)",
+      "id": "audit_1794726270452_r8rs",
+      "timestamp": "2026-11-15T07:04:30.452Z",
+      "hash": "e3b7c00c9c5961de3e97eed799da979d74b658fec19dffcae1d41a78e58ef0d3",
+      "previousHash": "91dd1a9f17784d743d024ffd85c26b07996e88f3dbf7e0c94a4ad2a6b5af0ce7"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Discontinued medication: Amlodipine 5 mg",
+      "id": "audit_1794726303664_65gr",
+      "timestamp": "2026-11-15T07:05:03.664Z",
+      "hash": "947dcddd0671e50d1871dd63358e6e08e4d72985131f272c6dadf498ffcfe201",
+      "previousHash": "e3b7c00c9c5961de3e97eed799da979d74b658fec19dffcae1d41a78e58ef0d3"
     }
   ],
   "outboxEmails": [

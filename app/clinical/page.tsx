@@ -66,6 +66,7 @@ function ClinicalDashboardContent() {
   const [addingMed, setAddingMed] = useState(false);
   const [aiAnalysisResult, setAiAnalysisResult] = useState<any>(null);
   const [medSuccessMessage, setMedSuccessMessage] = useState<string | null>(null);
+  const [medErrorMessage, setMedErrorMessage] = useState<string | null>(null);
 
   // New Appointment Form State
   const [newDocName, setNewDocName] = useState('');
@@ -127,16 +128,24 @@ function ClinicalDashboardContent() {
     setAddingMed(true);
     setAiAnalysisResult(null);
     setMedSuccessMessage(null);
+    setMedErrorMessage(null);
 
     try {
-      const timesArray = newMedTimes.split(',').map((t) => t.trim());
+      const timesArray = newMedTimes.split(',').map((t) => {
+        let s = t.trim();
+        if (/^\d:[0-5]\d$/.test(s)) return '0' + s;
+        return s;
+      });
+      let dosageInput = newMedDosage.trim();
+      if (/^\d+$/.test(dosageInput)) dosageInput = `${dosageInput} mg`;
+
       const res = await fetch('/api/medications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: newMedName,
-          dosage: newMedDosage,
-          instructions: newMedInstructions,
+          name: newMedName.trim(),
+          dosage: dosageInput,
+          instructions: newMedInstructions.trim(),
           scheduledTimes: timesArray,
           isCritical: newMedCritical,
           patientId: PRIMARY_PATIENT,
@@ -148,16 +157,16 @@ function ClinicalDashboardContent() {
         if (data.interactions && data.interactions.length > 0) {
           setAiAnalysisResult(data.interactions);
         }
-        setMedSuccessMessage(`Added ${newMedName} (${newMedDosage}) successfully!`);
+        setMedSuccessMessage(`Added ${newMedName} (${dosageInput}) successfully!`);
         setNewMedName('');
         setNewMedDosage('');
         setNewMedInstructions('');
         refreshData();
       } else {
-        alert(data.error || 'Failed to add medication');
+        setMedErrorMessage(data.error || 'Please verify the dosage format (e.g., 40 mg) and schedule time (e.g., 08:00)');
       }
-    } catch (err) {
-      console.error('Error adding medication:', err);
+    } catch (err: any) {
+      setMedErrorMessage(err.message || 'Error adding medication');
     } finally {
       setAddingMed(false);
     }
@@ -265,13 +274,13 @@ function ClinicalDashboardContent() {
       {/* Photorealistic Frosted Glass Background Image & Light Caustics */}
       <GlassBackground />
 
-      {/* Top Header Bar with Medium Dark Gradient */}
-      <header className="bg-slate-950/85 backdrop-blur-2xl text-white shadow-xl sticky top-0 z-40 border-b border-white/10">
+      {/* Top Header Bar with Crisp Frosted Glass */}
+      <header className="bg-white/80 backdrop-blur-2xl text-slate-900 border-b border-slate-200/80 sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3.5">
             <Link
               href="/"
-              className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md active:scale-95"
+              className="p-2.5 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 transition-all shadow-sm active:scale-95"
               title="Return to Launchpad"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -279,15 +288,15 @@ function ClinicalDashboardContent() {
 
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="font-black text-lg md:text-xl tracking-tight text-white">
+                <h1 className="font-black text-lg md:text-xl tracking-tight text-slate-950">
                   CatalystCare Clinical Portal
                 </h1>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-200">
+                <span className="text-xs font-semibold px-3 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                   {isCaretaker ? 'Rahul Sharma (Primary Caretaker)' : 'Priya Sharma (Family Member)'}
                 </span>
               </div>
-              <p className="text-xs text-slate-300 mt-0.5 font-medium">
-                Patient: <strong className="text-white">Savita Sharma (76, B+)</strong> • New Delhi • Multi-Tier Escalation Protocol
+              <p className="text-xs text-slate-500 mt-0.5 font-medium">
+                Patient: <strong className="text-slate-900">Savita Sharma (76, B+)</strong> • New Delhi
               </p>
             </div>
           </div>
@@ -298,25 +307,16 @@ function ClinicalDashboardContent() {
               href={`/api/reports/adherence?patientId=${PRIMARY_PATIENT}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-sm active:scale-95"
+              className="px-3.5 py-2 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-2 transition-all shadow-sm active:scale-95"
               title="Download or Print Adherence Report"
             >
-              <FileCheck className="w-3.5 h-3.5 text-emerald-300" />
+              <FileCheck className="w-3.5 h-3.5 text-emerald-700" />
               <span>Export PDF Report</span>
             </a>
 
             <button
-              onClick={handleTriggerProactiveScan}
-              disabled={scanning}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/40 border border-emerald-400/30 text-emerald-200 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
-            >
-              <BellRing className={`w-3.5 h-3.5 ${scanning ? 'animate-spin' : ''}`} />
-              <span>{scanning ? 'Scanning...' : 'Trigger Scan'}</span>
-            </button>
-
-            <button
               onClick={refreshData}
-              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all active:scale-95"
+              className="p-2 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 transition-all shadow-sm active:scale-95"
               title="Refresh Live Data"
             >
               <RefreshCw className="w-4 h-4" />
@@ -324,8 +324,8 @@ function ClinicalDashboardContent() {
           </div>
         </div>
 
-        {/* Streamlined 3-Tab Bar with Medium Dark Tone */}
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex gap-2 border-t border-white/10">
+        {/* Streamlined 3-Tab Bar */}
+        <div className="max-w-7xl mx-auto px-4 md:px-8 flex gap-2 border-t border-slate-200/60">
           {[
             { id: 'overview', label: 'Daily Routine & Adherence', icon: TrendingUp },
             { id: 'medications', label: `Active Prescriptions (${medications.length})`, icon: Heart },
@@ -339,8 +339,8 @@ function ClinicalDashboardContent() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`py-3 px-4 font-bold text-xs md:text-sm flex items-center gap-2 border-b-2 whitespace-nowrap transition-all ${
                   active
-                    ? 'border-emerald-400 text-emerald-300 font-black'
-                    : 'border-transparent text-slate-300 hover:text-white'
+                    ? 'border-emerald-700 text-emerald-800 font-black'
+                    : 'border-transparent text-slate-500 hover:text-slate-900 font-semibold'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -416,11 +416,11 @@ function ClinicalDashboardContent() {
                 <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-emerald-700" />
                   <h3 className="text-lg md:text-xl font-bold text-slate-900">
-                    Today&apos;s Live Medication Adherence Timeline
+                    Daily Medication Adherence Schedule
                   </h3>
                 </div>
-                <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                  {schedule.length} Scheduled Slots
+                <span className="text-xs font-semibold text-slate-500">
+                  {schedule.length} daily doses
                 </span>
               </div>
 
@@ -444,8 +444,8 @@ function ClinicalDashboardContent() {
                       Screened against drug-drug and food-drug interactions
                     </p>
                   </div>
-                  <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                    Live Monitored
+                  <span className="text-xs font-semibold text-slate-500">
+                    Patient Routine
                   </span>
                 </div>
 
@@ -473,14 +473,14 @@ function ClinicalDashboardContent() {
                                 {med.dosage}
                               </span>
                               {med.isCritical && (
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200 uppercase">
-                                  Critical Escalation
+                                <span className="text-xs font-semibold text-slate-500">
+                                  • Priority Dose
                                 </span>
                               )}
                             </div>
                             <p className="text-xs md:text-sm text-slate-600 mt-1">{med.instructions}</p>
-                            <div className="text-xs font-medium text-emerald-800 mt-1">
-                              Times: {med.scheduledTimes.join(', ')} • Relation: {med.foodRelation}
+                            <div className="text-xs font-medium text-slate-600 mt-1">
+                              Schedule: {med.scheduledTimes.join(', ')} • {med.foodRelation}
                             </div>
                           </div>
                         </div>
@@ -499,21 +499,21 @@ function ClinicalDashboardContent() {
                       {/* Plain Language Summary */}
                       {med.plainLanguageSummary && (
                         <div className="p-3 bg-slate-50 border border-slate-200/70 rounded-xl text-xs text-slate-700 font-medium">
-                          <strong className="text-slate-900">Plain Language Senior View:</strong> {med.plainLanguageSummary}
+                          <strong className="text-slate-800">Dosage Guidance:</strong> {med.plainLanguageSummary}
                         </div>
                       )}
 
                       {/* Interaction Warnings */}
                       {med.interactionWarnings && med.interactionWarnings.length > 0 && (
-                        <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl space-y-1.5">
-                          <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
-                            <AlertTriangle className="w-3.5 h-3.5 text-amber-700" />
-                            <span>Clinical Interaction Warning Detected</span>
+                        <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1.5">
+                          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                            <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                            <span>Pharmacology Precaution</span>
                           </div>
                           {med.interactionWarnings.map((warning, i) => (
-                            <div key={i} className="text-xs text-amber-800">
-                              <span className="font-bold">[{warning.severity}]</span> {warning.clinicalEffect}{' '}
-                              <em>Recommendation: {warning.recommendation}</em>
+                            <div key={i} className="text-xs text-slate-600">
+                              <span className="font-semibold text-slate-700">{warning.clinicalEffect}</span>
+                              <p className="text-slate-500 mt-0.5">Recommendation: {warning.recommendation}</p>
                             </div>
                           ))}
                         </div>
@@ -527,18 +527,23 @@ function ClinicalDashboardContent() {
             {/* Right: Prescribe / Add Medication Form */}
             {isCaretaker && (
               <div className="lg:col-span-5 bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
-                  <Sparkles className="w-4 h-4 text-emerald-700" />
-                  <span>Clinical Decision Support</span>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                  Prescription Management
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-1">Add Medication</h3>
                 <p className="text-xs text-slate-500 mb-4">
-                  New prescriptions are automatically screened against current medications for dangerous drug-drug interactions.
+                  New prescriptions are automatically screened against current medications for drug interactions.
                 </p>
 
                 {medSuccessMessage && (
                   <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold text-xs">
                     {medSuccessMessage}
+                  </div>
+                )}
+
+                {medErrorMessage && (
+                  <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 font-bold text-xs">
+                    {medErrorMessage}
                   </div>
                 )}
 
@@ -628,10 +633,10 @@ function ClinicalDashboardContent() {
                 <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
                     <Stethoscope className="w-5 h-5 text-emerald-700" />
-                    <h3 className="text-lg md:text-xl font-bold text-slate-900">Upcoming Clinic Visits</h3>
+                    <h3 className="text-lg md:text-xl font-bold text-slate-900">Clinic Visits</h3>
                   </div>
-                  <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                    {appointments.length} Scheduled
+                  <span className="text-xs font-semibold text-slate-500">
+                    {appointments.length} scheduled
                   </span>
                 </div>
 

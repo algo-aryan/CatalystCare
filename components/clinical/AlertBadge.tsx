@@ -14,47 +14,47 @@ export function AlertBadge({ status, isCritical }: AlertBadgeProps) {
   // Ensures 100% accessibility for colorblind individuals (protanopia/deuteranopia)
   const config = {
     ADMINISTERED: {
-      bg: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+      bg: 'bg-emerald-50 text-emerald-900 border-emerald-200/80',
       icon: Check,
-      text: 'TAKEN ON TIME',
+      text: 'Taken',
     },
     LATE: {
-      bg: 'bg-blue-100 text-blue-900 border-blue-300',
+      bg: 'bg-slate-100 text-slate-800 border-slate-200',
       icon: Check,
-      text: 'TAKEN LATE',
+      text: 'Taken Late',
     },
     DUE: {
-      bg: 'bg-amber-100 text-amber-900 border-amber-300',
+      bg: 'bg-amber-50 text-amber-900 border-amber-200',
       icon: Clock,
-      text: 'DUE NOW',
+      text: 'Due',
     },
     UPCOMING: {
-      bg: 'bg-slate-100 text-slate-800 border-slate-300',
+      bg: 'bg-slate-50 text-slate-700 border-slate-200',
       icon: Clock,
-      text: 'UPCOMING',
+      text: 'Scheduled',
     },
     OVERDUE: {
-      bg: 'bg-orange-100 text-orange-900 border-orange-300',
+      bg: 'bg-rose-50 text-rose-900 border-rose-200',
       icon: AlertTriangle,
-      text: isCritical ? '⚠️ CRITICAL OVERDUE' : 'OVERDUE',
+      text: isCritical ? 'Attention Required' : 'Overdue',
     },
     MISSED: {
-      bg: 'bg-red-100 text-red-900 border-red-300',
+      bg: 'bg-rose-50 text-rose-900 border-rose-200',
       icon: XCircle,
-      text: isCritical ? '🚨 CRITICAL MISSED' : 'MISSED',
+      text: isCritical ? 'Attention Required' : 'Missed',
     },
     SNOOZED: {
-      bg: 'bg-purple-100 text-purple-900 border-purple-300',
+      bg: 'bg-slate-50 text-slate-700 border-slate-200',
       icon: Clock,
-      text: 'SNOOZED',
+      text: 'Snoozed',
     },
     SCHEDULED: {
-      bg: 'bg-slate-100 text-slate-700 border-slate-200',
+      bg: 'bg-slate-50 text-slate-700 border-slate-200',
       icon: Clock,
-      text: 'SCHEDULED',
+      text: 'Scheduled',
     },
   }[status] || {
-    bg: 'bg-slate-100 text-slate-700 border-slate-200',
+    bg: 'bg-slate-50 text-slate-700 border-slate-200',
     icon: Clock,
     text: status,
   };
