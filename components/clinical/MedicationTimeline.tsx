@@ -24,7 +24,7 @@ export function MedicationTimeline({ schedule }: MedicationTimelineProps) {
         return (
           <div
             key={slot.doseId}
-            className="p-4 md:p-5 rounded-2xl border border-slate-200/80 bg-white/80 backdrop-blur-md hover:border-emerald-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm"
+            className="p-4 md:p-5 rounded-2xl border border-white/80 bg-white/70 backdrop-blur-md hover:border-emerald-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm"
           >
             <div className="flex items-center gap-3.5 min-w-0">
               <div className="font-mono text-sm font-bold bg-slate-50 text-slate-800 border border-slate-200/80 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shrink-0">

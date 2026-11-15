@@ -23,6 +23,7 @@ import { useAdherence } from '@/hooks/useAdherence';
 import { useVoiceAnnouncement } from '@/hooks/useVoiceAnnouncement';
 import { MedicationCard } from '@/components/senior/MedicationCard';
 import { PillGraphic } from '@/components/senior/PillGraphic';
+import { GlassBackground } from '@/components/common/GlassBackground';
 import { Appointment } from '@/types';
 
 // 12 Culturally Authentic & Warm Acknowledgment Modes
@@ -153,11 +154,14 @@ export default function SeniorModePage() {
   const isAllCompleted = totalCount > 0 && takenCount >= totalCount;
 
   return (
-    <main className="min-h-screen pb-16 bg-gradient-to-br from-emerald-50/20 via-slate-50 to-teal-50/25 text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-950">
+    <main className="relative min-h-screen pb-16 text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-950 overflow-x-hidden">
+      {/* Frosted Glass Background Image & Light Caustics */}
+      <GlassBackground />
+
       {/* Top Glass Navigation Bar */}
       <nav
         aria-label="Clinical Navigation"
-        className="px-4 md:px-8 py-3 bg-white/80 backdrop-blur-xl border-b border-white/60 sticky top-0 z-40 shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
+        className="px-4 md:px-8 py-3.5 bg-white/75 backdrop-blur-2xl border-b border-white/80 sticky top-0 z-40 shadow-[0_4px_25px_rgba(0,0,0,0.03)]"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <Link
@@ -185,7 +189,7 @@ export default function SeniorModePage() {
       </nav>
 
       {/* Main Container: Wide Max Width for 2x2 Matrix Layout */}
-      <div className="max-w-7xl mx-auto p-4 md:p-8">
+      <div className="max-w-7xl mx-auto p-4 md:p-8 relative z-10">
         {/* Header Bar */}
         <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/70">
           <div>
@@ -215,7 +219,7 @@ export default function SeniorModePage() {
               <span>{resetting ? 'Resetting...' : 'Reset Doses (Test)'}</span>
             </button>
 
-            <div className="rounded-2xl px-4 py-2.5 bg-white/85 backdrop-blur-xl border border-white/80 flex items-center gap-3 shadow-[0_8px_30px_rgba(5,150,105,0.06)] ring-1 ring-slate-900/5">
+            <div className="rounded-2xl px-4 py-2.5 bg-white/75 backdrop-blur-2xl border border-white/90 flex items-center gap-3 shadow-[0_12px_32px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 text-white font-black text-sm md:text-base flex items-center justify-center shadow-md shadow-emerald-700/20">
                 {takenCount}/{totalCount}
               </div>
@@ -325,7 +329,7 @@ export default function SeniorModePage() {
                 </span>
               </div>
 
-              <div className="flex-1 h-full bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-5 md:p-6 shadow-[0_16px_40px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5 flex flex-col justify-between">
+              <div className="flex-1 h-full bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-5 md:p-6 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08),0_1px_2px_rgba(15,23,42,0.04)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_25px_60px_-12px_rgba(5,150,105,0.16)] transition-all duration-300 flex flex-col justify-between">
                 <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                   <div>
                     <h2 className="text-lg font-black text-slate-900">
@@ -463,7 +467,7 @@ export default function SeniorModePage() {
           {/* ROW 2: CARETAKER ACCESS & UPCOMING DOCTOR VISIT (EQUAL BREADTH & HEIGHT) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             {/* 2.1 CAREGIVER DIRECT ACCESS BOX */}
-            <div className="flex flex-col h-full rounded-3xl p-5 md:p-6 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5 justify-between">
+            <div className="flex flex-col h-full rounded-3xl p-6 md:p-7 bg-white/75 backdrop-blur-2xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08),0_1px_2px_rgba(15,23,42,0.04)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_25px_60px_-12px_rgba(5,150,105,0.16)] transition-all duration-300 justify-between">
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
                   <UserCheck className="w-4 h-4 text-emerald-700" />
@@ -483,7 +487,7 @@ export default function SeniorModePage() {
               <div className="grid grid-cols-2 gap-3 mt-5">
                 <a
                   href="tel:+919810123456"
-                  className="py-3 px-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                  className="py-3.5 px-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-700/20 active:scale-95 transition-all"
                 >
                   <Phone className="w-3.5 h-3.5 text-emerald-100" />
                   <span>{language === 'HI' ? 'राहुल (बेटा)' : 'Call Rahul (Son)'}</span>
@@ -491,7 +495,7 @@ export default function SeniorModePage() {
 
                 <a
                   href="tel:+919820234567"
-                  className="py-3 px-3 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                  className="py-3.5 px-3 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-slate-900/20 active:scale-95 transition-all"
                 >
                   <Phone className="w-3.5 h-3.5 text-slate-300" />
                   <span>{language === 'HI' ? 'प्रिया (बेटी)' : 'Call Priya (Daughter)'}</span>
@@ -500,7 +504,7 @@ export default function SeniorModePage() {
             </div>
 
             {/* 2.2 UPCOMING DOCTOR VISIT BOX */}
-            <div className="flex flex-col h-full rounded-3xl p-5 md:p-6 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5 justify-between">
+            <div className="flex flex-col h-full rounded-3xl p-6 md:p-7 bg-white/75 backdrop-blur-2xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08),0_1px_2px_rgba(15,23,42,0.04)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_25px_60px_-12px_rgba(5,150,105,0.16)] transition-all duration-300 justify-between">
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
                   <Stethoscope className="w-4 h-4 text-emerald-700" />

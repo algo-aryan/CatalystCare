@@ -649,38 +649,6 @@
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-14T21:05:00.000Z",
       "deviationMinutes": 5
-    },
-    {
-      "doseId": "dose_2026-11-15_med_pantoprazole_0730",
-      "medicationId": "med_pantoprazole",
-      "patientId": "patient_savita_sharma",
-      "scheduledTime": "2026-11-15T02:00:00.000Z",
-      "status": "ADMINISTERED",
-      "deviationMinutes": 256,
-      "administeredBy": {
-        "userId": "user_patient_savita",
-        "role": "PATIENT",
-        "name": "Savita Sharma"
-      },
-      "notes": "Marked taken via Senior Mode",
-      "id": "adh_1794723337083_azk4",
-      "recordedAt": "2026-11-15T06:15:37.083Z"
-    },
-    {
-      "doseId": "dose_2026-11-15_med_metformin_0800",
-      "medicationId": "med_metformin",
-      "patientId": "patient_savita_sharma",
-      "scheduledTime": "2026-11-15T02:30:00.000Z",
-      "status": "ADMINISTERED",
-      "deviationMinutes": 227,
-      "administeredBy": {
-        "userId": "user_patient_savita",
-        "role": "PATIENT",
-        "name": "Savita Sharma"
-      },
-      "notes": "Marked taken via Senior Mode",
-      "id": "adh_1794723438624_qbv9",
-      "recordedAt": "2026-11-15T06:17:18.624Z"
     }
   ],
   "appointments": [

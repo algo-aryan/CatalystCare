@@ -23,7 +23,7 @@ export function AdherenceChart({ metrics }: AdherenceChartProps) {
   ];
 
   return (
-    <div className="bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 md:p-8 shadow-[0_12px_36px_rgba(5,150,105,0.05)] ring-1 ring-slate-900/5">
+    <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">

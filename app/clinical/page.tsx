@@ -37,6 +37,7 @@ import { Medication, Appointment, AuditLogEntry, OutboxEmail } from '@/types';
 import { AdherenceMetrics, TodayDoseSlot } from '@/lib/clinical/adherence-engine';
 import { AdherenceChart } from '@/components/clinical/AdherenceChart';
 import { MedicationTimeline } from '@/components/clinical/MedicationTimeline';
+import { GlassBackground } from '@/components/common/GlassBackground';
 
 const PRIMARY_PATIENT = 'patient_savita_sharma';
 
@@ -260,9 +261,12 @@ function ClinicalDashboardContent() {
   };
 
   return (
-    <div className="min-h-screen pb-16 bg-gradient-to-br from-emerald-50/20 via-slate-50 to-teal-50/25 text-slate-900 antialiased">
+    <div className="relative min-h-screen pb-16 text-slate-900 antialiased overflow-x-hidden">
+      {/* Photorealistic Frosted Glass Background Image & Light Caustics */}
+      <GlassBackground />
+
       {/* Top Header Bar with Medium Dark Gradient */}
-      <header className="bg-gradient-to-r from-slate-900 via-emerald-950 to-teal-950 text-white shadow-xl sticky top-0 z-40">
+      <header className="bg-slate-950/85 backdrop-blur-2xl text-white shadow-xl sticky top-0 z-40 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link
@@ -359,9 +363,9 @@ function ClinicalDashboardContent() {
         {/* TAB 1: DAILY ROUTINE & ADHERENCE OVERVIEW */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
-            {/* KPI Cards: Frosted Glass with Green Gradient Badges */}
+            {/* KPI Cards: Frosted Glass Floating Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              <div className="bg-white/85 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.05)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl p-5 md:p-6 rounded-3xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                 <div className="text-slate-500 font-bold text-xs uppercase tracking-wider">7-Day Adherence</div>
                 <div className="text-3xl md:text-4xl font-black text-slate-900 mt-2">
                   {metrics?.overallPercentage || 100}%
@@ -372,7 +376,7 @@ function ClinicalDashboardContent() {
                 </div>
               </div>
 
-              <div className="bg-white/85 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.05)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl p-5 md:p-6 rounded-3xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                 <div className="text-slate-500 font-bold text-xs uppercase tracking-wider">Current Streak</div>
                 <div className="text-3xl md:text-4xl font-black text-slate-900 mt-2">
                   {metrics?.currentStreakDays || 0} Days
@@ -380,7 +384,7 @@ function ClinicalDashboardContent() {
                 <div className="text-xs text-slate-500 mt-1">Full adherence streak</div>
               </div>
 
-              <div className="bg-white/85 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.05)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl p-5 md:p-6 rounded-3xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                 <div className="text-slate-500 font-bold text-xs uppercase tracking-wider">Escalation Status</div>
                 <div className="text-xl md:text-2xl font-black mt-2">
                   {metrics?.activeEscalationTier === 0 && <span className="text-emerald-700">Normal (Tier 0)</span>}
@@ -391,7 +395,7 @@ function ClinicalDashboardContent() {
                 <div className="text-xs text-slate-500 mt-1">Proactive multi-tier protocol</div>
               </div>
 
-              <div className="bg-white/85 backdrop-blur-xl p-5 md:p-6 rounded-3xl border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.05)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl p-5 md:p-6 rounded-3xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                 <div className="text-slate-500 font-bold text-xs uppercase tracking-wider">Audit Security</div>
                 <div className="text-xl md:text-2xl font-black text-slate-900 mt-2 flex items-center gap-2">
                   <ShieldCheck className="w-6 h-6 text-emerald-600" />
@@ -407,7 +411,7 @@ function ClinicalDashboardContent() {
             <AdherenceChart metrics={metrics} />
 
             {/* Live Today's Schedule Timeline */}
-            <div className="bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 md:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
+            <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
               <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-emerald-700" />
@@ -430,7 +434,7 @@ function ClinicalDashboardContent() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             {/* Left: Active Prescriptions List */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 md:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
                 <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
                   <div>
                     <h3 className="text-lg md:text-xl font-bold text-slate-900">
@@ -449,7 +453,7 @@ function ClinicalDashboardContent() {
                   {medications.map((med) => (
                     <div
                       key={med.id}
-                      className="p-5 rounded-2xl border border-slate-200/80 bg-white/80 space-y-3 hover:border-emerald-300 transition-all shadow-sm"
+                      className="p-5 rounded-2xl border border-white/80 bg-white/70 backdrop-blur-md space-y-3 hover:border-emerald-300 shadow-sm transition-all"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex items-start gap-3.5">
@@ -522,7 +526,7 @@ function ClinicalDashboardContent() {
 
             {/* Right: Prescribe / Add Medication Form */}
             {isCaretaker && (
-              <div className="lg:col-span-5 bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 md:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
+              <div className="lg:col-span-5 bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
                   <Sparkles className="w-4 h-4 text-emerald-700" />
                   <span>Clinical Decision Support</span>
@@ -620,7 +624,7 @@ function ClinicalDashboardContent() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
             {/* Left: Appointments & Schedule Visit Form */}
             <div className="space-y-6">
-              <div className="bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 md:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
                 <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
                     <Stethoscope className="w-5 h-5 text-emerald-700" />
@@ -635,7 +639,7 @@ function ClinicalDashboardContent() {
                   {appointments.map((appt) => (
                     <div
                       key={appt.id}
-                      className="p-5 rounded-2xl border border-slate-200/80 bg-white/80 flex items-center justify-between gap-4 shadow-sm"
+                      className="p-5 rounded-2xl border border-white/80 bg-white/70 backdrop-blur-md flex items-center justify-between gap-4 shadow-sm"
                     >
                       <div>
                         <h4 className="font-bold text-slate-900 text-sm md:text-base">{appt.doctorName}</h4>
@@ -727,7 +731,7 @@ function ClinicalDashboardContent() {
 
             {/* Right: CareLink HMAC Passcode Generation & Outbox */}
             <div className="space-y-6">
-              <div className="bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 md:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 md:p-8 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1">
                   <KeyRound className="w-4 h-4 text-emerald-700" />
                   <span>Secure CareLink Access</span>
@@ -782,7 +786,7 @@ function ClinicalDashboardContent() {
               </div>
 
               {/* Notification Outbox Feed (Uncluttered) */}
-              <div className="bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-6 shadow-[0_12px_36px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
+              <div className="bg-white/75 backdrop-blur-2xl rounded-3xl border border-white/90 p-6 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.06)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)]">
                 <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                   <div className="flex items-center gap-2">
                     <Mail className="w-4 h-4 text-emerald-700" />

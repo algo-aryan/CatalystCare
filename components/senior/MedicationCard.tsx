@@ -53,10 +53,10 @@ export function MedicationCard({
     <article
       role="article"
       aria-label={`Medication ${slot.medicationName}`}
-      className="relative overflow-hidden rounded-3xl p-5 md:p-6 bg-white/85 backdrop-blur-xl border border-white/80 shadow-[0_16px_40px_rgba(5,150,105,0.07)] ring-1 ring-slate-900/5 transition-all h-full flex flex-col justify-between"
+      className="relative overflow-hidden rounded-3xl p-6 md:p-7 bg-white/75 backdrop-blur-2xl border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08),0_1px_2px_rgba(15,23,42,0.04)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_25px_60px_-12px_rgba(5,150,105,0.16)] transition-all duration-300 h-full flex flex-col justify-between"
     >
-      {/* Top Subtle Emerald Gradient Accent Sheen */}
-      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 opacity-80" />
+      {/* Top Subtle Emerald Gradient Sheen */}
+      <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 opacity-90" />
 
       {/* Top Status Header */}
       <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-100">
