@@ -351,7 +351,7 @@ export default function SeniorModePage() {
                   </button>
                 </div>
 
-                <div className="space-y-3 flex-1 overflow-y-auto max-h-[500px] pr-1">
+                <div className="space-y-2.5 flex-1 overflow-y-auto max-h-[500px] pr-1">
                   {schedule.map((item) => {
                     const isDone = item.status === 'ADMINISTERED';
                     const isSelected = activeSlot?.doseId === item.doseId;
@@ -372,29 +372,43 @@ export default function SeniorModePage() {
                       photoAlt: undefined,
                     };
 
+                    const rawTiming = language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish;
+                    let shortTiming = rawTiming;
+                    if (language === 'HI') {
+                      if (rawTiming.includes('खाली पेट')) shortTiming = 'खाली पेट';
+                      else if (rawTiming.includes('खाने के')) shortTiming = 'खाने के बाद';
+                      else if (rawTiming.includes('सोने')) shortTiming = 'सोते समय';
+                      else if (rawTiming.includes('नाश्ते')) shortTiming = 'नाश्ते के साथ';
+                    } else {
+                      if (rawTiming.includes('Empty Stomach')) shortTiming = 'Empty stomach';
+                      else if (rawTiming.includes('After Meal')) shortTiming = 'After meals';
+                      else if (rawTiming.includes('Bedtime')) shortTiming = 'Bedtime';
+                      else if (rawTiming.includes('Water')) shortTiming = 'With water';
+                    }
+
                     return (
                       <div
                         key={item.doseId}
                         onClick={() => setSelectedDoseId(item.doseId)}
-                        className={`rounded-2xl p-3.5 border transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                        className={`rounded-2xl p-3 md:p-3.5 border transition-all flex items-center justify-between gap-3 cursor-pointer ${
                           isSelected
-                            ? 'border-emerald-500/80 bg-emerald-50/40 shadow-md ring-2 ring-emerald-500/30'
+                            ? 'border-emerald-500 bg-emerald-50/60 shadow-md ring-2 ring-emerald-500/20'
                             : isDone
-                            ? 'bg-slate-50/60 border-slate-200/60 opacity-60'
-                            : 'bg-white/90 border-slate-200/70 hover:border-emerald-400 hover:shadow-sm'
+                            ? 'bg-slate-50/60 border-slate-200/50 opacity-60'
+                            : 'bg-white/90 border-slate-200/70 hover:border-emerald-300 hover:bg-white shadow-sm'
                         }`}
                       >
-                        <div className="flex items-center gap-3.5 min-w-0">
+                        <div className="flex items-center gap-3 min-w-0">
                           {/* Direct Medicine Image Thumbnail */}
                           {visual.photoUrl ? (
                             /* eslint-disable-next-line @next/next/no-img-element */
                             <img
                               src={visual.photoUrl}
                               alt={visual.photoAlt || item.medicationName}
-                              className="w-14 h-14 rounded-xl object-contain bg-white border border-slate-200/80 p-1 shrink-0 shadow-sm"
+                              className="w-12 h-12 rounded-xl object-contain bg-white border border-slate-200/80 p-1 shrink-0 shadow-sm"
                             />
                           ) : (
-                            <div className="shrink-0 p-2 rounded-xl bg-white border border-slate-200">
+                            <div className="w-12 h-12 rounded-xl bg-white border border-slate-200/80 flex items-center justify-center shrink-0">
                               <PillGraphic
                                 shape={visual.shape}
                                 color={visual.color}
@@ -405,56 +419,36 @@ export default function SeniorModePage() {
                           )}
 
                           <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-sm md:text-base text-slate-900 truncate">
-                                {language === 'HI' ? visual.purposeLabelHindi : item.medicationName}
-                              </span>
-                              <span className="text-[11px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md">
-                                {item.dosage}
-                              </span>
-                            </div>
+                            <h4 className="font-bold text-sm md:text-base text-slate-900 truncate">
+                              {language === 'HI' ? visual.purposeLabelHindi : item.medicationName}
+                            </h4>
 
-                            <div className="text-xs text-slate-500 truncate mt-0.5">
-                              {language === 'HI' ? visual.colorLabelHindi : visual.colorLabelEnglish}
-                            </div>
-
-                            <div className="text-[11px] font-bold text-emerald-800 mt-1 flex items-center gap-2">
-                              <span className="flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-slate-400" />
-                                <span>{item.scheduledTimeStr} {parseInt(item.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}</span>
+                            <div className="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5 font-medium">
+                              <Clock className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                              <span className="font-semibold text-slate-700">
+                                {item.scheduledTimeStr} {parseInt(item.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}
                               </span>
                               <span>•</span>
-                              <span>{language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish}</span>
+                              <span className="truncate">{shortTiming}</span>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
+                        <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
                           {isDone ? (
-                            <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-900 font-bold text-xs flex items-center gap-1 border border-emerald-200">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-                              <span>{language === 'HI' ? 'पूर्ण' : 'TAKEN'}</span>
+                            <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-900 font-bold text-xs flex items-center gap-1 border border-emerald-200/80">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                              <span>{language === 'HI' ? 'पूर्ण' : 'Taken'}</span>
                             </span>
                           ) : (
                             <button
                               onClick={() => handleMarkTaken(item)}
-                              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1"
+                              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1"
                             >
                               <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                              <span>{language === 'HI' ? 'दवाई ली' : 'TAKE'}</span>
+                              <span>{language === 'HI' ? 'दवाई ली' : 'Take'}</span>
                             </button>
                           )}
-
-                          {/* Pure Voice Button */}
-                          <button
-                            onClick={() => speak(visual.voiceHindiScript, { lang: 'hi-IN', englishFallbackText: visual.voiceEnglishScript })}
-                            disabled={isLoadingVoice}
-                            className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 active:scale-95 transition-all"
-                            title="Listen with Sarvam AI"
-                            aria-label="Listen with Sarvam AI"
-                          >
-                            {isLoadingVoice ? <Loader2 className="w-4 h-4 animate-spin text-emerald-700" /> : <Volume2 className="w-4 h-4 text-emerald-700" />}
-                          </button>
                         </div>
                       </div>
                     );
