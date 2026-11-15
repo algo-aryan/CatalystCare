@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { analyzeDrugInteractions, generatePlainLanguageSummary } from '@/lib/ai/gemini-clinical';
+import { MedicationCreateSchema } from '@/lib/utils/validation';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -11,12 +12,20 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { name, genericName, dosage, form, instructions, foodRelation, scheduledTimes, isCritical, patientId } = body;
+    const rawBody = await request.json();
+    const validationResult = MedicationCreateSchema.safeParse(rawBody);
 
-    if (!name || !dosage || !instructions || !scheduledTimes || scheduledTimes.length === 0) {
-      return NextResponse.json({ error: 'Please provide medication name, dosage, instructions, and at least one scheduled time.' }, { status: 400 });
+    if (!validationResult.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validationResult.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
     }
+
+    const { name, genericName, dosage, form, instructions, foodRelation, scheduledTimes, isCritical, patientId } = validationResult.data;
 
     const patientProfile = db.getPatientProfile();
     const existingMeds = db.getMedications(true).map((m) => m.name);

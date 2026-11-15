@@ -27,6 +27,9 @@ import {
 } from 'lucide-react';
 import { Medication, Appointment, AuditLogEntry, OutboxEmail, CareRelationship } from '@/types';
 import { AdherenceMetrics, TodayDoseSlot } from '@/lib/clinical/adherence-engine';
+import { AdherenceChart } from '@/components/clinical/AdherenceChart';
+import { MedicationTimeline } from '@/components/clinical/MedicationTimeline';
+import { DrugInteractionWarning } from '@/components/shared/DrugInteractionWarning';
 
 function ClinicalDashboardContent() {
   const searchParams = useSearchParams();
@@ -261,6 +264,17 @@ function ClinicalDashboardContent() {
 
           {/* Quick Actions */}
           <div className="flex items-center gap-3">
+            <a
+              href="/api/reports/adherence"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-slate-900 text-white hover:bg-black rounded-xl font-bold text-xs flex items-center gap-2 transition-all shadow-sm"
+              title="Download or Print Clinical Summary Report"
+            >
+              <FileCheck className="w-4 h-4" />
+              <span>Export PDF Report</span>
+            </a>
+
             <button
               onClick={handleTriggerProactiveScan}
               disabled={scanning}
@@ -366,62 +380,21 @@ function ClinicalDashboardContent() {
               </div>
             </div>
 
-            {/* Today's Live Clinical Schedule */}
+            {/* Modular AdherenceChart Component */}
+            <AdherenceChart metrics={metrics} />
+
+            {/* Modular MedicationTimeline Component */}
             <div className="bg-white rounded-3xl border border-slate-200 p-6 md:p-8">
               <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <Clock className="w-6 h-6 text-blue-600" />
                 <span>Today&apos;s Live Medication Adherence Timeline</span>
               </h3>
 
-              <div className="space-y-4">
-                {schedule.map((slot) => {
-                  return (
-                    <div
-                      key={slot.doseId}
-                      className="p-4 rounded-2xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="font-mono text-base font-bold bg-slate-100 px-3 py-2 rounded-xl">
-                          {slot.scheduledTimeStr}
-                        </div>
-                        <div>
-                          <div className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                            <span>{slot.medicationName}</span>
-                            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800">
-                              {slot.dosage}
-                            </span>
-                            {slot.isCritical && (
-                              <span className="text-xs font-bold px-2 py-0.5 rounded bg-red-100 text-red-800">
-                                Critical Med
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-sm text-slate-500">{slot.instructions}</div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <span
-                          className={`text-xs font-extrabold px-3 py-1.5 rounded-full ${
-                            slot.status === 'ADMINISTERED'
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : slot.status === 'OVERDUE' || slot.status === 'MISSED'
-                              ? 'bg-red-100 text-red-800'
-                              : slot.status === 'DUE'
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-slate-100 text-slate-700'
-                          }`}
-                        >
-                          ● {slot.status}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <MedicationTimeline schedule={schedule} />
             </div>
           </div>
         )}
+
 
         {/* TAB 2: MEDICATIONS & AI CLINICAL SAFETY */}
         {activeTab === 'medications' && (
@@ -579,13 +552,8 @@ function ClinicalDashboardContent() {
                 </form>
 
                 {aiAnalysisResult && (
-                  <div className="mt-4 p-4 rounded-xl bg-amber-50 border border-amber-300">
-                    <div className="font-bold text-amber-900 text-xs">⚠️ Interactions Found by AI:</div>
-                    {aiAnalysisResult.map((w: any, idx: number) => (
-                      <p key={idx} className="text-xs text-amber-800 mt-1">
-                        • {w.drugA} + {w.drugB}: {w.clinicalEffect}
-                      </p>
-                    ))}
+                  <div className="mt-4">
+                    <DrugInteractionWarning warnings={aiAnalysisResult} />
                   </div>
                 )}
               </div>
