@@ -82,7 +82,8 @@ export async function POST(request: Request) {
       engine: 'FALLBACK',
       message: 'Sarvam AI key unavailable or network error.',
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error generating neural voice';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

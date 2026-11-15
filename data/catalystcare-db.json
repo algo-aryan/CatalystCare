@@ -716,7 +716,7 @@
       "appointmentTime": "2026-11-17T08:34:29.761Z",
       "contactNumber": "+91 11 4713 5000",
       "reason": "Quarterly hypertension checkup & ECG review",
-      "notes": "Please bring last 2 weeks BP journal and recent lipid panel report.",
+      "notes": "Patient arrived with blood pressure diary (Verified)",
       "status": "SCHEDULED",
       "reminderSent": true,
       "createdAt": "2026-11-05T05:34:29.761Z"
@@ -1174,6 +1174,30 @@
       "timestamp": "2026-11-15T09:32:00.992Z",
       "hash": "0847e1695207309c3ccbcead96854e43f6fb82bb1070adc59859cc0fa15358e2",
       "previousHash": "ddcbaee0e7cbf98bc9d64ceb80cf12774cb4d53b2c66cdc5bc7177d02140d0cf"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Updated medication Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794735698205_4fbu",
+      "timestamp": "2026-11-15T09:41:38.205Z",
+      "hash": "c098819a20ae2f3cc9c7658b0af50862e814bf314423f2251f023c73c621c44e",
+      "previousHash": "0847e1695207309c3ccbcead96854e43f6fb82bb1070adc59859cc0fa15358e2"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Updated medication Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794735698206_g79h",
+      "timestamp": "2026-11-15T09:41:38.206Z",
+      "hash": "4a55d139d8a3113cc627f412f71570779e438118903eb654e837d8d28efb4e58",
+      "previousHash": "c098819a20ae2f3cc9c7658b0af50862e814bf314423f2251f023c73c621c44e"
     }
   ],
   "outboxEmails": [

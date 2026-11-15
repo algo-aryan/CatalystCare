@@ -57,7 +57,8 @@ export async function POST(request: Request) {
       triggeredAlerts,
       metrics,
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error triggering notification check';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

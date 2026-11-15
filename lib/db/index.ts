@@ -53,7 +53,7 @@ class CatalystDatabase {
         if (!content.includes('patient_eleanor_vance')) {
           const parsed = JSON.parse(content);
           // Always ensure medications retain the latest photoUrl from seeds
-          parsed.medications = parsed.medications.map((m: any) => {
+          parsed.medications = parsed.medications.map((m: Medication) => {
             const seedMed = SEED_MEDICATIONS.find((s) => s.id === m.id);
             if (seedMed?.visualIdentity) {
               m.visualIdentity = {
@@ -290,6 +290,14 @@ class CatalystDatabase {
     });
 
     return newEvent;
+  }
+
+  resetTodayDoses(todayDateStr?: string): void {
+    const todayStr = todayDateStr || new Date().toISOString().split('T')[0];
+    this.data.adherenceEvents = this.data.adherenceEvents.filter(
+      (e) => !e.scheduledTime?.startsWith(todayStr) && !e.doseId?.includes(todayStr)
+    );
+    this.persist();
   }
 
   // --- Appointments ---

@@ -41,12 +41,17 @@ import { GlassBackground } from '@/components/common/GlassBackground';
 
 const PRIMARY_PATIENT = 'patient_savita_sharma';
 
+interface SessionUser {
+  role: 'CARETAKER' | 'FAMILY_MEMBER' | string;
+  caregiverName: string;
+}
+
 function ClinicalDashboardContent() {
   const searchParams = useSearchParams();
   const urlRole = searchParams.get('role');
 
   // Authentication & Passcode Gate State
-  const [sessionUser, setSessionUser] = useState<any>(null);
+  const [sessionUser, setSessionUser] = useState<SessionUser | null>(null);
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
   const [passcodeInput, setPasscodeInput] = useState(urlRole === 'FAMILY_MEMBER' ? 'FAML77' : 'CARE99');
   const [caregiverNameInput, setCaregiverNameInput] = useState(urlRole === 'FAMILY_MEMBER' ? 'Priya Sharma (Family Member)' : 'Rahul Sharma (Primary Caretaker)');
@@ -74,7 +79,7 @@ function ClinicalDashboardContent() {
   const [newMedTimes, setNewMedTimes] = useState('08:00');
   const [newMedCritical, setNewMedCritical] = useState(false);
   const [addingMed, setAddingMed] = useState(false);
-  const [aiAnalysisResult, setAiAnalysisResult] = useState<any>(null);
+  const [aiAnalysisResult, setAiAnalysisResult] = useState<Record<string, unknown> | null>(null);
   const [medSuccessMessage, setMedSuccessMessage] = useState<string | null>(null);
   const [medErrorMessage, setMedErrorMessage] = useState<string | null>(null);
 
@@ -240,8 +245,9 @@ function ClinicalDashboardContent() {
       } else {
         setMedErrorMessage(data.error || 'Please verify the dosage format (e.g., 40 mg) and schedule time (e.g., 08:00)');
       }
-    } catch (err: any) {
-      setMedErrorMessage(err.message || 'Error adding medication');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error adding medication';
+      setMedErrorMessage(msg);
     } finally {
       setAddingMed(false);
     }
@@ -567,16 +573,16 @@ function ClinicalDashboardContent() {
         {/* Streamlined 3-Tab Bar */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex gap-2 border-t border-slate-200/60">
           {[
-            { id: 'overview', label: 'Daily Routine & Adherence', icon: TrendingUp },
-            { id: 'medications', label: `Active Prescriptions (${medications.length})`, icon: Heart },
-            { id: 'appointments', label: `Care Team & Clinic (${appointments.length})`, icon: Calendar },
+            { id: 'overview' as const, label: 'Daily Routine & Adherence', icon: TrendingUp },
+            { id: 'medications' as const, label: `Active Prescriptions (${medications.length})`, icon: Heart },
+            { id: 'appointments' as const, label: `Care Team & Clinic (${appointments.length})`, icon: Calendar },
           ].map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`py-3 px-4 font-bold text-xs md:text-sm flex items-center gap-2 border-b-2 whitespace-nowrap transition-all ${
                   active
                     ? 'border-emerald-700 text-emerald-800 font-black'
@@ -991,7 +997,7 @@ function ClinicalDashboardContent() {
                     <label className="text-xs font-bold text-slate-700">Access Role:</label>
                     <select
                       value={careLinkTargetRole}
-                      onChange={(e) => setCareLinkTargetRole(e.target.value as any)}
+                      onChange={(e) => setCareLinkTargetRole(e.target.value as 'CARETAKER' | 'FAMILY_MEMBER')}
                       className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold bg-white text-slate-800 outline-none"
                     >
                       <option value="FAMILY_MEMBER">Family Observer (View Only)</option>

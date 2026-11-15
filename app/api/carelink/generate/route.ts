@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       token: code,
       signature,
       patientId: resolvedPatientId,
-      targetRole: role as any,
+      targetRole: role as 'CARETAKER' | 'FAMILY_MEMBER',
       permissions: permissions || defaultPermissions,
       expiresAt,
       used: false,
@@ -51,7 +51,8 @@ export async function POST(request: Request) {
       targetRole: role,
       instructions: `Share this 6-character code [${code}] with your ${role === 'CARETAKER' ? 'caretaker/nurse' : 'family member'}. Valid for 24 hours.`,
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error generating CareLink code';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

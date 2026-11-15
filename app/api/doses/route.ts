@@ -61,23 +61,27 @@ export async function POST(request: Request) {
     const scheduledDate = new Date(scheduledDateTime || Date.now());
     const deviationMinutes = Math.round((Date.now() - scheduledDate.getTime()) / (1000 * 60));
 
+    const doseStatus: 'ADMINISTERED' | 'MISSED' | 'SNOOZED' = 
+      status === 'SNOOZED' ? 'SNOOZED' : status === 'MISSED' ? 'MISSED' : 'ADMINISTERED';
+
     const event = db.recordAdherenceEvent({
       doseId,
       medicationId,
       patientId,
       scheduledTime: scheduledDateTime || new Date().toISOString(),
-      status: status as any,
+      status: doseStatus,
       deviationMinutes,
       administeredBy: {
-        userId: actorUserId || 'user_patient_eleanor',
+        userId: actorUserId || 'user_patient_savita',
         role: actorRole || 'PATIENT',
-        name: actorName || 'Eleanor Vance',
+        name: actorName || 'Savita Sharma',
       },
       notes,
     });
 
     return NextResponse.json({ success: true, event });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error recording dose event';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

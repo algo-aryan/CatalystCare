@@ -89,8 +89,9 @@ export async function POST(request: Request) {
       interactionsDetected: interactions.length > 0,
       interactions,
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error creating medication';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
 
@@ -116,8 +117,9 @@ export async function PATCH(request: Request) {
     }
 
     return NextResponse.json({ success: true, medication: updated });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error updating medication';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
 

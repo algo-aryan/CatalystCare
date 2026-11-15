@@ -69,8 +69,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, appointment: appt });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error creating appointment';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
 
@@ -89,8 +90,9 @@ export async function PATCH(request: Request) {
     }
 
     return NextResponse.json({ success: true, appointment: updated });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error updating appointment';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }
 
@@ -111,7 +113,8 @@ export async function DELETE(request: Request) {
 
     db.updateAppointment(id, { status: 'CANCELLED' });
     return NextResponse.json({ success: true, message: 'Appointment marked as cancelled' });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : 'Error cancelling appointment';
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

@@ -2,12 +2,19 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/db';
 
+interface SessionPayload {
+  role: string;
+  patientId: string;
+  caregiverName?: string;
+  authenticatedAt?: string;
+}
+
 export async function GET(request: Request) {
   const cookieStore = cookies();
   const sessionCookie = cookieStore.get('carelink_session')?.value;
 
   let authenticated = false;
-  let sessionData: any = null;
+  let sessionData: SessionPayload | null = null;
 
   if (sessionCookie) {
     try {

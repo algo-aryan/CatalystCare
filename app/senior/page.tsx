@@ -25,6 +25,7 @@ import { MedicationCard } from '@/components/senior/MedicationCard';
 import { PillGraphic } from '@/components/senior/PillGraphic';
 import { GlassBackground } from '@/components/common/GlassBackground';
 import { Appointment } from '@/types';
+import { TodayDoseSlot } from '@/lib/clinical/adherence-engine';
 
 // 12 Culturally Authentic & Warm Acknowledgment Modes
 const PRAISE_MODES = [
@@ -101,7 +102,7 @@ export default function SeniorModePage() {
   // Determine active slot: user-selected slot takes precedence; otherwise next due slot
   const activeSlot = (selectedDoseId ? schedule.find((s) => s.doseId === selectedDoseId) : null) || nextDueSlot;
 
-  const handleMarkTaken = async (slot: any) => {
+  const handleMarkTaken = async (slot: TodayDoseSlot) => {
     const visual = slot.visualIdentity;
     const currentPraise = PRAISE_MODES[praiseIndex % PRAISE_MODES.length];
     setPraiseIndex((prev) => prev + 1);
@@ -125,7 +126,7 @@ export default function SeniorModePage() {
     await confirmDose(slot, 'ADMINISTERED', 'Marked taken via Senior Mode');
   };
 
-  const handleSnooze = async (slot: any) => {
+  const handleSnooze = async (slot: TodayDoseSlot) => {
     const snoozeVoiceText = `सविता जी, आपकी दवाई की याददिहानी ३० मिनट के लिए आगे बढ़ा दी गई है।`;
     const englishSnooze = `Reminder for your medication snoozed for 30 minutes.`;
     speak(snoozeVoiceText, { lang: 'hi-IN', englishFallbackText: englishSnooze });
