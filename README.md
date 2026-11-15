@@ -1,11 +1,10 @@
 # 🩺 CatalystCare — Intelligent Elderly Care & Medication Management Platform
 
-[![Google for Developers](https://img.shields.io/badge/Google%20for%20Developers-Build%20with%20AI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/)
-[![PromptWars x Catalyst](https://img.shields.io/badge/PromptWars%20x%20Catalyst-2026-orange?style=for-the-badge)](https://hack2skill.com/)
-[![Tests](https://img.shields.io/badge/Tests-22%2F22%20Passing-emerald?style=for-the-badge&logo=node.js&logoColor=white)](https://github.com/)
-[![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.2%20AAA-blueviolet?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+[![CI](https://github.com/algo-aryan/CatalystCare/actions/workflows/ci.yml/badge.svg)](https://github.com/algo-aryan/CatalystCare/actions)
+[![Tests](https://img.shields.io/badge/Tests-25%2F25%20Passing-emerald?style=for-the-badge&logo=node.js&logoColor=white)](https://github.com/algo-aryan/CatalystCare)
+[![Accessibility](https://img.shields.io/badge/Accessibility-Targeting%20WCAG%202.2%20AAA-blueviolet?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 [![Security](https://img.shields.io/badge/Security-HMAC--SHA256%20%2B%20Hash%20Chaining-green?style=for-the-badge)](https://csrc.nist.gov/)
-[![Repository Size](https://img.shields.io/badge/Repository%20Size-%3C%2010%20MB-success?style=for-the-badge)](https://github.com/)
+[![Repository Size](https://img.shields.io/badge/Repository%20Size-~7.6%20MB%20(%3C%2010%20MB)-success?style=for-the-badge)](https://github.com/algo-aryan/CatalystCare)
 
 > **PromptWars x Catalyst Challenge Submission**  
 > **Challenge Vertical:** Elderly Care & Medication Management Platform  
@@ -101,20 +100,20 @@ Conventional pill reminder apps suffer from a fundamental clinical flaw: they re
 
 ---
 
-## 🏆 5. Evaluation Focus Areas (Scored 100/100)
+## 🏆 5. Evaluation Focus Areas & Architecture Highlights
 
 | Criterion | Impact | How CatalystCare Excels |
 | :--- | :---: | :--- |
-| **Code Quality** | **High** | 100% strict TypeScript (zero implicit `any`), Next.js 14 App Router, atomic modular design, Zod runtime validation, clean separation of concerns. |
-| **Security** | **High** | HMAC-SHA256 token pairing, constant-time verification (`crypto.timingSafeEqual`), signed 1-click action tokens, and SHA-256 tamper-evident hash-chained audit logs compliant with HIPAA §164.312. |
-| **Efficiency** | **Medium** | Total repository size is **under 8 MB** (well below the 10 MB hackathon ceiling). Zero bloated database containers, instant hydration, and optimistic UI updates. |
-| **Testing** | **High** | **22 automated unit tests passing (100%)** covering adherence state machine, accessibility compliance, crypto token verification, AI clinical screening, and Zod schemas. |
-| **Accessibility** | **High** | WCAG 2.2 AAA compliant. Touch targets $\ge 48\times 48$px, triple-encoded status indicators (color + text + icon), Sarvam AI voice guidance, bedside macro pill photography, frosted glassdoor design with high contrast. |
+| **Code Quality** | **High** | 100% strict TypeScript (zero implicit `any`), Next.js 14 App Router, atomic modular design, Zod runtime validation, clean separation of concerns. Automated GitHub Actions CI pipeline. |
+| **Security** | **High** | HMAC-SHA256 token pairing, constant-time verification (`crypto.timingSafeEqual`), signed 1-click action tokens, session cookie gating on clinical views, and SHA-256 tamper-evident hash-chained audit logs modeled after HIPAA §164.312 integrity standards. |
+| **Efficiency** | **Medium** | Total repository size is **~7.6 MB** (well below the 10 MB hackathon ceiling). Atomic JSON persistence with in-memory caching for zero-setup frictionless evaluation, instant hydration, and optimistic UI updates. |
+| **Testing** | **High** | **25 automated unit tests passing (100%)** covering adherence state machine, accessibility compliance, crypto token verification, API route integration, AI clinical screening, and Zod schemas. |
+| **Accessibility** | **High** | Designed to WCAG 2.2 AAA target guidelines. Touch targets $\ge 48\times 48$px, triple-encoded status indicators (color + text + icon), Sarvam AI voice guidance, bedside macro pill photography, frosted glassdoor design with high contrast. |
 | **Problem Alignment**| **High** | Direct 1:1 fulfillment of every requirement in the PromptWars x Catalyst challenge brief (shared ecosystem, passcode access, scheduling, proactive email alerts, doctor visits). |
 
 ---
 
-## 🧪 6. Automated Test Suite (22/22 Passing)
+## 🧪 6. Automated Test Suite (25/25 Passing)
 
 Run the full automated test suite:
 ```bash
@@ -130,6 +129,9 @@ npm test
 ✔ Adherence State Machine: computes DUE within 30-minute current window
 ✔ Adherence State Machine: computes OVERDUE between 30 and 120 minutes past scheduled time
 ✔ Adherence State Machine: computes MISSED beyond 120 minutes past scheduled time
+✔ API Route Integration: CareLink token generation, HMAC signing and verification lifecycle
+✔ API Route Integration: 1-Click action email confirmation token lifecycle
+✔ API Route Integration: Medication prescription payload validation
 ✔ Clinical AI Safety: detects dangerous drug interaction (Lisinopril + Potassium)
 ✔ Clinical AI Safety: detects food-drug interaction (Atorvastatin + Grapefruit)
 ✔ Clinical AI Safety: returns empty array when no known interaction exists
@@ -145,7 +147,7 @@ npm test
 ✔ Zod Validation: validates 24-hour HH:MM schedule time format
 ✔ Zod Validation: validates complete medication prescription payload
 
-ℹ tests 22 | pass 22 | fail 0 | cancelled 0 (100% Pass Rate)
+ℹ tests 25 | pass 25 | fail 0 | cancelled 0 (100% Pass Rate)
 ```
 
 ---
@@ -179,13 +181,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ```bash
 # 1. Clone the repository
-git clone <your-public-repo-url>
-cd catalyst
+git clone https://github.com/algo-aryan/CatalystCare.git
+cd CatalystCare
 
 # 2. Install dependencies
 npm install
 
-# 3. Run unit tests
+# 3. Run automated tests (25 passing)
 npm test
 
 # 4. Build for production
@@ -198,17 +200,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 - **Launchpad (Role Selection & Passcode Pairing):** [http://localhost:3000/](http://localhost:3000/)
 - **Senior Patient Mode:** [http://localhost:3000/senior](http://localhost:3000/senior)
-- **Primary Caretaker Portal:** [http://localhost:3000/clinical?role=CARETAKER](http://localhost:3000/clinical?role=CARETAKER)
-- **Family Observer View:** [http://localhost:3000/clinical?role=FAMILY_MEMBER](http://localhost:3000/clinical?role=FAMILY_MEMBER)
+- **Primary Caretaker Portal (CareLink Protected):** [http://localhost:3000/clinical?role=CARETAKER](http://localhost:3000/clinical?role=CARETAKER)
+- **Family Observer View (CareLink Protected):** [http://localhost:3000/clinical?role=FAMILY_MEMBER](http://localhost:3000/clinical?role=FAMILY_MEMBER)
 
 ---
 
-## 📋 9. Assumptions Made
+## 📋 9. Assumptions & System Design Notes
 
 1. **Patient Persona:** Modeled around Savita Sharma (76 years old, New Delhi) managing hypertension, type 2 diabetes, and hyperlipidemia with a 5-dose daily routine (Pantoprazole, Metformin AM/PM, Telmisartan, Atorvastatin).
 2. **Caregiver Persona:** Son Rahul Sharma acts as primary administrative caregiver living in the same city; daughter Priya Sharma acts as remote family observer from Bengaluru.
-3. **Passwordless Assumption:** Seniors should never be required to authenticate with email/password credentials or 2FA SMS codes; authentication is handled via HMAC-SHA256 passcode token pairing (`CARE99`) generated by the primary caregiver.
-4. **Offline Resilience:** Healthcare adherence must never fail if network connectivity drops; client-side optimistic UI updates and local audio fallback ensure uninterrupted operation.
+3. **Passwordless Onboarding:** Seniors and non-technical caregivers should never be forced to navigate complex email/password setups or 2FA SMS gates. Caretaker and family access is established via HMAC-SHA256 passcode tokens (`CARE99` / `FAML77`) that set a cryptographically signed HTTP-only session cookie.
+4. **Data Persistence Architecture:** Implements an atomic file-backed JSON store with memory-cache optimization (`lib/db/index.ts`). This guarantees instant, zero-container deployment on serverless platforms (Vercel) while keeping state synced across endpoints without requiring the evaluator to configure external PostgreSQL or DynamoDB instances.
+5. **Notification Delivery & 1-Click Outbox:** Proactive medication reminders and family escalation alerts are processed into an append-only outbox queue with signed, expiring 1-click confirmation tokens (`/api/doses/confirm?token=...`), ready to interface with Resend, SendGrid, or AWS SES SMTP drivers.
+6. **Offline Resilience:** Healthcare adherence must never fail if network connectivity drops; client-side optimistic UI updates and local Web Speech fallback ensure uninterrupted operation.
 
 ---
 

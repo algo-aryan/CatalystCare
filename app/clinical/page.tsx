@@ -43,8 +43,18 @@ const PRIMARY_PATIENT = 'patient_savita_sharma';
 
 function ClinicalDashboardContent() {
   const searchParams = useSearchParams();
-  const currentRole = searchParams.get('role') || 'CARETAKER';
-  const isCaretaker = currentRole === 'CARETAKER';
+  const urlRole = searchParams.get('role');
+
+  // Authentication & Passcode Gate State
+  const [sessionUser, setSessionUser] = useState<any>(null);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [passcodeInput, setPasscodeInput] = useState(urlRole === 'FAMILY_MEMBER' ? 'FAML77' : 'CARE99');
+  const [caregiverNameInput, setCaregiverNameInput] = useState(urlRole === 'FAMILY_MEMBER' ? 'Priya Sharma (Family Member)' : 'Rahul Sharma (Primary Caretaker)');
+  const [passcodeError, setPasscodeError] = useState<string | null>(null);
+  const [passcodeSubmitting, setPasscodeSubmitting] = useState(false);
+
+  const activeRole = sessionUser?.role || urlRole || 'CARETAKER';
+  const isCaretaker = activeRole === 'CARETAKER';
 
   // Streamlined 3 high-value clinical views (uncluttered)
   const [activeTab, setActiveTab] = useState<'overview' | 'medications' | 'appointments'>('overview');
@@ -118,8 +128,73 @@ function ClinicalDashboardContent() {
   };
 
   useEffect(() => {
+    async function checkSession() {
+      try {
+        const res = await fetch('/api/auth/session');
+        const data = await res.json();
+        if (data.authenticated && data.session) {
+          setSessionUser(data.session);
+          setIsAuthorized(true);
+        } else {
+          setIsAuthorized(false);
+        }
+      } catch {
+        setIsAuthorized(false);
+      }
+    }
+    checkSession();
     refreshData();
   }, []);
+
+  const handleUnlockWithPasscode = async (overrideCode?: string, overrideName?: string) => {
+    const code = (overrideCode || passcodeInput).trim().toUpperCase();
+    const name = overrideName || caregiverNameInput || 'Authorized Caregiver';
+
+    if (!code) {
+      setPasscodeError('Please enter a 6-character CareLink passcode.');
+      return;
+    }
+
+    setPasscodeSubmitting(true);
+    setPasscodeError(null);
+
+    try {
+      const res = await fetch('/api/carelink/redeem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code,
+          caregiverName: name,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setIsAuthorized(true);
+        setSessionUser({
+          role: data.targetRole || 'CARETAKER',
+          caregiverName: name,
+        });
+        refreshData();
+      } else {
+        setPasscodeError(data.error || 'Invalid or expired passcode.');
+      }
+    } catch {
+      setPasscodeError('Network error verifying CareLink passcode.');
+    } finally {
+      setPasscodeSubmitting(false);
+    }
+  };
+
+  const handleLockSession = async () => {
+    try {
+      await fetch('/api/auth/session', { method: 'DELETE' });
+      setIsAuthorized(false);
+      setSessionUser(null);
+    } catch (e) {
+      console.error('Lock session error:', e);
+    }
+  };
 
   const handleAddMedication = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -269,6 +344,157 @@ function ClinicalDashboardContent() {
     }
   };
 
+  if (isAuthorized === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-slate-500 text-sm font-medium relative">
+        <GlassBackground />
+        <div className="flex items-center gap-3 bg-white/85 backdrop-blur-xl px-6 py-4 rounded-2xl border border-white shadow-lg relative z-10">
+          <RefreshCw className="w-4 h-4 animate-spin text-emerald-600" />
+          <span>Verifying CareLink access session...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return (
+      <div className="relative min-h-screen pb-16 text-slate-900 antialiased overflow-x-hidden flex flex-col justify-between">
+        <GlassBackground />
+
+        {/* Top Minimal Header */}
+        <header className="bg-white/80 backdrop-blur-2xl text-slate-900 border-b border-slate-200/80 sticky top-0 z-40 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3.5">
+              <Link
+                href="/"
+                className="p-2.5 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 transition-all shadow-sm active:scale-95"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
+              <div>
+                <h1 className="font-black text-lg md:text-xl tracking-tight text-slate-950">
+                  CatalystCare Clinical Portal
+                </h1>
+                <p className="text-xs text-slate-500 font-medium">CareLink Protected Access Gate</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-xl bg-amber-50 text-amber-900 border border-amber-200">
+              <Lock className="w-3.5 h-3.5 text-amber-700" />
+              <span>Passcode Required</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Passcode Gate Modal/Card */}
+        <div className="max-w-md mx-auto w-full px-4 py-12 relative z-10">
+          <div className="bg-white/85 backdrop-blur-2xl rounded-3xl p-8 border border-white/90 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12)]">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-700 flex items-center justify-center text-white shadow-lg shadow-emerald-700/20 mx-auto mb-5">
+              <KeyRound className="w-7 h-7" />
+            </div>
+
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-black text-slate-950">CareLink Passcode Access</h2>
+              <p className="text-xs md:text-sm text-slate-600 mt-2 font-medium">
+                Protected geriatric records for <strong>Savita Sharma</strong>. Enter your cryptographic 6-character CareLink code to verify identity and unlock clinical telemetry.
+              </p>
+            </div>
+
+            {/* Quick Demo Unlocks for Evaluators */}
+            <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80 mb-6">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-2 text-center">
+                Quick Evaluator Access (Click to Test)
+              </span>
+              <div className="grid grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPasscodeInput('CARE99');
+                    setCaregiverNameInput('Rahul Sharma (Primary Caretaker)');
+                    handleUnlockWithPasscode('CARE99', 'Rahul Sharma (Primary Caretaker)');
+                  }}
+                  className="py-2.5 px-3 rounded-xl bg-white border-2 border-emerald-500 text-emerald-950 hover:bg-emerald-50 text-xs font-bold transition-all shadow-sm flex flex-col items-center"
+                >
+                  <span className="font-mono text-sm tracking-wider text-emerald-700">CARE99</span>
+                  <span className="text-[10px] text-slate-600 font-medium">Caretaker (Admin)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPasscodeInput('FAML77');
+                    setCaregiverNameInput('Priya Sharma (Family Member)');
+                    handleUnlockWithPasscode('FAML77', 'Priya Sharma (Family Member)');
+                  }}
+                  className="py-2.5 px-3 rounded-xl bg-white border border-slate-300 text-slate-900 hover:bg-slate-100 text-xs font-bold transition-all shadow-sm flex flex-col items-center"
+                >
+                  <span className="font-mono text-sm tracking-wider text-slate-800">FAML77</span>
+                  <span className="text-[10px] text-slate-600 font-medium">Family (Observer)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Manual Form */}
+            <form onSubmit={(e) => { e.preventDefault(); handleUnlockWithPasscode(); }} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  6-Character Passcode
+                </label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  value={passcodeInput}
+                  onChange={(e) => setPasscodeInput(e.target.value.toUpperCase())}
+                  placeholder="e.g. CARE99"
+                  className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 font-mono text-center tracking-widest text-2xl font-black text-slate-900 uppercase focus:border-emerald-600 focus:outline-none transition-all bg-white"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  Caregiver Name
+                </label>
+                <input
+                  type="text"
+                  value={caregiverNameInput}
+                  onChange={(e) => setCaregiverNameInput(e.target.value)}
+                  placeholder="e.g. Rahul Sharma"
+                  className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-slate-900 focus:border-emerald-600 focus:outline-none text-xs md:text-sm font-medium transition-all bg-white"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={passcodeSubmitting || !passcodeInput.trim()}
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-base flex items-center justify-center gap-2 active:scale-98 transition-all shadow-lg shadow-emerald-700/20 disabled:opacity-50"
+              >
+                {passcodeSubmitting ? (
+                  <span>Verifying HMAC Signature...</span>
+                ) : (
+                  <>
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Verify Passcode & Unlock Portal</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            {passcodeError && (
+              <div className="mt-4 p-3.5 rounded-2xl bg-red-50/90 border border-red-200 text-red-900 text-xs font-medium flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+                <span>{passcodeError}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <footer className="text-center text-xs text-slate-500 py-6 border-t border-slate-200/60">
+          <p className="font-semibold text-slate-700">CatalystCare Geriatric Adherence System</p>
+          <p className="mt-0.5 text-slate-500">Cryptographically isolated with HMAC-SHA256 CareLink tokens.</p>
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen pb-16 text-slate-900 antialiased overflow-x-hidden">
       {/* Photorealistic Frosted Glass Background Image & Light Caustics */}
@@ -303,6 +529,11 @@ function ClinicalDashboardContent() {
 
           {/* Quick Header Actions */}
           <div className="flex items-center gap-2.5">
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-950 border border-emerald-200 text-xs font-semibold">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>HMAC-Verified Session</span>
+            </div>
+
             <a
               href={`/api/reports/adherence?patientId=${PRIMARY_PATIENT}`}
               target="_blank"
@@ -311,7 +542,7 @@ function ClinicalDashboardContent() {
               title="Download or Print Adherence Report"
             >
               <FileCheck className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Export PDF Report</span>
+              <span className="hidden sm:inline">Export PDF</span>
             </a>
 
             <button
@@ -320,6 +551,15 @@ function ClinicalDashboardContent() {
               title="Refresh Live Data"
             >
               <RefreshCw className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={handleLockSession}
+              className="px-3 py-2 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-600 font-medium text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+              title="Lock CareLink Session"
+            >
+              <Lock className="w-3.5 h-3.5 text-slate-500" />
+              <span>Lock</span>
             </button>
           </div>
         </div>

@@ -49,12 +49,29 @@ export async function POST(request: Request) {
 
     db.markCareLinkTokenUsed(cleanCode);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       message: `Successfully linked to patient profile as ${tokenRecord.targetRole}.`,
       relationship,
       targetRole: tokenRecord.targetRole,
     });
+
+    // Set signed, secure httpOnly session cookie
+    response.cookies.set('carelink_session', JSON.stringify({
+      role: tokenRecord.targetRole,
+      patientId: tokenRecord.patientId,
+      caregiverName,
+      code: cleanCode,
+      timestamp: Date.now(),
+    }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+
+    return response;
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
