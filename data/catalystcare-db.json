@@ -239,6 +239,23 @@
       "linkedViaToken": "FAML77",
       "linkedAt": "2026-10-21T05:34:29.761Z",
       "status": "ACTIVE"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "caregiverUserId": "user_1794725024330",
+      "caregiverName": "12edc",
+      "role": "FAMILY_MEMBER",
+      "permissions": {
+        "canAdministerMeds": false,
+        "canEditSchedule": false,
+        "canViewAuditLog": true,
+        "canManageAppointments": false,
+        "receiveEmergencyAlerts": true
+      },
+      "linkedViaToken": "V686RW",
+      "status": "ACTIVE",
+      "id": "rel_1794725024330",
+      "linkedAt": "2026-11-15T06:43:44.330Z"
     }
   ],
   "adherenceEvents": [
@@ -696,7 +713,24 @@
       "createdAt": "2026-11-10T05:34:29.761Z"
     }
   ],
-  "careLinkTokens": [],
+  "careLinkTokens": [
+    {
+      "token": "V686RW",
+      "signature": "cbd5e16f02e4207619c6d7b34f9d9c30b0c5ba7e718ecad521d2727189b0bb27",
+      "patientId": "patient_savita_sharma",
+      "targetRole": "FAMILY_MEMBER",
+      "permissions": {
+        "canAdministerMeds": false,
+        "canEditSchedule": false,
+        "canViewAuditLog": true,
+        "canManageAppointments": false,
+        "receiveEmergencyAlerts": true
+      },
+      "expiresAt": "2026-11-16T06:43:36.591Z",
+      "used": true,
+      "createdAt": "2026-11-15T06:43:36.592Z"
+    }
+  ],
   "auditLogs": [
     {
       "id": "audit_init_01",
@@ -997,6 +1031,30 @@
       "timestamp": "2026-11-15T06:17:18.625Z",
       "hash": "aced2c1c531466e07a6be1f9cb670542ab8bd5f8192f2397328de6e610053db3",
       "previousHash": "e8414899310de22ff22ccfe05b4684e8b4ddbcc53b69fdb6dd10b6a597e0eb2d"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "patient_savita_sharma",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "CARELINK_CREATED",
+      "details": "Issued 24h CareLink token [V686RW] for target role FAMILY_MEMBER",
+      "id": "audit_1794725016593_0bey",
+      "timestamp": "2026-11-15T06:43:36.593Z",
+      "hash": "d5635d668ee07119bd9176acc802dba1c3300b9d01964f44adec9c5f949b14d3",
+      "previousHash": "aced2c1c531466e07a6be1f9cb670542ab8bd5f8192f2397328de6e610053db3"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_1794725024330",
+      "actorName": "12edc",
+      "actorRole": "FAMILY_MEMBER",
+      "action": "CARELINK_REDEEMED",
+      "details": "Linked new caregiver: 12edc (FAMILY_MEMBER)",
+      "id": "audit_1794725024330_q9ps",
+      "timestamp": "2026-11-15T06:43:44.330Z",
+      "hash": "91dd1a9f17784d743d024ffd85c26b07996e88f3dbf7e0c94a4ad2a6b5af0ce7",
+      "previousHash": "d5635d668ee07119bd9176acc802dba1c3300b9d01964f44adec9c5f949b14d3"
     }
   ],
   "outboxEmails": [
