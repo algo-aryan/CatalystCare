@@ -6,7 +6,7 @@
       "fullName": "Savita Sharma",
       "role": "PATIENT",
       "phoneNumber": "+91 98101 11223",
-      "createdAt": "2026-10-16T05:23:00.213Z"
+      "createdAt": "2026-10-16T05:34:29.760Z"
     },
     {
       "id": "user_caregiver_rahul",
@@ -14,7 +14,7 @@
       "fullName": "Rahul Sharma",
       "role": "CARETAKER",
       "phoneNumber": "+91 98101 23456",
-      "createdAt": "2026-10-18T05:23:00.214Z"
+      "createdAt": "2026-10-18T05:34:29.761Z"
     },
     {
       "id": "user_family_priya",
@@ -22,7 +22,7 @@
       "fullName": "Priya Sharma",
       "role": "FAMILY_MEMBER",
       "phoneNumber": "+91 98202 34567",
-      "createdAt": "2026-10-21T05:23:00.214Z"
+      "createdAt": "2026-10-21T05:34:29.761Z"
     }
   ],
   "patientProfile": {
@@ -51,7 +51,7 @@
       "start": "22:00",
       "end": "06:30"
     },
-    "createdAt": "2026-10-16T05:23:00.214Z"
+    "createdAt": "2026-10-16T05:34:29.761Z"
   },
   "medications": [
     {
@@ -68,18 +68,24 @@
       ],
       "isCritical": false,
       "startDate": "2024-01-01",
-      "plainLanguageSummary": "सुबह खाली पेट लें - यह आपके पेट में गैस और एसिडिटी को रोकता है।",
+      "plainLanguageSummary": "Prevents stomach gas and morning acidity before breakfast.",
       "visualIdentity": {
         "shape": "OVAL_TABLET",
         "color": "#FDE047",
-        "colorLabel": "हल्की पीली लंबी गोली (Pale Yellow Oval)",
-        "purposeLabelHindi": "गैस / एसिडिटी की गोली",
+        "colorLabelEnglish": "Pale Yellow Oval Tablet",
+        "colorLabelHindi": "हल्की पीली लंबी गोली",
         "purposeLabelEnglish": "Acidity & Gas Relief",
-        "mealTimingHindi": "सुबह खाली पेट (Before Breakfast)"
+        "purposeLabelHindi": "गैस और एसिडिटी की गोली",
+        "instructionsEnglish": "Take 1 tablet on an empty stomach, 30 minutes before breakfast.",
+        "instructionsHindi": "सुबह खाली पेट नाश्ते से आधा घंटा पहले एक गोली लें।",
+        "mealTimingEnglish": "Morning Empty Stomach (Before Breakfast)",
+        "mealTimingHindi": "सुबह खाली पेट (नाश्ते से पहले)",
+        "voiceHindiScript": "सविता जी, यह आपकी गैस और एसिडिटी की हल्की पीली गोली है। सुबह खाली पेट नाश्ते से आधा घंटा पहले एक गोली लें।",
+        "voiceEnglishScript": "Savita ji, this is your morning acidity relief tablet. It is a pale yellow oval pill. Take 1 tablet on an empty stomach before breakfast."
       },
       "interactionWarnings": [],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T05:23:00.214Z"
+      "createdAt": "2026-10-16T05:34:29.761Z"
     },
     {
       "id": "med_metformin",
@@ -88,7 +94,7 @@
       "genericName": "Metformin Hydrochloride",
       "dosage": "500 mg",
       "form": "TABLET",
-      "instructions": "Take 1 tablet twice daily with or immediately after meals (Breakfast & Dinner).",
+      "instructions": "Take 1 tablet twice daily immediately after breakfast and dinner.",
       "foodRelation": "WITH_MEAL",
       "scheduledTimes": [
         "08:00",
@@ -96,18 +102,24 @@
       ],
       "isCritical": true,
       "startDate": "2024-01-01",
-      "plainLanguageSummary": "नाश्ते और रात के खाने के बाद लें - यह आपके शुगर लेवल को सुरक्षित और संतुलित रखता है।",
+      "plainLanguageSummary": "Keeps blood sugar balanced and in a safe range after meals.",
       "visualIdentity": {
         "shape": "ROUND_TABLET",
         "color": "#FFFFFF",
-        "colorLabel": "सफ़ेद गोल गोली (White Round Tablet)",
-        "purposeLabelHindi": "शुगर नियंत्रण की गोली",
+        "colorLabelEnglish": "White Round Tablet with Center Line",
+        "colorLabelHindi": "सफ़ेद गोल गोली",
         "purposeLabelEnglish": "Blood Sugar Control",
-        "mealTimingHindi": "खाने के तुरंत बाद (With Meals)"
+        "purposeLabelHindi": "शुगर नियंत्रण की गोली",
+        "instructionsEnglish": "Take 1 tablet right after your meal with a glass of water.",
+        "instructionsHindi": "नाश्ते और रात के खाने के तुरंत बाद एक गोली पानी के साथ लें।",
+        "mealTimingEnglish": "Right After Meals (Breakfast & Dinner)",
+        "mealTimingHindi": "खाने के तुरंत बाद (नाश्ता व भोजन)",
+        "voiceHindiScript": "सविता जी, यह आपकी शुगर नियंत्रण की सफ़ेद गोल गोली है। नाश्ते के तुरंत बाद एक गोली पानी के साथ लें।",
+        "voiceEnglishScript": "Savita ji, this is your blood sugar control tablet. It is a white round pill. Please take 1 tablet with breakfast."
       },
       "interactionWarnings": [],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T05:23:00.214Z"
+      "createdAt": "2026-10-16T05:34:29.761Z"
     },
     {
       "id": "med_telmisartan",
@@ -123,18 +135,24 @@
       ],
       "isCritical": true,
       "startDate": "2024-01-01",
-      "plainLanguageSummary": "सुबह एक गोली पानी के साथ लें - यह आपके ब्लड प्रेशर को नियंत्रित और दिल को सुरक्षित रखती है।",
+      "plainLanguageSummary": "Relaxes blood vessels to control blood pressure and protect your heart.",
       "visualIdentity": {
         "shape": "OVAL_TABLET",
         "color": "#F472B6",
-        "colorLabel": "गुलाबी लंबी गोली (Pink Oval Tablet)",
-        "purposeLabelHindi": "बीपी / दिल की गोली",
-        "purposeLabelEnglish": "Blood Pressure Control",
-        "mealTimingHindi": "सुबह नाश्ते के समय (Morning)"
+        "colorLabelEnglish": "Pink Oval Tablet",
+        "colorLabelHindi": "गुलाबी लंबी गोली",
+        "purposeLabelEnglish": "Blood Pressure & Heart",
+        "purposeLabelHindi": "बीपी व दिल की सुरक्षा",
+        "instructionsEnglish": "Take 1 tablet every morning with a full glass of water.",
+        "instructionsHindi": "सुबह नाश्ते के समय एक पूरी गोली पानी के साथ लें।",
+        "mealTimingEnglish": "Morning with Water",
+        "mealTimingHindi": "सुबह नाश्ते के समय",
+        "voiceHindiScript": "सविता जी, यह आपकी ब्लड प्रेशर की गुलाबी लंबी गोली है। सुबह एक गोली पानी के साथ लें।",
+        "voiceEnglishScript": "Savita ji, this is your blood pressure control tablet. It is a pink oval pill. Please take 1 tablet with a glass of water."
       },
       "interactionWarnings": [],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T05:23:00.214Z"
+      "createdAt": "2026-10-16T05:34:29.761Z"
     },
     {
       "id": "med_atorvastatin",
@@ -150,14 +168,20 @@
       ],
       "isCritical": false,
       "startDate": "2024-02-15",
-      "plainLanguageSummary": "सोने से पहले लें - यह रात के समय कोलेस्ट्रॉल को कम कर आपकी नसों को स्वस्थ रखता है।",
+      "plainLanguageSummary": "Protects blood vessels by lowering harmful cholesterol overnight.",
       "visualIdentity": {
         "shape": "ROUND_TABLET",
         "color": "#E2E8F0",
-        "colorLabel": "सफ़ेद छोटी गोल गोली (Small White Round)",
-        "purposeLabelHindi": "कोलेस्ट्रॉल की गोली",
-        "purposeLabelEnglish": "Cholesterol & Heart",
-        "mealTimingHindi": "रात को सोने से पहले (Bedtime)"
+        "colorLabelEnglish": "Small White Round Tablet",
+        "colorLabelHindi": "सफ़ेद छोटी गोल गोली",
+        "purposeLabelEnglish": "Night Cholesterol Protection",
+        "purposeLabelHindi": "रात की कोलेस्ट्रॉल गोली",
+        "instructionsEnglish": "Take 1 tablet at bedtime with a glass of water.",
+        "instructionsHindi": "रात को सोने से पहले एक गोली पानी के साथ लें।",
+        "mealTimingEnglish": "Bedtime (Night)",
+        "mealTimingHindi": "रात को सोने से पहले",
+        "voiceHindiScript": "सविता जी, यह आपकी रात की कोलेस्ट्रॉल की छोटी गोली है। सोने से पहले पानी के साथ एक गोली लें।",
+        "voiceEnglishScript": "Savita ji, this is your cholesterol protection tablet. It is a small white round pill. Please take 1 tablet before going to bed."
       },
       "interactionWarnings": [
         {
@@ -170,7 +194,7 @@
         }
       ],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T05:23:00.214Z"
+      "createdAt": "2026-10-16T05:34:29.761Z"
     }
   ],
   "careRelationships": [
@@ -188,7 +212,7 @@
         "receiveEmergencyAlerts": true
       },
       "linkedViaToken": "CARE99",
-      "linkedAt": "2026-10-18T05:23:00.214Z",
+      "linkedAt": "2026-10-18T05:34:29.761Z",
       "status": "ACTIVE"
     },
     {
@@ -205,7 +229,7 @@
         "receiveEmergencyAlerts": true
       },
       "linkedViaToken": "FAML77",
-      "linkedAt": "2026-10-21T05:23:00.214Z",
+      "linkedAt": "2026-10-21T05:34:29.761Z",
       "status": "ACTIVE"
     }
   ],
@@ -609,13 +633,13 @@
       "doctorName": "Dr. Arvind Kapoor, MD (Cardiologist)",
       "specialty": "Heart & Hypertension Care",
       "clinicHospital": "Fortis Escorts Heart Institute, Okhla, New Delhi",
-      "appointmentTime": "2026-11-17T08:23:00.214Z",
+      "appointmentTime": "2026-11-17T08:34:29.761Z",
       "contactNumber": "+91 11 4713 5000",
       "reason": "Quarterly hypertension checkup & ECG review",
       "notes": "Please bring last 2 weeks BP journal and recent lipid panel report.",
       "status": "SCHEDULED",
       "reminderSent": true,
-      "createdAt": "2026-11-05T05:23:00.214Z"
+      "createdAt": "2026-11-05T05:34:29.761Z"
     },
     {
       "id": "appt_endocrinology_max",
@@ -623,20 +647,20 @@
       "doctorName": "Dr. Anita Desai, MD (Endocrinologist)",
       "specialty": "Diabetes & Metabolism",
       "clinicHospital": "Max Super Speciality Hospital, Saket, New Delhi",
-      "appointmentTime": "2026-11-27T05:23:00.214Z",
+      "appointmentTime": "2026-11-27T05:34:29.761Z",
       "contactNumber": "+91 11 2651 5050",
       "reason": "HbA1c & Fasting blood sugar quarterly review",
       "notes": "Overnight fasting required for 10 hours prior to blood test.",
       "status": "SCHEDULED",
       "reminderSent": false,
-      "createdAt": "2026-11-10T05:23:00.214Z"
+      "createdAt": "2026-11-10T05:34:29.761Z"
     }
   ],
   "careLinkTokens": [],
   "auditLogs": [
     {
       "id": "audit_init_01",
-      "timestamp": "2026-10-18T05:23:00.214Z",
+      "timestamp": "2026-10-18T05:34:29.761Z",
       "patientId": "patient_savita_sharma",
       "actorUserId": "user_patient_savita",
       "actorName": "Savita Sharma",
@@ -648,7 +672,7 @@
     },
     {
       "id": "audit_init_02",
-      "timestamp": "2026-10-18T06:23:00.214Z",
+      "timestamp": "2026-10-18T06:34:29.761Z",
       "patientId": "patient_savita_sharma",
       "actorUserId": "user_caregiver_rahul",
       "actorName": "Rahul Sharma",

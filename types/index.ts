@@ -72,10 +72,16 @@ export interface MedicationVisualIdentity {
   shape: 'ROUND_TABLET' | 'OVAL_TABLET' | 'CAPSULE' | 'TRIANGLE_TABLET';
   color: string;
   secondaryColor?: string;
-  colorLabel: string;
-  purposeLabelHindi: string;
+  colorLabelEnglish: string;
+  colorLabelHindi: string;
   purposeLabelEnglish: string;
+  purposeLabelHindi: string;
+  instructionsEnglish: string;
+  instructionsHindi: string;
+  mealTimingEnglish: string;
   mealTimingHindi: string;
+  voiceHindiScript: string;
+  voiceEnglishScript: string;
 }
 
 export interface Medication {
