@@ -19,6 +19,7 @@ import {
   SEED_APPOINTMENTS,
   generateInitialAdherenceEvents,
   INITIAL_AUDIT_LOG,
+  PRIMARY_PATIENT_ID,
 } from './seed-data';
 import { computeAuditHash } from '../security/crypto';
 
@@ -48,7 +49,10 @@ class CatalystDatabase {
     try {
       if (fs.existsSync(DB_FILE)) {
         const content = fs.readFileSync(DB_FILE, 'utf-8');
-        return JSON.parse(content);
+        // If file contains old English seed data, refresh to Indian profile
+        if (!content.includes('patient_eleanor_vance')) {
+          return JSON.parse(content);
+        }
       }
     } catch (e) {
       console.warn('[DB] Could not read existing DB file, re-initializing with seeds:', e);
@@ -177,7 +181,11 @@ class CatalystDatabase {
   }
 
   // --- Care Relationships ---
-  getCareRelationships(): CareRelationship[] {
+  getCareRelationships(patientId?: string): CareRelationship[] {
+    if (patientId) {
+      const normalizedId = patientId === 'patient_eleanor_vance' ? PRIMARY_PATIENT_ID : patientId;
+      return this.data.careRelationships.filter((r) => r.patientId === normalizedId || r.patientId === patientId);
+    }
     return [...this.data.careRelationships];
   }
 
@@ -210,8 +218,8 @@ class CatalystDatabase {
 
     this.logAudit({
       patientId: rel.patientId,
-      actorUserId: 'patient_eleanor_vance',
-      actorName: 'Eleanor Vance',
+      actorUserId: 'user_patient_savita',
+      actorName: 'Savita Sharma',
       actorRole: 'PATIENT',
       action: 'CARELINK_REVOKED',
       details: `Revoked caregiver access for ${rel.caregiverName}`,
@@ -223,7 +231,8 @@ class CatalystDatabase {
   // --- Adherence Event Sourcing (Append-Only) ---
   getAdherenceEvents(patientId?: string): AdherenceEvent[] {
     if (patientId) {
-      return this.data.adherenceEvents.filter((e) => e.patientId === patientId);
+      const normalizedId = patientId === 'patient_eleanor_vance' ? PRIMARY_PATIENT_ID : patientId;
+      return this.data.adherenceEvents.filter((e) => e.patientId === normalizedId || e.patientId === patientId);
     }
     return [...this.data.adherenceEvents];
   }
@@ -256,7 +265,8 @@ class CatalystDatabase {
   // --- Appointments ---
   getAppointments(patientId?: string): Appointment[] {
     if (patientId) {
-      return this.data.appointments.filter((a) => a.patientId === patientId);
+      const normalizedId = patientId === 'patient_eleanor_vance' ? PRIMARY_PATIENT_ID : patientId;
+      return this.data.appointments.filter((a) => a.patientId === normalizedId || a.patientId === patientId);
     }
     return [...this.data.appointments];
   }
@@ -299,7 +309,7 @@ class CatalystDatabase {
     this.logAudit({
       patientId: token.patientId,
       actorUserId: token.patientId,
-      actorName: 'Eleanor Vance',
+      actorName: 'Savita Sharma',
       actorRole: 'PATIENT',
       action: 'CARELINK_CREATED',
       details: `Issued 24h CareLink token [${token.token}] for target role ${token.targetRole}`,
@@ -320,7 +330,8 @@ class CatalystDatabase {
 
   // --- Tamper-Evident Hash-Chained Audit Logging ---
   getAuditLogs(patientId?: string): AuditLogEntry[] {
-    const logs = patientId ? this.data.auditLogs.filter((l) => l.patientId === patientId) : this.data.auditLogs;
+    const normalizedId = patientId === 'patient_eleanor_vance' ? PRIMARY_PATIENT_ID : patientId;
+    const logs = normalizedId ? this.data.auditLogs.filter((l) => l.patientId === normalizedId || l.patientId === patientId) : this.data.auditLogs;
     return [...logs].reverse(); // Most recent first
   }
 
@@ -357,7 +368,8 @@ class CatalystDatabase {
   }
 
   getOutboxEmails(patientId?: string): OutboxEmail[] {
-    const emails = patientId ? this.data.outboxEmails.filter((e) => e.patientId === patientId) : this.data.outboxEmails;
+    const normalizedId = patientId === 'patient_eleanor_vance' ? PRIMARY_PATIENT_ID : patientId;
+    const emails = normalizedId ? this.data.outboxEmails.filter((e) => e.patientId === normalizedId || e.patientId === patientId) : this.data.outboxEmails;
     return [...emails].reverse();
   }
 

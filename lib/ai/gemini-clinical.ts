@@ -20,12 +20,34 @@ const CLINICAL_RULES_FALLBACK: Record<string, { target: string; severity: 'CONTR
       rec: 'Use paracetamol/acetaminophen for pain relief instead of NSAIDs.',
     },
   ],
+  telmisartan: [
+    {
+      target: 'potassium',
+      severity: 'HIGH',
+      effect: 'Concomitant potassium supplements or potassium-sparing diuretics may cause hyperkalemia in elderly patients.',
+      rec: 'Monitor serum potassium levels periodically. Avoid potassium supplements unless prescribed.',
+    },
+    {
+      target: 'ibuprofen',
+      severity: 'MODERATE',
+      effect: 'NSAIDs like Ibuprofen/Combiflam may reduce antihypertensive effect of Telmisartan and impact kidney function.',
+      rec: 'Prefer Paracetamol 650 (Dolo) for fever or body pain.',
+    },
+  ],
+  telma: [
+    {
+      target: 'potassium',
+      severity: 'HIGH',
+      effect: 'Concomitant potassium supplements may cause dangerous hyperkalemia in seniors.',
+      rec: 'Avoid potassium supplements without nephrologist approval.',
+    },
+  ],
   atorvastatin: [
     {
       target: 'grapefruit',
       severity: 'MODERATE',
       effect: 'Inhibits CYP3A4, significantly increasing atorvastatin levels and risk of myopathy/rhabdomyolysis.',
-      rec: 'Avoid grapefruit and grapefruit juice completely.',
+      rec: 'Avoid grapefruit and grapefruit juice (मौसमी का रस) completely.',
     },
     {
       target: 'clarithromycin',
@@ -152,14 +174,17 @@ Rule: Do not use complex medical words. Explain WHAT it does for their comfort a
 
   // Graceful rule-based generation
   const lower = drugName.toLowerCase();
-  if (lower.includes('metformin')) {
-    return 'Helps keep your blood sugar balanced and healthy after you eat.';
+  if (lower.includes('pantoprazole') || lower.includes('pan')) {
+    return 'सुबह खाली पेट लेने पर यह आपके पेट में गैस, खट्टी डकार और एसिडिटी को रोकता है। (Prevents stomach acid and keeps your digestion comfortable).';
   }
-  if (lower.includes('lisinopril') || lower.includes('amlodipine')) {
-    return 'Gently relaxes your blood vessels to keep your blood pressure smooth and protect your heart.';
+  if (lower.includes('metformin') || lower.includes('glycomet')) {
+    return 'खाना खाने के बाद लेने पर यह आपके शुगर लेवल को सुरक्षित और संतुलित रखता है। (Keeps your blood sugar balanced and healthy after meals).';
   }
-  if (lower.includes('atorvastatin')) {
-    return 'Keeps your blood vessels clean and healthy by managing cholesterol while you sleep.';
+  if (lower.includes('telmisartan') || lower.includes('telma') || lower.includes('lisinopril') || lower.includes('amlodipine')) {
+    return 'यह आपके रक्तचाप (BP) को नियंत्रित रखता है और दिल को शांत और सुरक्षित बनाए रखता है। (Gently relaxes blood vessels to control blood pressure and protect your heart).';
+  }
+  if (lower.includes('atorvastatin') || lower.includes('atorva')) {
+    return 'रात को लेने पर यह नसों में जमा होने वाले खराब कोलेस्ट्रॉल को कम कर दिल को स्वस्थ रखता है। (Keeps your arteries clean and healthy by managing cholesterol while you sleep).';
   }
   return `Helps support your health routine according to doctor's advice. Take ${dosage} with water as scheduled.`;
 }

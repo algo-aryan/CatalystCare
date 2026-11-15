@@ -36,7 +36,7 @@ export function AdherenceChart({ metrics }: AdherenceChartProps) {
         <div className="flex items-center gap-4 text-xs font-bold">
           <div className="flex items-center gap-1.5 text-emerald-700">
             <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
-            <span>Adherence $\ge$ 90%</span>
+            <span>Adherence &ge; 90%</span>
           </div>
           <div className="flex items-center gap-1.5 text-amber-700">
             <span className="w-3 h-3 rounded-full bg-amber-500 inline-block" />

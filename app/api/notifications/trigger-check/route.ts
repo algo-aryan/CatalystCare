@@ -5,10 +5,10 @@ import { sendDoseReminderEmail, sendCriticalEscalationEmail } from '@/lib/notifi
 
 export async function POST(request: Request) {
   try {
-    const patientId = 'patient_eleanor_vance';
     const patient = db.getPatientProfile();
+    const patientId = patient.id;
     const patientUser = db.getUserById(patient.userId);
-    const relationships = db.getCareRelationships().filter((r) => r.patientId === patientId && r.status === 'ACTIVE');
+    const relationships = db.getCareRelationships(patientId).filter((r) => r.status === 'ACTIVE');
 
     const schedule = getTodaySchedule(patientId);
     const metrics = calculateAdherenceMetrics(patientId);
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       if (slot.isCritical && (slot.status === 'OVERDUE' || slot.status === 'MISSED')) {
         for (const rel of relationships) {
           const caregiverUser = db.getUserById(rel.caregiverUserId);
-          const email = caregiverUser?.email || (rel.role === 'CARETAKER' ? 'marcus.vance@gmail.com' : 'sarah.vance@outlook.com');
+          const email = caregiverUser?.email || (rel.role === 'CARETAKER' ? 'rahul.sharma@gmail.com' : 'priya.sharma@gmail.com');
 
           await sendCriticalEscalationEmail(
             email,

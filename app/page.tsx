@@ -2,13 +2,33 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Heart, ShieldCheck, Users, Clock, Sparkles, ArrowRight, KeyRound, AlertCircle, CheckCircle } from 'lucide-react';
+import { 
+  Heart, 
+  ShieldCheck, 
+  Users, 
+  Clock, 
+  Sparkles, 
+  ArrowRight, 
+  KeyRound, 
+  AlertCircle, 
+  CheckCircle,
+  Stethoscope,
+  FileText,
+  MailCheck,
+  Languages,
+  CheckCircle2
+} from 'lucide-react';
 
 export default function HomePage() {
   const [careLinkCode, setCareLinkCode] = useState('');
   const [caregiverName, setCaregiverName] = useState('');
   const [pairingLoading, setPairingLoading] = useState(false);
-  const [pairingResult, setPairingResult] = useState<{ success: boolean; message: string; role?: string } | null>(null);
+  const [pairingResult, setPairingResult] = useState<{ 
+    success: boolean; 
+    message: string; 
+    role?: string;
+    redirectUrl?: string;
+  } | null>(null);
 
   const handleRedeemCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,16 +42,25 @@ export default function HomePage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          code: careLinkCode.trim(),
-          caregiverName: caregiverName.trim() || 'Dr. Carter (Caretaker)',
+          code: careLinkCode.trim().toUpperCase(),
+          caregiverName: caregiverName.trim() || 'Rahul Sharma (Caretaker)',
         }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        setPairingResult({ success: true, message: data.message, role: data.targetRole });
+        const targetRole = data.targetRole || 'CARETAKER';
+        setPairingResult({ 
+          success: true, 
+          message: data.message || `Successfully linked with ${targetRole} permissions!`, 
+          role: targetRole,
+          redirectUrl: `/clinical?role=${targetRole}`
+        });
       } else {
-        setPairingResult({ success: false, message: data.error || 'Failed to redeem passcode' });
+        setPairingResult({ 
+          success: false, 
+          message: data.error || 'Invalid or expired passcode. Please verify or use demo code CARE99.' 
+        });
       }
     } catch {
       setPairingResult({ success: false, message: 'Network error pairing CareLink passcode.' });
@@ -40,166 +69,253 @@ export default function HomePage() {
     }
   };
 
+  const handleQuickFillDemoCode = (code: string, name: string) => {
+    setCareLinkCode(code);
+    setCaregiverName(name);
+  };
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-blue-50/30 to-slate-100 p-4 md:p-8">
-      <div className="max-w-5xl mx-auto">
+    <main className="min-h-screen bg-gradient-to-b from-amber-50/30 via-slate-50 to-blue-50/40 p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
         {/* Header Branding */}
         <header className="flex flex-col md:flex-row items-center justify-between gap-4 py-6 border-b border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
               <Heart className="w-7 h-7 fill-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-black tracking-tight text-slate-900">CatalystCare</h1>
-              <p className="text-xs font-semibold text-blue-700 tracking-wide uppercase">
-                Google for Developers • Build with AI
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-black tracking-tight text-slate-900">CatalystCare</h1>
+                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">
+                  India Edition
+                </span>
+              </div>
+              <p className="text-xs font-bold text-slate-500 tracking-wide">
+                PromptWars x Catalyst 2026 • Build with AI
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-full">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-emerald-800">Healthcare Ecosystem Active</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full shadow-sm">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-extrabold text-emerald-800">
+                Shared Care Ecosystem Online
+              </span>
+            </div>
+            <Link
+              href="/api/reports/adherence?patientId=patient_savita_sharma"
+              target="_blank"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 px-3 py-1.5 rounded-full text-slate-700 shadow-sm transition-all"
+            >
+              <FileText className="w-3.5 h-3.5 text-blue-600" />
+              <span>Export PDF Report</span>
+            </Link>
           </div>
         </header>
 
         {/* Hero Section */}
         <section className="text-center py-10 md:py-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            PromptWars x Catalyst 2026 Submission
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold mb-4 border border-amber-200 shadow-sm">
+            <Sparkles className="w-4 h-4 text-amber-600" />
+            Elderly Care & Medication Management Platform
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight max-w-3xl mx-auto leading-tight">
-            Intelligent Elderly Care & Medication Management
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight max-w-4xl mx-auto leading-tight">
+            Caring for Elders, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Connecting Families.</span>
           </h2>
-          <p className="text-base md:text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
-            Empowering seniors with accessible, voice-guided routines while keeping caretakers and family securely interconnected with proactive email alerts.
+          <p className="text-base md:text-xl text-slate-600 mt-4 max-w-2xl mx-auto font-medium">
+            A shared, bilingual ecosystem empowering Indian seniors with voice-guided routines while keeping caretakers, doctors, and family interconnected with proactive alerts and Gemini clinical safety.
           </p>
         </section>
 
-        {/* Persona Switcher Cards */}
+        {/* 3 Main Persona Selector Cards */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {/* Card 1: Senior Patient */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-xl shadow-blue-500/5 hover:border-blue-500 transition-all flex flex-col justify-between">
+          {/* Persona 1: Senior Patient */}
+          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-200 shadow-xl shadow-emerald-500/5 hover:border-emerald-500 transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mb-6">
-                <Heart className="w-8 h-8" />
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
+                <Heart className="w-8 h-8 fill-emerald-600" />
               </div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100/70 px-3 py-1 rounded-full">
                 Elderly Individual
               </span>
-              <h3 className="text-2xl font-bold text-slate-900 mt-3">Eleanor Vance (78)</h3>
-              <p className="text-slate-600 text-sm mt-2">
-                Large 24px+ typography, voice readback, 1-tap &quot;I Took This&quot; confirmation, high-contrast, zero clutter.
+              <h3 className="text-2xl font-black text-slate-900 mt-3">
+                Savita Sharma (76)
+              </h3>
+              <p className="text-xs font-bold text-emerald-700">सविता शर्मा • नई दिल्ली</p>
+              <p className="text-slate-600 text-sm mt-3 leading-relaxed">
+                Large typography, bilingual Hindi/English voice readback, 1-tap <strong>&quot;I Took This Pill&quot;</strong> button, high-contrast AAA mode, zero cognitive burden.
               </p>
             </div>
 
             <Link
               href="/senior"
-              className="mt-6 w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg text-center flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 active:scale-95 transition-all"
+              className="mt-6 w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-lg text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95 transition-all"
             >
-              Enter Senior Mode
+              <span>Enter Senior Mode</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
 
-          {/* Card 2: Caretaker */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-200 shadow-xl shadow-emerald-500/5 hover:border-emerald-500 transition-all flex flex-col justify-between">
+          {/* Persona 2: Primary Caregiver */}
+          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-xl shadow-blue-500/5 hover:border-blue-500 transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
                 <ShieldCheck className="w-8 h-8" />
               </div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">
-                Primary Caregiver
+              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-800 bg-blue-100/70 px-3 py-1 rounded-full">
+                Primary Caretaker
               </span>
-              <h3 className="text-2xl font-bold text-slate-900 mt-3">Marcus Vance (Son)</h3>
-              <p className="text-slate-600 text-sm mt-2">
-                7-day adherence analytics, AI drug-drug interaction checker, appointment scheduler, live email outbox.
+              <h3 className="text-2xl font-black text-slate-900 mt-3">
+                Rahul Sharma (Son)
+              </h3>
+              <p className="text-xs font-bold text-blue-700">राहुल शर्मा • Primary Caregiver</p>
+              <p className="text-slate-600 text-sm mt-3 leading-relaxed">
+                Manage medication prescriptions, schedule Fortis & Max doctor visits, verify drug interactions via Gemini AI, and trigger proactive notification scans.
               </p>
             </div>
 
             <Link
               href="/clinical?role=CARETAKER"
-              className="mt-6 w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg text-center flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
+              className="mt-6 w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-lg text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 active:scale-95 transition-all"
             >
-              Caretaker Dashboard
+              <span>Open Caretaker Portal</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
 
-          {/* Card 3: Family Member */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-purple-200 shadow-xl shadow-purple-500/5 hover:border-purple-500 transition-all flex flex-col justify-between">
+          {/* Persona 3: Family Member */}
+          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-indigo-200 shadow-xl shadow-indigo-500/5 hover:border-indigo-500 transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
                 <Users className="w-8 h-8" />
               </div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-purple-700 bg-purple-50 px-3 py-1 rounded-full">
-                Family Observer
+              <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-800 bg-indigo-100/70 px-3 py-1 rounded-full">
+                Family Member
               </span>
-              <h3 className="text-2xl font-bold text-slate-900 mt-3">Sarah Vance (Daughter)</h3>
-              <p className="text-slate-600 text-sm mt-2">
-                Peace-of-mind adherence score, emergency escalation alerts, appointment calendar, read-only audit log.
+              <h3 className="text-2xl font-black text-slate-900 mt-3">
+                Priya Sharma (Daughter)
+              </h3>
+              <p className="text-xs font-bold text-indigo-700">प्रिया शर्मा • Bengaluru</p>
+              <p className="text-slate-600 text-sm mt-3 leading-relaxed">
+                Stay at peace from afar with real-time 7-day adherence charts, read-only audit log verification, upcoming appointment reminders, and automated emergency escalations.
               </p>
             </div>
 
             <Link
               href="/clinical?role=FAMILY_MEMBER"
-              className="mt-6 w-full py-4 px-6 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg text-center flex items-center justify-center gap-2 shadow-md shadow-purple-600/20 active:scale-95 transition-all"
+              className="mt-6 w-full py-4 px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg text-center flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 active:scale-95 transition-all"
             >
-              Family View
+              <span>View Family Feed</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </section>
 
-        {/* Passcode-Based Access Section (CareLink Pairing) */}
-        <section className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm mb-12">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-3">
-              <KeyRound className="w-3.5 h-3.5" />
-              Secure Passcode-Based Onboarding
+        {/* Passcode Pairing Section (CareLink HMAC Security) */}
+        <section className="bg-white rounded-3xl p-6 md:p-10 border border-slate-200 shadow-md mb-12">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold mb-2">
+                <KeyRound className="w-4 h-4 text-blue-600" />
+                Secure Passcode Access (HMAC-SHA256 CareLink)
+              </div>
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900">
+                Pair with an Elder&apos;s Profile
+              </h3>
+              <p className="text-slate-600 text-sm mt-1">
+                Enter the 6-character passcode provided by Savita Sharma or the clinical coordinator to securely pair your device.
+              </p>
             </div>
-            <h3 className="text-2xl font-bold text-slate-900">Have a 6-Character CareLink Passcode?</h3>
-            <p className="text-slate-600 text-sm mt-1">
-              Elderly individuals can grant access to caretakers and family members using a secure, time-limited 6-character code.
-            </p>
 
-            <form onSubmit={handleRedeemCode} className="mt-6 flex flex-col sm:flex-row gap-3">
-              <input
-                type="text"
-                placeholder="Caregiver Name"
-                value={caregiverName}
-                onChange={(e) => setCaregiverName(e.target.value)}
-                className="px-4 py-3 rounded-xl border border-slate-300 text-slate-800 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1"
-              />
-              <input
-                type="text"
-                placeholder="Code: e.g. CARE99"
-                maxLength={6}
-                value={careLinkCode}
-                onChange={(e) => setCareLinkCode(e.target.value.toUpperCase())}
-                className="px-4 py-3 rounded-xl border border-slate-300 text-slate-800 text-base font-mono uppercase tracking-widest text-center w-full sm:w-44 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            {/* Quick Demo Pre-fills */}
+            <div className="mb-4 bg-slate-50 border border-slate-200 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-bold text-slate-600">Quick Test Demo Codes:</span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleQuickFillDemoCode('CARE99', 'Rahul Sharma (Caretaker)')}
+                  className="px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-lg text-xs font-bold transition-all"
+                >
+                  Fill CARE99 (Caretaker)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickFillDemoCode('FAML77', 'Priya Sharma (Family)')}
+                  className="px-3 py-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 rounded-lg text-xs font-bold transition-all"
+                >
+                  Fill FAML77 (Family)
+                </button>
+              </div>
+            </div>
+
+            <form onSubmit={handleRedeemCode} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  6-Character CareLink Passcode
+                </label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  placeholder="e.g. CARE99"
+                  value={careLinkCode}
+                  onChange={(e) => setCareLinkCode(e.target.value.toUpperCase())}
+                  className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-300 font-mono text-center tracking-widest text-2xl font-black text-slate-900 uppercase focus:border-blue-600 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Your Full Name & Relationship
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Rahul Sharma (Son & Caretaker)"
+                  value={caregiverName}
+                  onChange={(e) => setCaregiverName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-2xl border border-slate-300 text-slate-900 focus:border-blue-600 focus:outline-none font-medium"
+                />
+              </div>
+
               <button
                 type="submit"
-                disabled={pairingLoading}
-                className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-base transition-colors disabled:opacity-50"
+                disabled={pairingLoading || !careLinkCode.trim()}
+                className="w-full py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-all disabled:opacity-50"
               >
-                {pairingLoading ? 'Verifying...' : 'Link Access'}
+                {pairingLoading ? (
+                  <span>Verifying HMAC Token...</span>
+                ) : (
+                  <>
+                    <KeyRound className="w-5 h-5 text-amber-400" />
+                    <span>Redeem Passcode & Open Profile</span>
+                  </>
+                )}
               </button>
             </form>
 
             {pairingResult && (
               <div
-                className={`mt-4 p-4 rounded-xl flex items-center justify-center gap-2 text-sm font-semibold ${
-                  pairingResult.success ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'
+                className={`mt-4 p-4 rounded-2xl border flex flex-col gap-2 ${
+                  pairingResult.success
+                    ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
+                    : 'bg-red-50 border-red-300 text-red-900'
                 }`}
               >
-                {pairingResult.success ? <CheckCircle className="w-5 h-5 text-emerald-600" /> : <AlertCircle className="w-5 h-5 text-red-600" />}
-                <span>{pairingResult.message}</span>
-                {pairingResult.success && (
-                  <Link href={`/clinical?role=${pairingResult.role}`} className="underline font-bold ml-2">
-                    Open Dashboard →
+                <div className="flex items-center gap-2 font-bold text-sm">
+                  {pairingResult.success ? (
+                    <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                  ) : (
+                    <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                  )}
+                  <span>{pairingResult.message}</span>
+                </div>
+                {pairingResult.success && pairingResult.redirectUrl && (
+                  <Link
+                    href={pairingResult.redirectUrl}
+                    className="mt-2 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl text-center shadow-md transition-all"
+                  >
+                    Proceed to Paired Dashboard →
                   </Link>
                 )}
               </div>
@@ -207,44 +323,54 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Key Innovations Checklist */}
-        <section className="bg-slate-900 rounded-3xl p-8 text-white mb-10">
-          <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">
-            <Sparkles className="w-4 h-4" />
-            Beyond Basic Reminders
+        {/* Feature Highlights Grid */}
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16 text-center">
+          <div className="bg-white p-6 rounded-3xl border border-slate-200">
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-slate-900 text-base">Gemini Clinical AI</h4>
+            <p className="text-xs text-slate-500 mt-1">
+              Checks drug-drug & food-drug interactions before any prescription is added.
+            </p>
           </div>
-          <h3 className="text-2xl font-bold mb-6">Why CatalystCare Leads the Evaluation Criteria</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-300">
-            <div className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">✓</div>
-              <div>
-                <strong className="text-white block">Event-Sourced Adherence State Machine</strong>
-                Tracks SCHEDULED, UPCOMING, DUE, ADMINISTERED, SNOOZED, OVERDUE, and MISSED with exact minute deviations.
-              </div>
+
+          <div className="bg-white p-6 rounded-3xl border border-slate-200">
+            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mx-auto mb-3">
+              <MailCheck className="w-5 h-5" />
             </div>
-            <div className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">✓</div>
-              <div>
-                <strong className="text-white block">Google Gemini AI Drug-Drug Interaction Safety</strong>
-                Analyzes new prescriptions against active medications & medical history for contraindications and food warnings.
-              </div>
+            <h4 className="font-bold text-slate-900 text-base">Proactive Reminders</h4>
+            <p className="text-xs text-slate-500 mt-1">
+              Automated email reminders with 1-click &quot;Took It&quot; action links.
+            </p>
+          </div>
+
+          <div className="bg-white p-6 rounded-3xl border border-slate-200">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-3">
+              <Languages className="w-5 h-5" />
             </div>
-            <div className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">✓</div>
-              <div>
-                <strong className="text-white block">Proactive Multi-Tier Notification Outbox</strong>
-                Sends 1-click &quot;Mark Taken&quot; email reminders, missed alerts, and auto-escalates critical missed doses to caregivers.
-              </div>
+            <h4 className="font-bold text-slate-900 text-base">Bilingual Voice</h4>
+            <p className="text-xs text-slate-500 mt-1">
+              Natural Hindi and Indian English audio synthesis adapted for elders.
+            </p>
+          </div>
+
+          <div className="bg-white p-6 rounded-3xl border border-slate-200">
+            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mx-auto mb-3">
+              <ShieldCheck className="w-5 h-5" />
             </div>
-            <div className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">✓</div>
-              <div>
-                <strong className="text-white block">Tamper-Evident SHA-256 Audit Log</strong>
-                HIPAA-ready cryptographic hash chain recording all medication doses, schedule edits, and passcode pairing events.
-              </div>
-            </div>
+            <h4 className="font-bold text-slate-900 text-base">Immutable Audit</h4>
+            <p className="text-xs text-slate-500 mt-1">
+              SHA-256 cryptographic hash-chain ensures tamper-evident medical logs.
+            </p>
           </div>
         </section>
+
+        {/* Footer */}
+        <footer className="text-center text-xs text-slate-500 pb-8 border-t border-slate-200 pt-6">
+          <p>CatalystCare • Built for Google for Developers PromptWars x Catalyst 2026</p>
+          <p className="mt-1">Honoring Indian seniors with dignity, accessibility, and interconnected family care.</p>
+        </footer>
       </div>
     </main>
   );

@@ -1,67 +1,86 @@
 {
   "users": [
     {
-      "id": "user_patient_eleanor",
-      "email": "eleanor.vance@gmail.com",
-      "fullName": "Eleanor Vance",
+      "id": "user_patient_savita",
+      "email": "savita.sharma@gmail.com",
+      "fullName": "Savita Sharma",
       "role": "PATIENT",
-      "phoneNumber": "+1-555-019-2831",
-      "createdAt": "2026-10-16T04:37:36.650Z"
+      "phoneNumber": "+91 98101 11223",
+      "createdAt": "2026-10-16T05:11:57.483Z"
     },
     {
-      "id": "user_caregiver_marcus",
-      "email": "marcus.vance@gmail.com",
-      "fullName": "Marcus Vance",
+      "id": "user_caregiver_rahul",
+      "email": "rahul.sharma@gmail.com",
+      "fullName": "Rahul Sharma",
       "role": "CARETAKER",
-      "phoneNumber": "+1-555-019-8822",
-      "createdAt": "2026-10-18T04:37:36.651Z"
+      "phoneNumber": "+91 98101 23456",
+      "createdAt": "2026-10-18T05:11:57.484Z"
     },
     {
-      "id": "user_family_sarah",
-      "email": "sarah.vance@outlook.com",
-      "fullName": "Sarah Vance",
+      "id": "user_family_priya",
+      "email": "priya.sharma@gmail.com",
+      "fullName": "Priya Sharma",
       "role": "FAMILY_MEMBER",
-      "phoneNumber": "+1-555-019-4411",
-      "createdAt": "2026-10-21T04:37:36.651Z"
+      "phoneNumber": "+91 98202 34567",
+      "createdAt": "2026-10-21T05:11:57.484Z"
     }
   ],
   "patientProfile": {
-    "id": "patient_eleanor_vance",
-    "userId": "user_patient_eleanor",
-    "fullName": "Eleanor Vance",
-    "dateOfBirth": "1948-03-14",
-    "bloodGroup": "O+",
+    "id": "patient_savita_sharma",
+    "userId": "user_patient_savita",
+    "fullName": "Savita Sharma",
+    "dateOfBirth": "1950-08-15",
+    "bloodGroup": "B+",
     "primaryConditions": [
-      "Essential Hypertension",
-      "Type 2 Diabetes",
-      "Osteoarthritis"
+      "Type 2 Diabetes (मधुमेह)",
+      "Essential Hypertension (उच्च रक्तचाप)",
+      "Osteoarthritis (घुटनों का दर्द)"
     ],
     "allergies": [
-      "Penicillin (Moderate rash)"
+      "Penicillin (Moderate skin rash)"
     ],
     "emergencyContact": {
-      "name": "Marcus Vance (Son)",
-      "relationship": "Son & Primary Caregiver",
-      "phone": "+1-555-019-8822"
+      "name": "Rahul Sharma (Son)",
+      "relationship": "Son & Primary Caretaker (बेटा)",
+      "phone": "+91 98101 23456"
     },
-    "preferredLanguage": "English",
-    "highContrastDefault": true,
+    "preferredLanguage": "Hindi / English (द्विभाषी)",
+    "highContrastDefault": false,
     "quietHours": {
       "enabled": true,
       "start": "22:00",
-      "end": "07:00"
+      "end": "06:30"
     },
-    "createdAt": "2026-10-16T04:37:36.651Z"
+    "createdAt": "2026-10-16T05:11:57.484Z"
   },
   "medications": [
     {
+      "id": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "name": "Pantoprazole 40 mg (Pan 40)",
+      "genericName": "Pantoprazole Sodium",
+      "dosage": "40 mg",
+      "form": "TABLET",
+      "instructions": "Take 1 tablet in the morning on an empty stomach, 30 minutes before breakfast.",
+      "foodRelation": "BEFORE_MEAL",
+      "scheduledTimes": [
+        "07:30"
+      ],
+      "isCritical": false,
+      "startDate": "2024-01-01",
+      "plainLanguageSummary": "सुबह खाली पेट लें - यह आपके पेट में गैस और एसिडिटी को रोकता है। (Prevents morning stomach acidity).",
+      "interactionWarnings": [],
+      "status": "ACTIVE",
+      "createdAt": "2026-10-16T05:11:57.484Z"
+    },
+    {
       "id": "med_metformin",
-      "patientId": "patient_eleanor_vance",
-      "name": "Metformin Hydrochloride",
-      "genericName": "Metformin",
+      "patientId": "patient_savita_sharma",
+      "name": "Metformin 500 mg (Glycomet)",
+      "genericName": "Metformin Hydrochloride",
       "dosage": "500 mg",
       "form": "TABLET",
-      "instructions": "Take 1 tablet with breakfast and dinner to lower blood sugar.",
+      "instructions": "Take 1 tablet twice daily with or immediately after meals (Breakfast & Dinner).",
       "foodRelation": "WITH_MEAL",
       "scheduledTimes": [
         "08:00",
@@ -69,17 +88,17 @@
       ],
       "isCritical": true,
       "startDate": "2024-01-01",
-      "plainLanguageSummary": "Helps keep your blood sugar in a safe, healthy balance after meals.",
+      "plainLanguageSummary": "नाश्ते और रात के खाने के बाद लें - यह आपके शुगर लेवल को सुरक्षित और संतुलित रखता है। (Keeps blood sugar balanced).",
       "interactionWarnings": [],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T04:37:36.651Z"
+      "createdAt": "2026-10-16T05:11:57.484Z"
     },
     {
-      "id": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
-      "name": "Lisinopril",
-      "genericName": "Lisinopril",
-      "dosage": "10 mg",
+      "id": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
+      "name": "Telmisartan 40 mg (Telma 40)",
+      "genericName": "Telmisartan",
+      "dosage": "40 mg",
       "form": "TABLET",
       "instructions": "Take 1 tablet every morning with a full glass of water for blood pressure.",
       "foodRelation": "NO_RESTRICTION",
@@ -88,46 +107,46 @@
       ],
       "isCritical": true,
       "startDate": "2024-01-01",
-      "plainLanguageSummary": "Relaxes your blood vessels to protect your heart and control blood pressure.",
+      "plainLanguageSummary": "सुबह एक गोली पानी के साथ लें - यह आपके ब्लड प्रेशर को नियंत्रित और दिल को सुरक्षित रखती है। (Controls blood pressure & protects heart).",
       "interactionWarnings": [],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T04:37:36.651Z"
+      "createdAt": "2026-10-16T05:11:57.484Z"
     },
     {
       "id": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
-      "name": "Atorvastatin Calcium",
-      "genericName": "Atorvastatin",
+      "patientId": "patient_savita_sharma",
+      "name": "Atorvastatin 20 mg (Atorva 20)",
+      "genericName": "Atorvastatin Calcium",
       "dosage": "20 mg",
       "form": "TABLET",
-      "instructions": "Take 1 tablet at bedtime to manage cholesterol levels.",
+      "instructions": "Take 1 tablet at bedtime with water to manage cholesterol levels.",
       "foodRelation": "NO_RESTRICTION",
       "scheduledTimes": [
         "21:00"
       ],
       "isCritical": false,
       "startDate": "2024-02-15",
-      "plainLanguageSummary": "Protects your arteries by lowering harmful cholesterol while you sleep.",
+      "plainLanguageSummary": "सोने से पहले लें - यह रात के समय कोलेस्ट्रॉल को कम कर आपकी नसों को स्वस्थ रखता है। (Lowers harmful cholesterol overnight).",
       "interactionWarnings": [
         {
           "drugA": "Atorvastatin",
-          "drugB": "Grapefruit Juice",
+          "drugB": "Grapefruit Juice / मौसमी का जूस",
           "severity": "MODERATE",
-          "clinicalEffect": "May increase blood concentrations of atorvastatin leading to muscle pain.",
-          "recommendation": "Avoid consuming grapefruit or grapefruit juice while on this medication.",
+          "clinicalEffect": "May increase blood concentrations of atorvastatin leading to muscle soreness.",
+          "recommendation": "Avoid consuming grapefruit juice while on this medication.",
           "source": "GEMINI_CLINICAL_AI"
         }
       ],
       "status": "ACTIVE",
-      "createdAt": "2026-10-16T04:37:36.651Z"
+      "createdAt": "2026-10-16T05:11:57.484Z"
     }
   ],
   "careRelationships": [
     {
-      "id": "rel_marcus",
-      "patientId": "patient_eleanor_vance",
-      "caregiverUserId": "user_caregiver_marcus",
-      "caregiverName": "Marcus Vance",
+      "id": "rel_rahul",
+      "patientId": "patient_savita_sharma",
+      "caregiverUserId": "user_caregiver_rahul",
+      "caregiverName": "Rahul Sharma (बेटा)",
       "role": "CARETAKER",
       "permissions": {
         "canAdministerMeds": true,
@@ -137,14 +156,14 @@
         "receiveEmergencyAlerts": true
       },
       "linkedViaToken": "CARE99",
-      "linkedAt": "2026-10-18T04:37:36.652Z",
+      "linkedAt": "2026-10-18T05:11:57.484Z",
       "status": "ACTIVE"
     },
     {
-      "id": "rel_sarah",
-      "patientId": "patient_eleanor_vance",
-      "caregiverUserId": "user_family_sarah",
-      "caregiverName": "Sarah Vance",
+      "id": "rel_priya",
+      "patientId": "patient_savita_sharma",
+      "caregiverUserId": "user_family_priya",
+      "caregiverName": "Priya Sharma (बेटी)",
       "role": "FAMILY_MEMBER",
       "permissions": {
         "canAdministerMeds": false,
@@ -154,368 +173,486 @@
         "receiveEmergencyAlerts": true
       },
       "linkedViaToken": "FAML77",
-      "linkedAt": "2026-10-21T04:37:36.652Z",
+      "linkedAt": "2026-10-21T05:11:57.484Z",
       "status": "ACTIVE"
     }
   ],
   "adherenceEvents": [
     {
+      "id": "adh_2026-11-09_panto_am",
+      "doseId": "dose_2026-11-09_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-09T07:30:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-09T07:32:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
+      "deviationMinutes": 2
+    },
+    {
       "id": "adh_2026-11-09_metformin_am",
-      "doseId": "dose_2026-11-09_met_0800",
+      "doseId": "dose_2026-11-09_med_metformin_0800",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-09T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-09T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
-      "id": "adh_2026-11-09_lisinopril_am",
-      "doseId": "dose_2026-11-09_lis_0800",
-      "medicationId": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
+      "id": "adh_2026-11-09_telmisartan_am",
+      "doseId": "dose_2026-11-09_med_telmisartan_0800",
+      "medicationId": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-09T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-09T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
       "id": "adh_2026-11-09_metformin_pm",
-      "doseId": "dose_2026-11-09_met_2000",
+      "doseId": "dose_2026-11-09_med_metformin_2000",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-09T20:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-09T20:15:00.000Z",
       "deviationMinutes": 15
     },
     {
-      "id": "adh_2026-11-09_atorvastatin_pm",
-      "doseId": "dose_2026-11-09_ator_2100",
+      "id": "adh_2026-11-09_atorva_pm",
+      "doseId": "dose_2026-11-09_med_atorvastatin_2100",
       "medicationId": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-09T21:00:00.000Z",
       "status": "ADMINISTERED",
-      "recordedAt": "2026-11-09T21:02:00.000Z",
+      "recordedAt": "2026-11-09T21:05:00.000Z",
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-10_panto_am",
+      "doseId": "dose_2026-11-10_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-10T07:30:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-10T07:32:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
       "deviationMinutes": 2
     },
     {
       "id": "adh_2026-11-10_metformin_am",
-      "doseId": "dose_2026-11-10_met_0800",
+      "doseId": "dose_2026-11-10_med_metformin_0800",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-10T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-10T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
-      "id": "adh_2026-11-10_lisinopril_am",
-      "doseId": "dose_2026-11-10_lis_0800",
-      "medicationId": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
+      "id": "adh_2026-11-10_telmisartan_am",
+      "doseId": "dose_2026-11-10_med_telmisartan_0800",
+      "medicationId": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-10T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-10T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
       "id": "adh_2026-11-10_metformin_pm",
-      "doseId": "dose_2026-11-10_met_2000",
+      "doseId": "dose_2026-11-10_med_metformin_2000",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-10T20:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-10T20:15:00.000Z",
       "deviationMinutes": 15
     },
     {
-      "id": "adh_2026-11-10_atorvastatin_pm",
-      "doseId": "dose_2026-11-10_ator_2100",
+      "id": "adh_2026-11-10_atorva_pm",
+      "doseId": "dose_2026-11-10_med_atorvastatin_2100",
       "medicationId": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-10T21:00:00.000Z",
       "status": "ADMINISTERED",
-      "recordedAt": "2026-11-10T21:02:00.000Z",
+      "recordedAt": "2026-11-10T21:05:00.000Z",
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-11_panto_am",
+      "doseId": "dose_2026-11-11_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-11T07:30:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-11T07:32:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
       "deviationMinutes": 2
     },
     {
       "id": "adh_2026-11-11_metformin_am",
-      "doseId": "dose_2026-11-11_met_0800",
+      "doseId": "dose_2026-11-11_med_metformin_0800",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-11T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-11T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
-      "id": "adh_2026-11-11_lisinopril_am",
-      "doseId": "dose_2026-11-11_lis_0800",
-      "medicationId": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
+      "id": "adh_2026-11-11_telmisartan_am",
+      "doseId": "dose_2026-11-11_med_telmisartan_0800",
+      "medicationId": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-11T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-11T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
       "id": "adh_2026-11-11_metformin_pm",
-      "doseId": "dose_2026-11-11_met_2000",
+      "doseId": "dose_2026-11-11_med_metformin_2000",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-11T20:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-11T20:15:00.000Z",
       "deviationMinutes": 15
     },
     {
-      "id": "adh_2026-11-11_atorvastatin_pm",
-      "doseId": "dose_2026-11-11_ator_2100",
+      "id": "adh_2026-11-11_atorva_pm",
+      "doseId": "dose_2026-11-11_med_atorvastatin_2100",
       "medicationId": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-11T21:00:00.000Z",
       "status": "ADMINISTERED",
-      "recordedAt": "2026-11-11T21:02:00.000Z",
+      "recordedAt": "2026-11-11T21:05:00.000Z",
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-12_panto_am",
+      "doseId": "dose_2026-11-12_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-12T07:30:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-12T07:32:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
       "deviationMinutes": 2
     },
     {
       "id": "adh_2026-11-12_metformin_am",
-      "doseId": "dose_2026-11-12_met_0800",
+      "doseId": "dose_2026-11-12_med_metformin_0800",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-12T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-12T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
-      "id": "adh_2026-11-12_lisinopril_am",
-      "doseId": "dose_2026-11-12_lis_0800",
-      "medicationId": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
+      "id": "adh_2026-11-12_telmisartan_am",
+      "doseId": "dose_2026-11-12_med_telmisartan_0800",
+      "medicationId": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-12T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-12T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
       "id": "adh_2026-11-12_metformin_pm",
-      "doseId": "dose_2026-11-12_met_2000",
+      "doseId": "dose_2026-11-12_med_metformin_2000",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-12T20:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-12T20:15:00.000Z",
       "deviationMinutes": 15
     },
     {
-      "id": "adh_2026-11-12_atorvastatin_pm",
-      "doseId": "dose_2026-11-12_ator_2100",
+      "id": "adh_2026-11-12_atorva_pm",
+      "doseId": "dose_2026-11-12_med_atorvastatin_2100",
       "medicationId": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-12T21:00:00.000Z",
       "status": "ADMINISTERED",
-      "recordedAt": "2026-11-12T21:02:00.000Z",
+      "recordedAt": "2026-11-12T21:05:00.000Z",
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-13_panto_am",
+      "doseId": "dose_2026-11-13_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-13T07:30:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-13T07:32:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
       "deviationMinutes": 2
     },
     {
       "id": "adh_2026-11-13_metformin_am",
-      "doseId": "dose_2026-11-13_met_0800",
+      "doseId": "dose_2026-11-13_med_metformin_0800",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-13T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-13T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
-      "id": "adh_2026-11-13_lisinopril_am",
-      "doseId": "dose_2026-11-13_lis_0800",
-      "medicationId": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
+      "id": "adh_2026-11-13_telmisartan_am",
+      "doseId": "dose_2026-11-13_med_telmisartan_0800",
+      "medicationId": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-13T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-13T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
       "id": "adh_2026-11-13_metformin_pm",
-      "doseId": "dose_2026-11-13_met_2000",
+      "doseId": "dose_2026-11-13_med_metformin_2000",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-13T20:00:00.000Z",
       "status": "MISSED",
-      "recordedAt": "2026-11-13T22:00:00.000Z",
-      "deviationMinutes": 120,
-      "notes": "Fell asleep early after dinner"
+      "recordedAt": "2026-11-13T22:30:00.000Z",
+      "deviationMinutes": 150,
+      "notes": "Attended family satsang and returned late"
     },
     {
-      "id": "adh_2026-11-13_atorvastatin_pm",
-      "doseId": "dose_2026-11-13_ator_2100",
+      "id": "adh_2026-11-13_atorva_pm",
+      "doseId": "dose_2026-11-13_med_atorvastatin_2100",
       "medicationId": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-13T21:00:00.000Z",
       "status": "ADMINISTERED",
-      "recordedAt": "2026-11-13T21:02:00.000Z",
+      "recordedAt": "2026-11-13T21:05:00.000Z",
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-14_panto_am",
+      "doseId": "dose_2026-11-14_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-14T07:30:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-14T07:32:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
       "deviationMinutes": 2
     },
     {
       "id": "adh_2026-11-14_metformin_am",
-      "doseId": "dose_2026-11-14_met_0800",
+      "doseId": "dose_2026-11-14_med_metformin_0800",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-14T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-14T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
-      "id": "adh_2026-11-14_lisinopril_am",
-      "doseId": "dose_2026-11-14_lis_0800",
-      "medicationId": "med_lisinopril",
-      "patientId": "patient_eleanor_vance",
+      "id": "adh_2026-11-14_telmisartan_am",
+      "doseId": "dose_2026-11-14_med_telmisartan_0800",
+      "medicationId": "med_telmisartan",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-14T08:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-14T08:05:00.000Z",
       "administeredBy": {
-        "userId": "user_patient_eleanor",
+        "userId": "user_patient_savita",
         "role": "PATIENT",
-        "name": "Eleanor Vance"
+        "name": "Savita Sharma"
       },
       "deviationMinutes": 5
     },
     {
       "id": "adh_2026-11-14_metformin_pm",
-      "doseId": "dose_2026-11-14_met_2000",
+      "doseId": "dose_2026-11-14_med_metformin_2000",
       "medicationId": "med_metformin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-14T20:00:00.000Z",
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-14T20:15:00.000Z",
       "deviationMinutes": 15
     },
     {
-      "id": "adh_2026-11-14_atorvastatin_pm",
-      "doseId": "dose_2026-11-14_ator_2100",
+      "id": "adh_2026-11-14_atorva_pm",
+      "doseId": "dose_2026-11-14_med_atorvastatin_2100",
       "medicationId": "med_atorvastatin",
-      "patientId": "patient_eleanor_vance",
+      "patientId": "patient_savita_sharma",
       "scheduledTime": "2026-11-14T21:00:00.000Z",
       "status": "ADMINISTERED",
-      "recordedAt": "2026-11-14T21:02:00.000Z",
-      "deviationMinutes": 2
+      "recordedAt": "2026-11-14T21:05:00.000Z",
+      "deviationMinutes": 5
+    },
+    {
+      "doseId": "dose_2026-11-15_med_metformin_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-15T14:30:00.000Z",
+      "status": "ADMINISTERED",
+      "deviationMinutes": -557,
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "notes": "Marked taken via Senior Mode",
+      "id": "adh_1794719607301_lcy2",
+      "recordedAt": "2026-11-15T05:13:27.301Z"
     }
   ],
   "appointments": [
     {
-      "id": "appt_cardiology_followup",
-      "patientId": "patient_eleanor_vance",
-      "doctorName": "Dr. Robert Chen, MD",
-      "specialty": "Cardiovascular Care",
-      "clinicHospital": "St. Jude Heart & Vascular Institute, Suite 402",
-      "appointmentTime": "2026-11-17T08:37:36.652Z",
-      "contactNumber": "+1-555-901-2244",
-      "reason": "Quarterly hypertension review & ECG evaluation",
-      "notes": "Bring current medication log and blood pressure journal.",
+      "id": "appt_cardiology_fortis",
+      "patientId": "patient_savita_sharma",
+      "doctorName": "Dr. Arvind Kapoor, MD (Cardiologist)",
+      "specialty": "Heart & Hypertension Care",
+      "clinicHospital": "Fortis Escorts Heart Institute, Okhla, New Delhi",
+      "appointmentTime": "2026-11-17T08:11:57.484Z",
+      "contactNumber": "+91 11 4713 5000",
+      "reason": "Quarterly hypertension checkup & ECG review",
+      "notes": "Please bring last 2 weeks BP journal and recent lipid panel report.",
       "status": "SCHEDULED",
       "reminderSent": true,
-      "createdAt": "2026-11-05T04:37:36.652Z"
+      "createdAt": "2026-11-05T05:11:57.484Z"
     },
     {
-      "id": "appt_endocrinology",
-      "patientId": "patient_eleanor_vance",
-      "doctorName": "Dr. Anita Desai, MD",
-      "specialty": "Endocrinology & Diabetes",
-      "clinicHospital": "Metro Health Pavilion",
-      "appointmentTime": "2026-11-29T04:37:36.652Z",
-      "contactNumber": "+1-555-772-8810",
-      "reason": "Routine HbA1c screening",
-      "notes": "Fast for 8 hours prior to appointment.",
+      "id": "appt_endocrinology_max",
+      "patientId": "patient_savita_sharma",
+      "doctorName": "Dr. Anita Desai, MD (Endocrinologist)",
+      "specialty": "Diabetes & Metabolism",
+      "clinicHospital": "Max Super Speciality Hospital, Saket, New Delhi",
+      "appointmentTime": "2026-11-27T05:11:57.484Z",
+      "contactNumber": "+91 11 2651 5050",
+      "reason": "HbA1c & Fasting blood sugar quarterly review",
+      "notes": "Overnight fasting required for 10 hours prior to blood test.",
       "status": "SCHEDULED",
       "reminderSent": false,
-      "createdAt": "2026-11-10T04:37:36.652Z"
+      "createdAt": "2026-11-10T05:11:57.484Z"
     }
   ],
   "careLinkTokens": [],
   "auditLogs": [
     {
       "id": "audit_init_01",
-      "timestamp": "2026-10-18T04:37:36.652Z",
-      "patientId": "patient_eleanor_vance",
-      "actorUserId": "user_patient_eleanor",
-      "actorName": "Eleanor Vance",
+      "timestamp": "2026-10-18T05:11:57.484Z",
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
       "actorRole": "PATIENT",
       "action": "CARELINK_CREATED",
-      "details": "Generated 6-char CareLink token for Marcus Vance (Caretaker)",
+      "details": "Generated 6-char CareLink passcode for Rahul Sharma (Son & Primary Caretaker)",
       "hash": "8f4c28b5e2b001a1829e",
       "previousHash": "00000000000000000000"
     },
     {
       "id": "audit_init_02",
-      "timestamp": "2026-10-18T05:37:36.652Z",
-      "patientId": "patient_eleanor_vance",
-      "actorUserId": "user_caregiver_marcus",
-      "actorName": "Marcus Vance",
+      "timestamp": "2026-10-18T06:11:57.484Z",
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_caregiver_rahul",
+      "actorName": "Rahul Sharma",
       "actorRole": "CARETAKER",
       "action": "CARELINK_REDEEMED",
-      "details": "Redeemed CareLink token. Full administration permissions granted.",
+      "details": "Redeemed CareLink token. Full administration permissions granted to Rahul Sharma.",
       "hash": "3d8a11bc029ff100a921",
       "previousHash": "8f4c28b5e2b001a1829e"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_eleanor",
+      "actorName": "Eleanor Vance",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T14:30:00.000Z. Deviation: -557 min",
+      "id": "audit_1794719607302_mzyf",
+      "timestamp": "2026-11-15T05:13:27.302Z",
+      "hash": "8afc8181ae47e6c8b7a14c0f1c978e27d20de6aca4eeca6e51019cf3499769a7",
+      "previousHash": "3d8a11bc029ff100a921"
     }
   ],
   "outboxEmails": []

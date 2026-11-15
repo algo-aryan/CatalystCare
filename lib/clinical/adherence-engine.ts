@@ -55,15 +55,24 @@ export function computeDoseStatus(scheduledIso: string, event?: AdherenceEvent):
  * Builds the chronological schedule for today
  */
 export function getTodaySchedule(patientId: string): TodayDoseSlot[] {
-  const medications = db.getMedications(true).filter((m) => m.patientId === patientId);
+  const normalizedId = patientId === 'patient_eleanor_vance' ? 'patient_savita_sharma' : patientId;
+  const medications = db.getMedications(true).filter((m) => m.patientId === normalizedId || m.patientId === patientId);
   const events = db.getAdherenceEvents(patientId);
   
-  const todayStr = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const todayStr = `${year}-${month}-${day}`;
   const slots: TodayDoseSlot[] = [];
 
   for (const med of medications) {
     for (const timeStr of med.scheduledTimes) {
-      const scheduledDateTime = `${todayStr}T${timeStr}:00.000Z`;
+      // Create local scheduled time
+      const localScheduledDate = new Date(`${todayStr}T${timeStr}:00`);
+      const scheduledDateTime = isNaN(localScheduledDate.getTime()) 
+        ? `${todayStr}T${timeStr}:00.000Z` 
+        : localScheduledDate.toISOString();
       const doseId = `dose_${todayStr}_${med.id}_${timeStr.replace(':', '')}`;
 
       // Check if an adherence event has been logged for this dose slot
