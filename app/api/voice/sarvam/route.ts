@@ -1,4 +1,27 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+
+function getSarvamApiKey(): string | undefined {
+  if (process.env.SARVAM_API_KEY?.trim()) {
+    return process.env.SARVAM_API_KEY.trim();
+  }
+  try {
+    const envPath = path.join(process.cwd(), '.env.local');
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, 'utf-8');
+      for (const line of content.split('\n')) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('SARVAM_API_KEY=')) {
+          return trimmed.substring('SARVAM_API_KEY='.length).trim();
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('[Sarvam AI] Error reading .env.local fallback:', e);
+  }
+  return undefined;
+}
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +32,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Text required' }, { status: 400 });
     }
 
-    const sarvamApiKey = process.env.SARVAM_API_KEY?.trim();
+    const sarvamApiKey = getSarvamApiKey();
     const targetLang = language.toLowerCase().startsWith('en') ? 'en-IN' : 'hi-IN';
     const truncatedText = text.length > 450 ? text.substring(0, 450) : text;
 
@@ -24,9 +47,9 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             inputs: [truncatedText],
             target_language_code: targetLang,
-            speaker: speaker || 'priya', // 'priya', 'aditya', 'pooja', 'neha'
+            speaker: speaker || 'priya', // 'priya', 'aditya', 'pooja'
             pitch: 0,
-            pace: 0.85, // Slower, relaxed pace for elders
+            pace: 0.85,
             loudness: 1.5,
             speech_sample_rate: 16000,
             enable_preprocessing: true,
@@ -46,19 +69,18 @@ export async function POST(request: Request) {
           }
         } else {
           const errText = await response.text();
-          console.warn('[Sarvam AI] API returned status:', response.status, errText);
+          console.warn('[Sarvam AI] API error:', response.status, errText);
         }
       } catch (err) {
-        console.warn('[Sarvam AI] Network fetch failed, falling back to client voice:', err);
+        console.warn('[Sarvam AI] Fetch error:', err);
       }
     }
 
-    // Fallback indicator
     return NextResponse.json({
       success: false,
       fallback: true,
-      engine: 'WEB_SPEECH_INDIC_FALLBACK',
-      message: 'Using client-side voice synthesis.',
+      engine: 'FALLBACK',
+      message: 'Sarvam AI key unavailable or network error.',
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

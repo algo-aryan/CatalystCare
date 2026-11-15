@@ -6,26 +6,14 @@ export function useVoiceAnnouncement() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoadingVoice, setIsLoadingVoice] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [voiceEngine, setVoiceEngine] = useState<'SARVAM_AI' | 'INDIC_DEVICE'>('SARVAM_AI');
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
 
-  // Load client voices as backup
   const refreshVoices = useCallback(() => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     const available = window.speechSynthesis.getVoices();
     if (available.length > 0) {
       setVoices(available);
-
-      const indianVoice =
-        available.find((v) => v.lang === 'hi-IN') ||
-        available.find((v) => v.lang === 'en-IN') ||
-        available.find((v) => v.name.toLowerCase().includes('india') || v.name.toLowerCase().includes('heera') || v.name.toLowerCase().includes('veena') || v.name.toLowerCase().includes('rishi')) ||
-        available[0];
-
-      if (indianVoice) {
-        setSelectedVoice(indianVoice);
-      }
     }
   }, []);
 
@@ -52,15 +40,21 @@ export function useVoiceAnnouncement() {
   }, []);
 
   const speak = useCallback(
-    async (text: string, options?: { lang?: string; rate?: number }) => {
+    async (
+      text: string, 
+      options?: { 
+        lang?: string; 
+        englishFallbackText?: string; 
+        rate?: number 
+      }
+    ) => {
       stop();
       setIsLoadingVoice(true);
 
-      // Default voice language is Hindi ('hi-IN') per requirements
       const targetLang = options?.lang || 'hi-IN';
 
       try {
-        // 1. Call Sarvam AI Indic Neural TTS
+        // 1. Try Sarvam AI Indic Neural TTS
         const res = await fetch('/api/voice/sarvam', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -88,45 +82,59 @@ export function useVoiceAnnouncement() {
               audioPlayerRef.current = null;
             };
 
-            audio.onerror = (e) => {
-              console.warn('[Voice] Audio error, falling back:', e);
+            audio.onerror = () => {
               setIsSpeaking(false);
               setIsLoadingVoice(false);
-              playFallbackSpeech(text, targetLang, options?.rate);
+              fallbackToClientSpeech(text, targetLang, options?.englishFallbackText, options?.rate);
             };
 
-            await audio.play();
-            return;
+            try {
+              await audio.play();
+              return;
+            } catch (playErr) {
+              console.warn('[Voice] Audio autoplay error, falling back:', playErr);
+            }
           }
         }
       } catch (err) {
-        console.warn('[Voice] Sarvam AI endpoint error, using fallback:', err);
+        console.warn('[Voice] Sarvam AI endpoint error:', err);
       }
 
-      // 2. Only if Sarvam is unavailable, fall back to browser speech synthesis
+      // 2. Fallback to client speech synthesis safely without "comma" bugs
       setIsLoadingVoice(false);
-      playFallbackSpeech(text, targetLang, options?.rate);
+      fallbackToClientSpeech(text, targetLang, options?.englishFallbackText, options?.rate);
     },
-    [stop]
+    [stop, voices]
   );
 
-  const playFallbackSpeech = (text: string, targetLang: string, rate: number = 0.78) => {
+  const fallbackToClientSpeech = (
+    text: string,
+    targetLang: string,
+    englishFallbackText?: string,
+    rate: number = 0.8
+  ) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     setVoiceEngine('INDIC_DEVICE');
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    const availableVoices = voices.length > 0 ? voices : window.speechSynthesis.getVoices();
+    const hindiVoice = availableVoices.find((v) => v.lang.startsWith('hi'));
+    const indianEnVoice = availableVoices.find((v) => v.lang === 'en-IN' || v.name.toLowerCase().includes('india'));
+    const englishVoice = availableVoices.find((v) => v.lang.startsWith('en')) || availableVoices[0];
+
+    let chosenVoice = hindiVoice;
+    let spokenText = text;
+
+    // Critical safety: If system has NO Hindi voice, NEVER send Devanagari text
+    // to an English voice engine or it will read punctuation literally ("comma, exclamation point")!
+    if (!hindiVoice) {
+      chosenVoice = indianEnVoice || englishVoice;
+      spokenText = englishFallbackText || 'Savita ji, it is time for your medication. Please take your dose as scheduled.';
+    }
+
+    const utterance = new SpeechSynthesisUtterance(spokenText);
     utterance.rate = rate;
     utterance.pitch = 1.0;
-
-    let chosenVoice = selectedVoice;
-    if (targetLang.startsWith('hi')) {
-      const hi = voices.find((v) => v.lang.startsWith('hi'));
-      if (hi) chosenVoice = hi;
-    } else {
-      const en = voices.find((v) => v.lang === 'en-IN');
-      if (en) chosenVoice = en;
-    }
 
     if (chosenVoice) {
       utterance.voice = chosenVoice;
@@ -146,6 +154,5 @@ export function useVoiceAnnouncement() {
     isSpeaking,
     isLoadingVoice,
     voiceEngine,
-    selectedVoiceName: voiceEngine === 'SARVAM_AI' ? 'Sarvam AI (Priya • Hindi Neural)' : 'Indic Device Voice',
   };
 }
