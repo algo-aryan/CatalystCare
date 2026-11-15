@@ -73,3 +73,45 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, ...updates } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'Appointment ID required' }, { status: 400 });
+    }
+
+    const updated = db.updateAppointment(id, updates);
+    if (!updated) {
+      return NextResponse.json({ error: 'Appointment not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, appointment: updated });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json({ error: 'Appointment ID required' }, { status: 400 });
+    }
+
+    const appts = db.getAppointments();
+    const appt = appts.find((a) => a.id === id);
+    if (!appt) {
+      return NextResponse.json({ error: 'Appointment not found' }, { status: 404 });
+    }
+
+    db.updateAppointment(id, { status: 'CANCELLED' });
+    return NextResponse.json({ success: true, message: 'Appointment marked as cancelled' });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}

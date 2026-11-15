@@ -82,3 +82,17 @@ test('Audit Log: produces deterministic SHA-256 hash chain block', () => {
   const alteredHash = computeAuditHash(prevHash, timestamp, actor, action, 'Tampered detail');
   assert.notEqual(hash1, alteredHash);
 });
+
+test('Audit Log: validates cryptographic hash-chain integrity check', () => {
+  const b0Hash = '00000000000000000000';
+  const b1Hash = computeAuditHash(b0Hash, '2026-11-15T08:00:00Z', 'user1', 'LOGIN', 'Success');
+  const b2Hash = computeAuditHash(b1Hash, '2026-11-15T08:05:00Z', 'user1', 'MED_DOSE', 'Administered');
+
+  // Verify chain linkage
+  assert.equal(computeAuditHash(b1Hash, '2026-11-15T08:05:00Z', 'user1', 'MED_DOSE', 'Administered'), b2Hash);
+
+  // Altered middle block breaks verification of subsequent blocks
+  const tamperedB1 = computeAuditHash(b0Hash, '2026-11-15T08:00:00Z', 'user1', 'LOGIN', 'Tampered');
+  const recomputedB2 = computeAuditHash(tamperedB1, '2026-11-15T08:05:00Z', 'user1', 'MED_DOSE', 'Administered');
+  assert.notEqual(recomputedB2, b2Hash);
+});

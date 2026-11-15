@@ -1,7 +1,7 @@
 # 🩺 CatalystCare — Intelligent Elderly Care & Medication Management Platform
 
 [![CI](https://github.com/algo-aryan/CatalystCare/actions/workflows/ci.yml/badge.svg)](https://github.com/algo-aryan/CatalystCare/actions)
-[![Tests](https://img.shields.io/badge/Tests-25%2F25%20Passing-emerald?style=for-the-badge&logo=node.js&logoColor=white)](https://github.com/algo-aryan/CatalystCare)
+[![Tests](https://img.shields.io/badge/Tests-28%2F28%20Passing-emerald?style=for-the-badge&logo=node.js&logoColor=white)](https://github.com/algo-aryan/CatalystCare)
 [![Accessibility](https://img.shields.io/badge/Accessibility-Targeting%20WCAG%202.2%20AAA-blueviolet?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 [![Security](https://img.shields.io/badge/Security-HMAC--SHA256%20%2B%20Hash%20Chaining-green?style=for-the-badge)](https://csrc.nist.gov/)
 [![Repository Size](https://img.shields.io/badge/Repository%20Size-~7.6%20MB%20(%3C%2010%20MB)-success?style=for-the-badge)](https://github.com/algo-aryan/CatalystCare)
@@ -107,13 +107,13 @@ Conventional pill reminder apps suffer from a fundamental clinical flaw: they re
 | **Code Quality** | **High** | 100% strict TypeScript (zero implicit `any`), Next.js 14 App Router, atomic modular design, Zod runtime validation, clean separation of concerns. Automated GitHub Actions CI pipeline. |
 | **Security** | **High** | HMAC-SHA256 token pairing, constant-time verification (`crypto.timingSafeEqual`), signed 1-click action tokens, session cookie gating on clinical views, and SHA-256 tamper-evident hash-chained audit logs modeled after HIPAA §164.312 integrity standards. |
 | **Efficiency** | **Medium** | Total repository size is **~7.6 MB** (well below the 10 MB hackathon ceiling). Atomic JSON persistence with in-memory caching for zero-setup frictionless evaluation, instant hydration, and optimistic UI updates. |
-| **Testing** | **High** | **25 automated unit tests passing (100%)** covering adherence state machine, accessibility compliance, crypto token verification, API route integration, AI clinical screening, and Zod schemas. |
+| **Testing** | **High** | **28 automated unit tests passing (100%)** covering adherence state machine, accessibility compliance, crypto token verification, API route integration, schedule modifications, appointment lifecycles, hash-chain validation, and Zod schemas. |
 | **Accessibility** | **High** | Designed to WCAG 2.2 AAA target guidelines. Touch targets $\ge 48\times 48$px, triple-encoded status indicators (color + text + icon), Sarvam AI voice guidance, bedside macro pill photography, frosted glassdoor design with high contrast. |
-| **Problem Alignment**| **High** | Direct 1:1 fulfillment of every requirement in the PromptWars x Catalyst challenge brief (shared ecosystem, passcode access, scheduling, proactive email alerts, doctor visits). |
+| **Problem Alignment**| **High** | Direct 1:1 fulfillment of every requirement in the PromptWars x Catalyst challenge brief (shared ecosystem, passcode access, full CRUD schedule management, proactive email alerts, doctor visits). |
 
 ---
 
-## 🧪 6. Automated Test Suite (25/25 Passing)
+## 🧪 6. Automated Test Suite (28/28 Passing)
 
 Run the full automated test suite:
 ```bash
@@ -132,6 +132,8 @@ npm test
 ✔ API Route Integration: CareLink token generation, HMAC signing and verification lifecycle
 ✔ API Route Integration: 1-Click action email confirmation token lifecycle
 ✔ API Route Integration: Medication prescription payload validation
+✔ API Route Integration: Medication schedule update and audit log propagation
+✔ API Route Integration: Doctor appointment status lifecycle update
 ✔ Clinical AI Safety: detects dangerous drug interaction (Lisinopril + Potassium)
 ✔ Clinical AI Safety: detects food-drug interaction (Atorvastatin + Grapefruit)
 ✔ Clinical AI Safety: returns empty array when no known interaction exists
@@ -142,12 +144,13 @@ npm test
 ✔ One-Click Action Token: signs and verifies email confirmation token
 ✔ One-Click Action Token: rejects expired token
 ✔ Audit Log: produces deterministic SHA-256 hash chain block
+✔ Audit Log: validates cryptographic hash-chain integrity check
 ✔ Zod Validation: accepts valid clinical medication dosages
 ✔ Zod Validation: rejects invalid or ambiguous medication dosages
 ✔ Zod Validation: validates 24-hour HH:MM schedule time format
 ✔ Zod Validation: validates complete medication prescription payload
 
-ℹ tests 25 | pass 25 | fail 0 | cancelled 0 (100% Pass Rate)
+ℹ tests 28 | pass 28 | fail 0 | cancelled 0 (100% Pass Rate)
 ```
 
 ---

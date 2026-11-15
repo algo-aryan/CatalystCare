@@ -94,6 +94,33 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, ...updates } = body;
+
+    if (!id) {
+      return NextResponse.json({ error: 'Medication ID required' }, { status: 400 });
+    }
+
+    if (updates.scheduledTimes && Array.isArray(updates.scheduledTimes)) {
+      updates.scheduledTimes = updates.scheduledTimes.map((t: string) => normalizeTime(t));
+    }
+    if (updates.dosage) {
+      updates.dosage = normalizeDosage(updates.dosage);
+    }
+
+    const updated = db.updateMedication(id, updates);
+    if (!updated) {
+      return NextResponse.json({ error: 'Medication not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, medication: updated });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');

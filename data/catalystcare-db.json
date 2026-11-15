@@ -1126,6 +1126,54 @@
       "timestamp": "2026-11-15T07:07:03.437Z",
       "hash": "b39b3d24373d689f19a3a9b592dcb18d3f512de0f333d9abaa527004455438c6",
       "previousHash": "914d6d14c09da29e6a7603c042e3a0e5bcd22a61b9104f6fa26f176ca99fa7c5"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Updated medication Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794735084526_r5ok",
+      "timestamp": "2026-11-15T09:31:24.526Z",
+      "hash": "4ac49eec5c057d1fabdad84614f21d38bf277b170a9706ea54e30d1fbdc67928",
+      "previousHash": "b39b3d24373d689f19a3a9b592dcb18d3f512de0f333d9abaa527004455438c6"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Updated medication Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794735084533_ennm",
+      "timestamp": "2026-11-15T09:31:24.533Z",
+      "hash": "baec863f1033f79132ad12cff1418d01cbb33c00aae38c9189f87301266071b6",
+      "previousHash": "4ac49eec5c057d1fabdad84614f21d38bf277b170a9706ea54e30d1fbdc67928"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Updated medication Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794735120992_psro",
+      "timestamp": "2026-11-15T09:32:00.992Z",
+      "hash": "ddcbaee0e7cbf98bc9d64ceb80cf12774cb4d53b2c66cdc5bc7177d02140d0cf",
+      "previousHash": "baec863f1033f79132ad12cff1418d01cbb33c00aae38c9189f87301266071b6"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Updated medication Pantoprazole 40 mg (Pan 40)",
+      "id": "audit_1794735120993_rdgi",
+      "timestamp": "2026-11-15T09:32:00.992Z",
+      "hash": "0847e1695207309c3ccbcead96854e43f6fb82bb1070adc59859cc0fa15358e2",
+      "previousHash": "ddcbaee0e7cbf98bc9d64ceb80cf12774cb4d53b2c66cdc5bc7177d02140d0cf"
     }
   ],
   "outboxEmails": [

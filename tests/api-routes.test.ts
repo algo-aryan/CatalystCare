@@ -60,3 +60,39 @@ test('API Route Integration: Medication prescription payload validation', () => 
   const parsed = MedicationCreateSchema.safeParse(validPayload);
   assert.equal(parsed.success, true);
 });
+
+test('API Route Integration: Medication schedule update and audit log propagation', async () => {
+  const { db } = await import('../lib/db');
+  const meds = db.getMedications(true);
+  assert.ok(meds.length > 0, 'Medications must exist');
+
+  const targetMed = meds[0];
+  const originalTimes = [...targetMed.scheduledTimes];
+
+  // Update schedule
+  const updated = db.updateMedication(targetMed.id, {
+    scheduledTimes: ['08:30'],
+  });
+
+  assert.ok(updated, 'Updated record must return');
+  assert.deepEqual(updated.scheduledTimes, ['08:30']);
+
+  // Restore original
+  db.updateMedication(targetMed.id, {
+    scheduledTimes: originalTimes,
+  });
+});
+
+test('API Route Integration: Doctor appointment status lifecycle update', async () => {
+  const { db } = await import('../lib/db');
+  const appts = db.getAppointments();
+  assert.ok(appts.length > 0, 'Appointments must exist');
+
+  const targetAppt = appts[0];
+  const updated = db.updateAppointment(targetAppt.id, {
+    notes: 'Patient arrived with blood pressure diary (Verified)',
+  });
+
+  assert.ok(updated);
+  assert.equal(updated.notes, 'Patient arrived with blood pressure diary (Verified)');
+});
