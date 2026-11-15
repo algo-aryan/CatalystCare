@@ -239,6 +239,25 @@
       "status": "DISCONTINUED",
       "id": "med_1794726270450_nf92p",
       "createdAt": "2026-11-15T07:04:30.450Z"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "name": "asdfgb",
+      "genericName": "asdfgb",
+      "dosage": "11 mg",
+      "form": "TABLET",
+      "instructions": "asdcfvbfds",
+      "foodRelation": "NO_RESTRICTION",
+      "scheduledTimes": [
+        "08:00"
+      ],
+      "isCritical": false,
+      "startDate": "2026-11-15",
+      "plainLanguageSummary": "\"This medicine is to help you feel your best and more comfortable. It works to keep you strong and healthy.\"",
+      "interactionWarnings": [],
+      "status": "DISCONTINUED",
+      "id": "med_1794726407494_s8moo",
+      "createdAt": "2026-11-15T07:06:47.494Z"
     }
   ],
   "careRelationships": [
@@ -1083,6 +1102,30 @@
       "timestamp": "2026-11-15T07:05:03.664Z",
       "hash": "947dcddd0671e50d1871dd63358e6e08e4d72985131f272c6dadf498ffcfe201",
       "previousHash": "e3b7c00c9c5961de3e97eed799da979d74b658fec19dffcae1d41a78e58ef0d3"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Added new medication: asdfgb (11 mg, 08:00)",
+      "id": "audit_1794726407497_aylz",
+      "timestamp": "2026-11-15T07:06:47.497Z",
+      "hash": "914d6d14c09da29e6a7603c042e3a0e5bcd22a61b9104f6fa26f176ca99fa7c5",
+      "previousHash": "947dcddd0671e50d1871dd63358e6e08e4d72985131f272c6dadf498ffcfe201"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "system",
+      "actorName": "Clinical System",
+      "actorRole": "CARETAKER",
+      "action": "MED_SCHEDULE_MODIFIED",
+      "details": "Discontinued medication: asdfgb",
+      "id": "audit_1794726423438_10lo",
+      "timestamp": "2026-11-15T07:07:03.437Z",
+      "hash": "b39b3d24373d689f19a3a9b592dcb18d3f512de0f333d9abaa527004455438c6",
+      "previousHash": "914d6d14c09da29e6a7603c042e3a0e5bcd22a61b9104f6fa26f176ca99fa7c5"
     }
   ],
   "outboxEmails": [
