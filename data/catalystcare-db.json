@@ -632,6 +632,38 @@
       "status": "ADMINISTERED",
       "recordedAt": "2026-11-14T21:05:00.000Z",
       "deviationMinutes": 5
+    },
+    {
+      "doseId": "dose_2026-11-15_med_pantoprazole_0730",
+      "medicationId": "med_pantoprazole",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-15T02:00:00.000Z",
+      "status": "ADMINISTERED",
+      "deviationMinutes": 256,
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
+      "notes": "Marked taken via Senior Mode",
+      "id": "adh_1794723337083_azk4",
+      "recordedAt": "2026-11-15T06:15:37.083Z"
+    },
+    {
+      "doseId": "dose_2026-11-15_med_metformin_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_savita_sharma",
+      "scheduledTime": "2026-11-15T02:30:00.000Z",
+      "status": "ADMINISTERED",
+      "deviationMinutes": 227,
+      "administeredBy": {
+        "userId": "user_patient_savita",
+        "role": "PATIENT",
+        "name": "Savita Sharma"
+      },
+      "notes": "Marked taken via Senior Mode",
+      "id": "adh_1794723438624_qbv9",
+      "recordedAt": "2026-11-15T06:17:18.624Z"
     }
   ],
   "appointments": [
@@ -941,6 +973,30 @@
       "timestamp": "2026-11-15T06:08:03.405Z",
       "hash": "8365feced4fac69fa5da92624974ecd0ca4e5f6a2651c64a0c8ab0b1393eed58",
       "previousHash": "52abe5aac7784de42b6cb22c594bdb36f93820379bad376311387ed50dd289cf"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Pantoprazole 40 mg (Pan 40) at 2026-11-15T02:00:00.000Z. Deviation: 256 min",
+      "id": "audit_1794723337084_y2dt",
+      "timestamp": "2026-11-15T06:15:37.084Z",
+      "hash": "e8414899310de22ff22ccfe05b4684e8b4ddbcc53b69fdb6dd10b6a597e0eb2d",
+      "previousHash": "8365feced4fac69fa5da92624974ecd0ca4e5f6a2651c64a0c8ab0b1393eed58"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T02:30:00.000Z. Deviation: 227 min",
+      "id": "audit_1794723438625_hwzj",
+      "timestamp": "2026-11-15T06:17:18.625Z",
+      "hash": "aced2c1c531466e07a6be1f9cb670542ab8bd5f8192f2397328de6e610053db3",
+      "previousHash": "e8414899310de22ff22ccfe05b4684e8b4ddbcc53b69fdb6dd10b6a597e0eb2d"
     }
   ],
   "outboxEmails": []

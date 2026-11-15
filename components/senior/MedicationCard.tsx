@@ -53,7 +53,7 @@ export function MedicationCard({
     <article
       role="article"
       aria-label={`Medication ${slot.medicationName}`}
-      className="relative overflow-hidden rounded-3xl p-5 md:p-6 bg-white/85 backdrop-blur-xl border border-white/80 shadow-[0_16px_40px_rgba(5,150,105,0.07)] ring-1 ring-slate-900/5 transition-all"
+      className="relative overflow-hidden rounded-3xl p-5 md:p-6 bg-white/85 backdrop-blur-xl border border-white/80 shadow-[0_16px_40px_rgba(5,150,105,0.07)] ring-1 ring-slate-900/5 transition-all h-full flex flex-col justify-between"
     >
       {/* Top Subtle Emerald Gradient Accent Sheen */}
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 opacity-80" />

@@ -184,7 +184,7 @@ export default function SeniorModePage() {
         </div>
       </nav>
 
-      {/* Main Container: Wide Max Width for Side-by-Side Layout */}
+      {/* Main Container: Wide Max Width for 2x2 Matrix Layout */}
       <div className="max-w-7xl mx-auto p-4 md:p-8">
         {/* Header Bar */}
         <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/70">
@@ -259,68 +259,228 @@ export default function SeniorModePage() {
           </div>
         )}
 
-        {/* SIDE-BY-SIDE RESPONSIVE GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* LEFT COLUMN: ACTIVE DOSE HERO + CAREGIVER / CLINIC ACCESS */}
-          <div className="lg:col-span-5 space-y-6">
-            {/* Active Due Dose Card or Celebratory All-Done */}
-            {!isAllCompleted && activeSlot ? (
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2 flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>{language === 'HI' ? 'सक्रिय निर्धारित खुराक' : 'Active Scheduled Dose'}</span>
-                  </span>
-                  {selectedDoseId && (
+        {/* 2X2 BALANCED MATRIX GRID */}
+        <div className="space-y-6">
+          {/* ROW 1: ACTIVE DOSE HERO & TODAY'S MEDICATION ROUTINE (EQUAL BREADTH & HEIGHT) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            {/* 1.1 ACTIVE DOSE HERO BOX */}
+            <div className="flex flex-col h-full">
+              <div className="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2 flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>{language === 'HI' ? 'सक्रिय निर्धारित खुराक' : 'Active Scheduled Dose'}</span>
+                </span>
+                {selectedDoseId && (
+                  <button
+                    onClick={() => setSelectedDoseId(null)}
+                    className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-900 underline"
+                  >
+                    {language === 'HI' ? 'वर्तमान खुराक पर लौटें' : 'Back to current due'}
+                  </button>
+                )}
+              </div>
+
+              <div className="flex-1 h-full">
+                {!isAllCompleted && activeSlot ? (
+                  <MedicationCard
+                    slot={activeSlot}
+                    onTaken={handleMarkTaken}
+                    onSnooze={handleSnooze}
+                    onSpeak={speak}
+                    isSpeaking={isSpeaking}
+                    isLoadingVoice={isLoadingVoice}
+                    language={language}
+                  />
+                ) : (
+                  <div className="h-full rounded-3xl p-6 text-center bg-white/85 backdrop-blur-xl border border-white/80 shadow-[0_16px_40px_rgba(5,150,105,0.08)] ring-1 ring-slate-900/5 flex flex-col items-center justify-center">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center mx-auto mb-3 shadow-lg shadow-emerald-700/20">
+                      <Check className="w-8 h-8 stroke-[3]" />
+                    </div>
+                    <h2 className="text-xl md:text-2xl font-black text-slate-900">
+                      {language === 'HI' ? 'शाबाश सविता जी!' : 'All Caught Up, Savita ji!'}
+                    </h2>
+                    <p className="text-xs md:text-sm font-medium mt-1 text-slate-600 max-w-sm mx-auto">
+                      {language === 'HI'
+                        ? 'आज की सभी निर्धारित दवाइयाँ पूरी हो चुकी हैं।'
+                        : 'All scheduled medications for today have been taken on time.'}
+                    </p>
                     <button
-                      onClick={() => setSelectedDoseId(null)}
-                      className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-900 underline"
+                      onClick={handleResetSchedule}
+                      className="mt-5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs inline-flex items-center gap-2 active:scale-95 shadow-md shadow-emerald-700/20 transition-all"
                     >
-                      {language === 'HI' ? 'वर्तमान खुराक पर लौटें' : 'Back to current due'}
+                      <RotateCcw className="w-4 h-4" />
+                      <span>{language === 'HI' ? 'परीक्षण हेतु पुनः शुरू करें' : 'Reset Doses to Test Again'}</span>
                     </button>
-                  )}
-                </div>
-                <MedicationCard
-                  slot={activeSlot}
-                  onTaken={handleMarkTaken}
-                  onSnooze={handleSnooze}
-                  onSpeak={speak}
-                  isSpeaking={isSpeaking}
-                  isLoadingVoice={isLoadingVoice}
-                  language={language}
-                />
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="rounded-3xl p-6 text-center bg-white/85 backdrop-blur-xl border border-white/80 shadow-[0_16px_40px_rgba(5,150,105,0.08)] ring-1 ring-slate-900/5">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center mx-auto mb-3 shadow-lg shadow-emerald-700/20">
-                  <Check className="w-8 h-8 stroke-[3]" />
+            </div>
+
+            {/* 1.2 TODAY'S MEDICATION ROUTINE BOX (EQUAL BREADTH & HEIGHT) */}
+            <div className="flex flex-col h-full">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center justify-between">
+                <span>{language === 'HI' ? 'आज की पूरी दिनचर्या' : "Today's Medication Routine"}</span>
+                <span className="text-[11px] text-slate-400">
+                  {schedule.length} {language === 'HI' ? 'दवाइयाँ' : 'scheduled doses'}
+                </span>
+              </div>
+
+              <div className="flex-1 h-full bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-5 md:p-6 shadow-[0_16px_40px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5 flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                  <div>
+                    <h2 className="text-lg font-black text-slate-900">
+                      {language === 'HI' ? 'दैनिक समय-सारणी' : "Daily Medication Schedule"}
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      {language === 'HI' ? 'विवरण देखने के लिए किसी भी दवाई पर क्लिक करें' : 'Click any medication to inspect in active view'}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleResetSchedule}
+                    disabled={resetting}
+                    className="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 px-3 py-1.5 rounded-xl border border-emerald-200/80 bg-emerald-50/60 transition-all active:scale-95"
+                    title="Reset all doses"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>{language === 'HI' ? 'रीसेट' : 'Reset'}</span>
+                  </button>
                 </div>
-                <h2 className="text-xl md:text-2xl font-black text-slate-900">
-                  {language === 'HI' ? 'शाबाश सविता जी!' : 'All Caught Up, Savita ji!'}
-                </h2>
-                <p className="text-xs md:text-sm font-medium mt-1 text-slate-600 max-w-sm mx-auto">
+
+                <div className="space-y-3 flex-1 overflow-y-auto max-h-[500px] pr-1">
+                  {schedule.map((item) => {
+                    const isDone = item.status === 'ADMINISTERED';
+                    const isSelected = activeSlot?.doseId === item.doseId;
+                    const visual = item.visualIdentity || {
+                      shape: 'ROUND_TABLET' as const,
+                      color: '#059669',
+                      colorLabelEnglish: 'Round Tablet',
+                      colorLabelHindi: 'गोल गोली',
+                      purposeLabelEnglish: 'Routine Dose',
+                      purposeLabelHindi: 'दवाई',
+                      instructionsEnglish: item.instructions,
+                      instructionsHindi: item.instructions,
+                      mealTimingEnglish: 'Take with water',
+                      mealTimingHindi: 'पानी के साथ लें',
+                      voiceHindiScript: `सविता जी, यह आपकी दवाई ${item.medicationName} है।`,
+                      voiceEnglishScript: `Savita ji, this is your medication ${item.medicationName}.`,
+                      photoUrl: undefined,
+                      photoAlt: undefined,
+                    };
+
+                    return (
+                      <div
+                        key={item.doseId}
+                        onClick={() => setSelectedDoseId(item.doseId)}
+                        className={`rounded-2xl p-3.5 border transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                          isSelected
+                            ? 'border-emerald-500/80 bg-emerald-50/40 shadow-md ring-2 ring-emerald-500/30'
+                            : isDone
+                            ? 'bg-slate-50/60 border-slate-200/60 opacity-60'
+                            : 'bg-white/90 border-slate-200/70 hover:border-emerald-400 hover:shadow-sm'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3.5 min-w-0">
+                          {/* Direct Medicine Image Thumbnail */}
+                          {visual.photoUrl ? (
+                            /* eslint-disable-next-line @next/next/no-img-element */
+                            <img
+                              src={visual.photoUrl}
+                              alt={visual.photoAlt || item.medicationName}
+                              className="w-14 h-14 rounded-xl object-contain bg-white border border-slate-200/80 p-1 shrink-0 shadow-sm"
+                            />
+                          ) : (
+                            <div className="shrink-0 p-2 rounded-xl bg-white border border-slate-200">
+                              <PillGraphic
+                                shape={visual.shape}
+                                color={visual.color}
+                                secondaryColor={visual.secondaryColor}
+                                size="sm"
+                              />
+                            </div>
+                          )}
+
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm md:text-base text-slate-900 truncate">
+                                {language === 'HI' ? visual.purposeLabelHindi : item.medicationName}
+                              </span>
+                              <span className="text-[11px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md">
+                                {item.dosage}
+                              </span>
+                            </div>
+
+                            <div className="text-xs text-slate-500 truncate mt-0.5">
+                              {language === 'HI' ? visual.colorLabelHindi : visual.colorLabelEnglish}
+                            </div>
+
+                            <div className="text-[11px] font-bold text-emerald-800 mt-1 flex items-center gap-2">
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-slate-400" />
+                                <span>{item.scheduledTimeStr} {parseInt(item.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}</span>
+                              </span>
+                              <span>•</span>
+                              <span>{language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
+                          {isDone ? (
+                            <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-900 font-bold text-xs flex items-center gap-1 border border-emerald-200">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                              <span>{language === 'HI' ? 'पूर्ण' : 'TAKEN'}</span>
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => handleMarkTaken(item)}
+                              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1"
+                            >
+                              <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                              <span>{language === 'HI' ? 'दवाई ली' : 'TAKE'}</span>
+                            </button>
+                          )}
+
+                          {/* Pure Voice Button */}
+                          <button
+                            onClick={() => speak(visual.voiceHindiScript, { lang: 'hi-IN', englishFallbackText: visual.voiceEnglishScript })}
+                            disabled={isLoadingVoice}
+                            className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 active:scale-95 transition-all"
+                            title="Listen with Sarvam AI"
+                            aria-label="Listen with Sarvam AI"
+                          >
+                            {isLoadingVoice ? <Loader2 className="w-4 h-4 animate-spin text-emerald-700" /> : <Volume2 className="w-4 h-4 text-emerald-700" />}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ROW 2: CARETAKER ACCESS & UPCOMING DOCTOR VISIT (EQUAL BREADTH & HEIGHT) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            {/* 2.1 CAREGIVER DIRECT ACCESS BOX */}
+            <div className="flex flex-col h-full rounded-3xl p-5 md:p-6 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5 justify-between">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
+                  <UserCheck className="w-4 h-4 text-emerald-700" />
+                  <span>{language === 'HI' ? 'परिवार व केयरटेकर संपर्क' : 'Caregiver Direct Access'}</span>
+                </div>
+
+                <h3 className="text-base font-bold text-slate-900">
+                  {language === 'HI' ? 'प्राथमिक परिवार सहायता' : 'Emergency Priority Family Assistance'}
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   {language === 'HI'
-                    ? 'आज की सभी निर्धारित दवाइयाँ पूरी हो चुकी हैं।'
-                    : 'All scheduled medications for today have been taken on time.'}
+                    ? 'किसी भी आवश्यकता या आपातकालीन स्थिति में अपने बेटे राहुल या बेटी प्रिया को तुरंत कॉल करें।'
+                    : 'Instant one-tap direct call to primary family members for medical alerts and daily support.'}
                 </p>
-                <button
-                  onClick={handleResetSchedule}
-                  className="mt-5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs inline-flex items-center gap-2 active:scale-95 shadow-md shadow-emerald-700/20 transition-all"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  <span>{language === 'HI' ? 'परीक्षण हेतु पुनः शुरू करें' : 'Reset Doses to Test Again'}</span>
-                </button>
-              </div>
-            )}
-
-            {/* Quick Caregiver Emergency Call Card */}
-            <div className="rounded-3xl p-5 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                <UserCheck className="w-4 h-4 text-emerald-700" />
-                <span>{language === 'HI' ? 'परिवार व केयरटेकर संपर्क' : 'Caregiver Direct Access'}</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3 mt-5">
                 <a
                   href="tel:+919810123456"
                   className="py-3 px-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
@@ -339,179 +499,66 @@ export default function SeniorModePage() {
               </div>
             </div>
 
-            {/* Doctor Appointment Card */}
-            {appointments.length > 0 && (
-              <div className="rounded-3xl p-5 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+            {/* 2.2 UPCOMING DOCTOR VISIT BOX */}
+            <div className="flex flex-col h-full rounded-3xl p-5 md:p-6 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5 justify-between">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
                   <Stethoscope className="w-4 h-4 text-emerald-700" />
                   <span>{language === 'HI' ? 'आगामी डॉक्टर अपॉइंटमेंट' : 'Upcoming Doctor Visit'}</span>
                 </div>
 
-                {appointments.slice(0, 1).map((appt) => (
-                  <div key={appt.id} className="flex items-center justify-between gap-3">
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900">
+                {appointments.length > 0 ? (
+                  appointments.slice(0, 1).map((appt) => (
+                    <div key={appt.id}>
+                      <h3 className="text-base font-bold text-slate-900">
                         {appt.doctorName}
-                      </h4>
-                      <p className="text-xs text-slate-500">{appt.clinicHospital}</p>
-                      <div className="text-xs font-bold text-emerald-800 mt-1 flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5" />
-                        <span>
-                          {new Date(appt.appointmentTime).toLocaleDateString('en-IN', {
-                            weekday: 'short',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-0.5">{appt.clinicHospital}</p>
+
+                      <div className="mt-3 flex items-center gap-3">
+                        <div className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-900 font-bold text-xs flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-emerald-700" />
+                          <span>
+                            {new Date(appt.appointmentTime).toLocaleDateString('en-IN', {
+                              weekday: 'short',
+                              month: 'short',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </span>
+                        </div>
+
+                        <span className="text-[11px] font-medium text-slate-500">
+                          {appt.reason}
                         </span>
                       </div>
                     </div>
-
-                    <a
-                      href={`tel:${appt.contactNumber}`}
-                      className="py-2.5 px-3.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200/80 font-bold text-xs flex items-center gap-1.5 shrink-0 transition-all shadow-sm"
-                    >
-                      <Phone className="w-3.5 h-3.5" />
-                      <span>{language === 'HI' ? 'कॉल' : 'Call'}</span>
-                    </a>
+                  ))
+                ) : (
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900">
+                      {language === 'HI' ? 'कोई आगामी अपॉइंटमेंट नहीं' : 'No Immediate Appointments'}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-1">
+                      {language === 'HI' ? 'अगला नियमित चेकअप निर्धारित समय पर सूचित किया जाएगा।' : 'Next routine cardiology and endocrinology reviews will be displayed here.'}
+                    </p>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* RIGHT COLUMN: TODAY'S FULL TIMELINE LIST */}
-          <div className="lg:col-span-7 bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-5 md:p-6 shadow-[0_16px_40px_rgba(0,0,0,0.04)] ring-1 ring-slate-900/5">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-              <div>
-                <h2 className="text-lg font-black text-slate-900">
-                  {language === 'HI' ? 'आज की पूरी दिनचर्या' : "Today's Medication Routine"}
-                </h2>
-                <p className="text-xs text-slate-500">
-                  {schedule.length} {language === 'HI' ? 'दवाइयाँ निर्धारित' : 'scheduled doses'} • Click any medicine to inspect
-                </p>
+                )}
               </div>
 
-              <button
-                onClick={handleResetSchedule}
-                disabled={resetting}
-                className="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 px-3 py-1.5 rounded-xl border border-emerald-200/80 bg-emerald-50/60"
-                title="Reset all doses"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>{language === 'HI' ? 'रीसेट' : 'Reset'}</span>
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {schedule.map((item) => {
-                const isDone = item.status === 'ADMINISTERED';
-                const isSelected = activeSlot?.doseId === item.doseId;
-                const visual = item.visualIdentity || {
-                  shape: 'ROUND_TABLET' as const,
-                  color: '#059669',
-                  colorLabelEnglish: 'Round Tablet',
-                  colorLabelHindi: 'गोल गोली',
-                  purposeLabelEnglish: 'Routine Dose',
-                  purposeLabelHindi: 'दवाई',
-                  instructionsEnglish: item.instructions,
-                  instructionsHindi: item.instructions,
-                  mealTimingEnglish: 'Take with water',
-                  mealTimingHindi: 'पानी के साथ लें',
-                  voiceHindiScript: `सविता जी, यह आपकी दवाई ${item.medicationName} है।`,
-                  voiceEnglishScript: `Savita ji, this is your medication ${item.medicationName}.`,
-                  photoUrl: undefined,
-                  photoAlt: undefined,
-                };
-
-                return (
-                  <div
-                    key={item.doseId}
-                    onClick={() => setSelectedDoseId(item.doseId)}
-                    className={`rounded-2xl p-3.5 border transition-all flex items-center justify-between gap-3 cursor-pointer ${
-                      isSelected
-                        ? 'border-emerald-500/80 bg-emerald-50/40 shadow-md ring-2 ring-emerald-500/30'
-                        : isDone
-                        ? 'bg-slate-50/60 border-slate-200/60 opacity-60'
-                        : 'bg-white/90 border-slate-200/70 hover:border-emerald-400 hover:shadow-sm'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3.5 min-w-0">
-                      {/* Direct Medicine Image Thumbnail */}
-                      {visual.photoUrl ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
-                          src={visual.photoUrl}
-                          alt={visual.photoAlt || item.medicationName}
-                          className="w-14 h-14 rounded-xl object-contain bg-white border border-slate-200/80 p-1 shrink-0 shadow-sm"
-                        />
-                      ) : (
-                        <div className="shrink-0 p-2 rounded-xl bg-white border border-slate-200">
-                          <PillGraphic
-                            shape={visual.shape}
-                            color={visual.color}
-                            secondaryColor={visual.secondaryColor}
-                            size="sm"
-                          />
-                        </div>
-                      )}
-
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm md:text-base text-slate-900 truncate">
-                            {language === 'HI' ? visual.purposeLabelHindi : item.medicationName}
-                          </span>
-                          <span className="text-[11px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md">
-                            {item.dosage}
-                          </span>
-                        </div>
-
-                        <div className="text-xs text-slate-500 truncate mt-0.5">
-                          {language === 'HI' ? visual.colorLabelHindi : visual.colorLabelEnglish}
-                        </div>
-
-                        <div className="text-[11px] font-bold text-emerald-800 mt-1 flex items-center gap-2">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-slate-400" />
-                            <span>{item.scheduledTimeStr} {parseInt(item.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}</span>
-                          </span>
-                          <span>•</span>
-                          <span>{language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
-                      {isDone ? (
-                        <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-900 font-bold text-xs flex items-center gap-1 border border-emerald-200">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-                          <span>{language === 'HI' ? 'पूर्ण' : 'TAKEN'}</span>
-                        </span>
-                      ) : (
-                        <button
-                          onClick={() => handleMarkTaken(item)}
-                          className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1"
-                        >
-                          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                          <span>{language === 'HI' ? 'दवाई ली' : 'TAKE'}</span>
-                        </button>
-                      )}
-
-                      {/* Pure Voice Button: Speaks Sarvam AI Hindi or English audio without changing dose status */}
-                      <button
-                        onClick={() => speak(visual.voiceHindiScript, { lang: 'hi-IN', englishFallbackText: visual.voiceEnglishScript })}
-                        disabled={isLoadingVoice}
-                        className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 active:scale-95 transition-all"
-                        title="Listen with Sarvam AI"
-                        aria-label="Listen with Sarvam AI"
-                      >
-                        {isLoadingVoice ? <Loader2 className="w-4 h-4 animate-spin text-emerald-700" /> : <Volume2 className="w-4 h-4 text-emerald-700" />}
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="mt-5 flex items-center justify-between pt-3 border-t border-slate-100">
+                <span className="text-[11px] text-slate-500">
+                  {language === 'HI' ? 'क्लिनिक हेल्पलाइन' : 'Direct Clinic Reception'}
+                </span>
+                <a
+                  href={`tel:${appointments[0]?.contactNumber || '+911147135000'}`}
+                  className="py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200/80 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+                >
+                  <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>{language === 'HI' ? 'क्लिनिक को कॉल करें' : 'Call Clinic'}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
