@@ -15,8 +15,8 @@ import {
   Stethoscope,
   Loader2,
   RotateCcw,
-  Sparkles,
-  HeartHandshake
+  ShieldCheck,
+  UserCheck
 } from 'lucide-react';
 import { useAdherence } from '@/hooks/useAdherence';
 import { useVoiceAnnouncement } from '@/hooks/useVoiceAnnouncement';
@@ -64,7 +64,7 @@ const PRAISE_MODES = [
   },
   {
     hindi: 'सविता जी, आपकी खुराक पूरी हुई। दिन भर तरोताज़ा और स्वस्थ रहिए।',
-    english: 'Savita ji, your dose is complete. Stay refreshed and well all day.',
+    english: 'Savita ji, your dose is done. Wishing you good health throughout the day.',
   },
   {
     hindi: 'शाबाश सविता जी! आपने आज की दिनचर्या का पूरा पालन किया है।',
@@ -87,6 +87,7 @@ export default function SeniorModePage() {
   const [undoTimer, setUndoTimer] = useState<number | null>(null);
   const [resetting, setResetting] = useState(false);
   const [praiseIndex, setPraiseIndex] = useState(0);
+  const [selectedDoseId, setSelectedDoseId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/appointments?patientId=patient_savita_sharma')
@@ -94,6 +95,9 @@ export default function SeniorModePage() {
       .then((data) => setAppointments(data.appointments || []))
       .catch((err) => console.error('Failed to load appointments:', err));
   }, []);
+
+  // Determine active slot: user-selected slot takes precedence; otherwise next due slot
+  const activeSlot = (selectedDoseId ? schedule.find((s) => s.doseId === selectedDoseId) : null) || nextDueSlot;
 
   const handleMarkTaken = async (slot: any) => {
     const visual = slot.visualIdentity;
@@ -113,6 +117,9 @@ export default function SeniorModePage() {
     const timer = window.setTimeout(() => setLastAction(null), 10000);
     setUndoTimer(timer);
 
+    // Clear manually selected dose so queue smoothly transitions to the next scheduled slot
+    setSelectedDoseId(null);
+
     await confirmDose(slot, 'ADMINISTERED', 'Marked taken via Senior Mode');
   };
 
@@ -127,6 +134,7 @@ export default function SeniorModePage() {
     setResetting(true);
     try {
       await fetch('/api/doses/reset', { method: 'POST' });
+      setSelectedDoseId(null);
       await refresh();
     } catch (e) {
       console.error('Reset error:', e);
@@ -144,53 +152,53 @@ export default function SeniorModePage() {
   const isAllCompleted = totalCount > 0 && takenCount >= totalCount;
 
   return (
-    <main className="min-h-screen pb-16 bg-gradient-to-br from-slate-50 via-teal-50/20 to-sky-50/25 text-slate-900 antialiased selection:bg-teal-100 selection:text-teal-900">
-      {/* Top Chromatic Frosted Navigation Bar */}
+    <main className="min-h-screen pb-16 bg-white text-black antialiased selection:bg-emerald-100 selection:text-emerald-950">
+      {/* Top Clinical Navigation Bar: Green, Black, White */}
       <nav
-        aria-label="Accessibility Navigation"
-        className="px-4 md:px-8 py-3 bg-white/75 backdrop-blur-xl border-b border-white/60 sticky top-0 z-40 shadow-[0_4px_20px_rgba(0,0,0,0.02)]"
+        aria-label="Clinical Navigation"
+        className="px-4 md:px-8 py-3 bg-white border-b-2 border-black sticky top-0 z-40 shadow-sm"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 font-bold text-xs md:text-sm min-h-[38px] px-3.5 rounded-full border border-slate-200/80 bg-white/80 hover:bg-white text-slate-700 shadow-sm transition-all active:scale-95"
+            className="inline-flex items-center gap-2 font-black text-xs md:text-sm min-h-[38px] px-4 rounded-xl border-2 border-black bg-white hover:bg-zinc-100 text-black shadow-sm transition-all active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4 text-slate-500" />
-            <span>{language === 'HI' ? 'मुख्य पृष्ठ' : 'Exit to Home'}</span>
+            <ArrowLeft className="w-4 h-4 text-black stroke-[2.5]" />
+            <span>{language === 'HI' ? 'मुख्य पृष्ठ' : 'EXIT TO HOME'}</span>
           </Link>
 
-          {/* Language Toggle */}
+          {/* Language Toggle: Monochrome Black & Green */}
           <button
             onClick={() => setLanguage(language === 'HI' ? 'EN' : 'HI')}
-            className={`px-4 py-1.5 rounded-full font-bold text-xs md:text-sm border flex items-center gap-1.5 min-h-[38px] shadow-sm transition-all active:scale-95 ${
+            className={`px-4 py-1.5 rounded-xl font-black text-xs md:text-sm border-2 border-black flex items-center gap-1.5 min-h-[38px] shadow-sm transition-all active:scale-95 ${
               language === 'HI'
-                ? 'bg-teal-700 text-white border-teal-800'
-                : 'bg-white/80 text-slate-800 border-slate-200/80 hover:bg-white'
+                ? 'bg-emerald-700 text-white'
+                : 'bg-white text-black hover:bg-zinc-100'
             }`}
             aria-label="Toggle language"
           >
-            <Languages className="w-4 h-4" />
-            <span>{language === 'HI' ? 'भाषा: हिंदी' : 'Language: English'}</span>
+            <Languages className="w-4 h-4 stroke-[2.5]" />
+            <span>{language === 'HI' ? 'भाषा: हिंदी' : 'LANGUAGE: ENGLISH'}</span>
           </button>
         </div>
       </nav>
 
       {/* Main Container: Wide Max Width for Side-by-Side Layout */}
       <div className="max-w-7xl mx-auto p-4 md:p-8">
-        {/* Header Bar */}
-        <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/80">
+        {/* Header Bar: Green, Black, White */}
+        <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-black">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-700 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-              <span>{todayFormatted} • New Delhi</span>
+            <span className="text-xs font-black uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
+              <span>{todayFormatted} • NEW DELHI</span>
             </span>
-            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 mt-1">
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-black mt-1">
               {language === 'HI' ? 'नमस्ते, सविता जी' : 'Hello, Savita ji'}
             </h1>
-            <p className="text-xs md:text-sm font-medium text-slate-500 mt-0.5">
+            <p className="text-xs md:text-sm font-bold text-zinc-600 mt-0.5">
               {language === 'HI'
-                ? 'अपनी गोली की पहचान चित्र, रंग व बिस्तर की मेज से करें।'
-                : 'Identify each medication by its pill photo, color, and bedside routine.'}
+                ? 'अपनी गोली की पहचान चित्र और दैनिक दिनचर्या से करें।'
+                : 'Identify each medication by its direct tablet photo, dosage, and scheduled routine.'}
             </p>
           </div>
 
@@ -199,39 +207,39 @@ export default function SeniorModePage() {
             <button
               onClick={handleResetSchedule}
               disabled={resetting}
-              className="px-3.5 py-2 rounded-xl bg-white/80 hover:bg-white text-slate-700 font-bold text-xs flex items-center gap-1.5 border border-slate-200/80 shadow-sm transition-all active:scale-95"
+              className="px-3.5 py-2 rounded-xl bg-white hover:bg-zinc-100 text-black font-black text-xs flex items-center gap-1.5 border-2 border-black shadow-sm transition-all active:scale-95"
               title="Reset doses to pending to test the flow again"
             >
               <RotateCcw className={`w-3.5 h-3.5 ${resetting ? 'animate-spin' : ''}`} />
-              <span>{resetting ? 'Resetting...' : 'Reset Doses (Test)'}</span>
+              <span>{resetting ? 'RESETTING...' : 'RESET DOSES (TEST)'}</span>
             </button>
 
-            <div className="rounded-2xl px-4 py-2.5 bg-white/85 backdrop-blur-xl border border-white/80 flex items-center gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)] ring-1 ring-slate-900/5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-700 to-emerald-600 text-white font-black text-sm md:text-base flex items-center justify-center shadow-sm">
+            <div className="rounded-2xl px-4 py-2 bg-white border-2 border-black flex items-center gap-3 shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-emerald-700 text-white font-black text-sm md:text-base flex items-center justify-center border border-black">
                 {takenCount}/{totalCount}
               </div>
               <div>
-                <div className="font-bold text-[11px] uppercase tracking-wide text-slate-500">
-                  {language === 'HI' ? "आज की दवाइयाँ" : "Today's Doses"}
+                <div className="font-black text-[10px] uppercase tracking-wider text-zinc-600">
+                  {language === 'HI' ? "आज की दवाइयाँ" : "TODAY'S DOSES"}
                 </div>
-                <div className="text-xs font-bold text-teal-800">
+                <div className="text-xs font-black text-emerald-800">
                   {isAllCompleted
-                    ? (language === 'HI' ? 'सभी दवाइयाँ पूर्ण!' : 'All Doses Taken!')
-                    : (language === 'HI' ? `${totalCount - takenCount} बाकी है` : `${totalCount - takenCount} Remaining`)}
+                    ? (language === 'HI' ? 'सभी दवाइयाँ पूर्ण!' : 'ALL DOSES TAKEN')
+                    : (language === 'HI' ? `${totalCount - takenCount} बाकी है` : `${totalCount - takenCount} REMAINING`)}
                 </div>
               </div>
             </div>
           </div>
         </header>
 
-        {/* 10-Second Undo Alert Bar */}
+        {/* 10-Second Undo Alert Bar: Green & Black */}
         {lastAction && (
-          <div className="mb-6 bg-slate-900/90 backdrop-blur-md text-white p-3.5 rounded-2xl flex items-center justify-between shadow-xl border border-emerald-400/50 animate-in fade-in duration-200">
+          <div className="mb-6 bg-black text-white p-3.5 rounded-2xl flex items-center justify-between shadow-lg border-2 border-black animate-in fade-in duration-200">
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <Check className="w-4 h-4 stroke-[2.5]" />
+              <div className="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center border border-white">
+                <Check className="w-4 h-4 stroke-[3]" />
               </div>
-              <span className="font-bold text-sm">
+              <span className="font-black text-sm">
                 {language === 'HI'
                   ? `${lastAction.medName} ले ली गई दर्ज हुआ`
                   : `Marked ${lastAction.medName} as taken`}
@@ -242,10 +250,10 @@ export default function SeniorModePage() {
                 setLastAction(null);
                 refresh();
               }}
-              className="px-3.5 py-1.5 bg-amber-400 text-slate-950 font-bold text-xs rounded-xl flex items-center gap-1.5 hover:bg-amber-300 shadow-sm transition-all"
+              className="px-3.5 py-1.5 bg-white text-black font-black text-xs rounded-xl flex items-center gap-1.5 hover:bg-zinc-200 border border-black transition-all"
             >
-              <Undo2 className="w-3.5 h-3.5" />
-              <span>{language === 'HI' ? 'वापस लें' : 'Undo'}</span>
+              <Undo2 className="w-3.5 h-3.5 stroke-[2.5]" />
+              <span>{language === 'HI' ? 'वापस लें' : 'UNDO'}</span>
             </button>
           </div>
         )}
@@ -255,14 +263,24 @@ export default function SeniorModePage() {
           {/* LEFT COLUMN: ACTIVE DOSE HERO + CAREGIVER / CLINIC ACCESS */}
           <div className="lg:col-span-5 space-y-6">
             {/* Active Due Dose Card or Celebratory All-Done */}
-            {!isAllCompleted && nextDueSlot ? (
+            {!isAllCompleted && activeSlot ? (
               <div>
-                <div className="text-xs font-bold uppercase tracking-wide text-teal-800 mb-2 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-                  <span>{language === 'HI' ? 'अगली निर्धारित खुराक' : 'Next Scheduled Dose'}</span>
+                <div className="text-xs font-black uppercase tracking-wider text-emerald-800 mb-2 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
+                    <span>{language === 'HI' ? 'सक्रिय निर्धारित खुराक' : 'ACTIVE SCHEDULED DOSE'}</span>
+                  </span>
+                  {selectedDoseId && (
+                    <button
+                      onClick={() => setSelectedDoseId(null)}
+                      className="text-[11px] font-bold text-zinc-600 underline hover:text-black"
+                    >
+                      {language === 'HI' ? 'वर्तमान खुराक पर लौटें' : 'Back to current due'}
+                    </button>
+                  )}
                 </div>
                 <MedicationCard
-                  slot={nextDueSlot}
+                  slot={activeSlot}
                   onTaken={handleMarkTaken}
                   onSnooze={handleSnooze}
                   onSpeak={speak}
@@ -272,71 +290,71 @@ export default function SeniorModePage() {
                 />
               </div>
             ) : (
-              <div className="rounded-3xl p-6 text-center backdrop-blur-xl bg-white/80 border border-teal-200/80 shadow-[0_12px_36px_rgba(13,148,136,0.08)] ring-1 ring-slate-900/5">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-600 to-emerald-500 text-white flex items-center justify-center mx-auto mb-3 shadow-md">
-                  <Check className="w-7 h-7 stroke-[3]" />
+              <div className="rounded-3xl p-6 text-center bg-white border-2 border-black shadow-md">
+                <div className="w-16 h-16 rounded-2xl bg-emerald-700 text-white flex items-center justify-center mx-auto mb-3 border-2 border-black shadow-sm">
+                  <Check className="w-8 h-8 stroke-[3]" />
                 </div>
-                <h2 className="text-xl md:text-2xl font-black text-slate-900">
+                <h2 className="text-xl md:text-2xl font-black text-black">
                   {language === 'HI' ? 'शाबाश सविता जी!' : 'All Caught Up, Savita ji!'}
                 </h2>
-                <p className="text-xs md:text-sm font-medium mt-1 text-slate-600 max-w-sm mx-auto">
+                <p className="text-xs md:text-sm font-bold mt-1 text-zinc-700 max-w-sm mx-auto">
                   {language === 'HI'
                     ? 'आज की सभी निर्धारित दवाइयाँ पूरी हो चुकी हैं।'
                     : 'All scheduled medications for today have been taken on time.'}
                 </p>
                 <button
                   onClick={handleResetSchedule}
-                  className="mt-4 px-4 py-2 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-bold text-xs inline-flex items-center gap-1.5 active:scale-95 shadow-sm transition-all"
+                  className="mt-5 px-5 py-2.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-black text-xs inline-flex items-center gap-2 active:scale-95 shadow-sm transition-all border border-black"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>{language === 'HI' ? 'परीक्षण हेतु पुनः शुरू करें' : 'Reset Doses to Test Again'}</span>
+                  <RotateCcw className="w-4 h-4" />
+                  <span>{language === 'HI' ? 'परीक्षण हेतु पुनः शुरू करें' : 'RESET DOSES TO TEST AGAIN'}</span>
                 </button>
               </div>
             )}
 
-            {/* Quick Caregiver Emergency Call Card */}
-            <div className="rounded-3xl p-5 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_10px_30px_rgba(15,23,42,0.05)] ring-1 ring-slate-900/5">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                <HeartHandshake className="w-3.5 h-3.5 text-teal-600" />
-                <span>{language === 'HI' ? 'परिवार व केयरटेकर संपर्क' : 'Caregiver Direct Access'}</span>
+            {/* Quick Caregiver Emergency Call Card: Green, Black, White */}
+            <div className="rounded-3xl p-5 bg-white border-2 border-black shadow-sm">
+              <div className="text-xs font-black uppercase tracking-wider text-black mb-3 flex items-center gap-1.5">
+                <UserCheck className="w-4 h-4 text-emerald-700 stroke-[2.5]" />
+                <span>{language === 'HI' ? 'परिवार व केयरटेकर संपर्क' : 'CAREGIVER DIRECT ACCESS'}</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <a
                   href="tel:+919810123456"
-                  className="py-3 px-3 rounded-2xl bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                  className="py-3 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all border border-black"
                 >
-                  <Phone className="w-3.5 h-3.5 text-teal-200" />
-                  <span>{language === 'HI' ? 'राहुल (बेटा)' : 'Call Rahul (Son)'}</span>
+                  <Phone className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>{language === 'HI' ? 'राहुल (बेटा)' : 'CALL RAHUL (SON)'}</span>
                 </a>
 
                 <a
                   href="tel:+919820234567"
-                  className="py-3 px-3 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                  className="py-3 px-3 rounded-xl bg-black hover:bg-zinc-800 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all border border-black"
                 >
-                  <Phone className="w-3.5 h-3.5 text-slate-300" />
-                  <span>{language === 'HI' ? 'प्रिया (बेटी)' : 'Call Priya (Daughter)'}</span>
+                  <Phone className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>{language === 'HI' ? 'प्रिया (बेटी)' : 'CALL PRIYA (DAUGHTER)'}</span>
                 </a>
               </div>
             </div>
 
-            {/* Doctor Appointment Card */}
+            {/* Doctor Appointment Card: Green, Black, White */}
             {appointments.length > 0 && (
-              <div className="rounded-3xl p-5 bg-white/80 backdrop-blur-xl border border-white/80 shadow-[0_10px_30px_rgba(15,23,42,0.05)] ring-1 ring-slate-900/5">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                  <Stethoscope className="w-3.5 h-3.5 text-teal-600" />
-                  <span>{language === 'HI' ? 'आगामी डॉक्टर अपॉइंटमेंट' : 'Upcoming Doctor Visit'}</span>
+              <div className="rounded-3xl p-5 bg-white border-2 border-black shadow-sm">
+                <div className="text-xs font-black uppercase tracking-wider text-black mb-3 flex items-center gap-1.5">
+                  <Stethoscope className="w-4 h-4 text-emerald-700 stroke-[2.5]" />
+                  <span>{language === 'HI' ? 'आगामी डॉक्टर अपॉइंटमेंट' : 'UPCOMING DOCTOR VISIT'}</span>
                 </div>
 
                 {appointments.slice(0, 1).map((appt) => (
                   <div key={appt.id} className="flex items-center justify-between gap-3">
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                        <span>{appt.doctorName}</span>
+                      <h4 className="text-sm font-black text-black">
+                        {appt.doctorName}
                       </h4>
-                      <p className="text-[11px] text-slate-500">{appt.clinicHospital}</p>
-                      <div className="text-xs font-bold text-teal-800 mt-1 flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5" />
+                      <p className="text-xs font-bold text-zinc-600">{appt.clinicHospital}</p>
+                      <div className="text-xs font-black text-emerald-800 mt-1 flex items-center gap-1">
+                        <Calendar className="w-3.5 h-3.5 stroke-[2.5]" />
                         <span>
                           {new Date(appt.appointmentTime).toLocaleDateString('en-IN', {
                             weekday: 'short',
@@ -351,10 +369,10 @@ export default function SeniorModePage() {
 
                     <a
                       href={`tel:${appt.contactNumber}`}
-                      className="py-2.5 px-3.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200/80 font-bold text-xs flex items-center gap-1.5 shrink-0 transition-all shadow-sm"
+                      className="py-2.5 px-3.5 rounded-xl bg-white hover:bg-zinc-100 text-black border-2 border-black font-black text-xs flex items-center gap-1.5 shrink-0 transition-all shadow-sm"
                     >
                       <Phone className="w-3.5 h-3.5" />
-                      <span>{language === 'HI' ? 'कॉल' : 'Call'}</span>
+                      <span>{language === 'HI' ? 'कॉल' : 'CALL'}</span>
                     </a>
                   </div>
                 ))}
@@ -363,36 +381,37 @@ export default function SeniorModePage() {
           </div>
 
           {/* RIGHT COLUMN: TODAY'S FULL TIMELINE LIST (Side-by-side) */}
-          <div className="lg:col-span-7 bg-white/85 backdrop-blur-xl rounded-3xl border border-white/80 p-5 md:p-6 shadow-[0_12px_36px_rgba(15,23,42,0.06)] ring-1 ring-slate-900/5">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+          <div className="lg:col-span-7 bg-white rounded-3xl border-2 border-black p-5 md:p-6 shadow-md">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-black">
               <div>
-                <h2 className="text-lg font-black text-slate-900">
+                <h2 className="text-lg font-black text-black">
                   {language === 'HI' ? 'आज की पूरी दिनचर्या' : "Today's Medication Routine"}
                 </h2>
-                <p className="text-xs text-slate-500">
-                  {schedule.length} {language === 'HI' ? 'दवाइयाँ निर्धारित' : 'scheduled doses'}
+                <p className="text-xs font-bold text-zinc-600">
+                  {schedule.length} {language === 'HI' ? 'दवाइयाँ निर्धारित' : 'scheduled doses'} • Click any medicine to inspect
                 </p>
               </div>
 
               <button
                 onClick={handleResetSchedule}
                 disabled={resetting}
-                className="text-xs font-bold text-teal-700 hover:text-teal-900 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-teal-50 border border-teal-100"
+                className="text-xs font-black text-black hover:bg-zinc-100 flex items-center gap-1 px-3 py-1.5 rounded-xl border border-black bg-white"
                 title="Reset all doses"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>{language === 'HI' ? 'रीसेट' : 'Reset'}</span>
+                <span>{language === 'HI' ? 'रीसेट' : 'RESET'}</span>
               </button>
             </div>
 
             <div className="space-y-3">
               {schedule.map((item) => {
                 const isDone = item.status === 'ADMINISTERED';
+                const isSelected = activeSlot?.doseId === item.doseId;
                 const visual = item.visualIdentity || {
                   shape: 'ROUND_TABLET' as const,
-                  color: '#FFFFFF',
-                  colorLabelEnglish: 'White Round Tablet',
-                  colorLabelHindi: 'सफ़ेद गोल गोली',
+                  color: '#000000',
+                  colorLabelEnglish: 'Round Tablet',
+                  colorLabelHindi: 'गोल गोली',
                   purposeLabelEnglish: 'Routine Dose',
                   purposeLabelHindi: 'दवाई',
                   instructionsEnglish: item.instructions,
@@ -408,23 +427,26 @@ export default function SeniorModePage() {
                 return (
                   <div
                     key={item.doseId}
-                    className={`rounded-2xl p-3.5 border transition-all flex items-center justify-between gap-3 ${
-                      isDone
-                        ? 'bg-slate-50/50 border-slate-200/60 opacity-60'
-                        : 'bg-white/90 border-slate-200/80 hover:border-teal-400/80 shadow-sm'
+                    onClick={() => setSelectedDoseId(item.doseId)}
+                    className={`rounded-2xl p-3.5 border-2 transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                      isSelected
+                        ? 'border-emerald-700 bg-emerald-50/50 shadow-md ring-2 ring-emerald-700/20'
+                        : isDone
+                        ? 'bg-zinc-50 border-zinc-300 opacity-60'
+                        : 'bg-white border-black hover:border-emerald-700 shadow-sm'
                     }`}
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
-                      {/* Bedside Recognition Image Thumbnail or Pill Graphic */}
+                      {/* Direct Medicine Image Thumbnail */}
                       {visual.photoUrl ? (
                         /* eslint-disable-next-line @next/next/no-img-element */
                         <img
                           src={visual.photoUrl}
                           alt={visual.photoAlt || item.medicationName}
-                          className="w-13 h-13 md:w-14 md:h-14 rounded-xl object-cover border border-slate-200/80 shadow-sm shrink-0"
+                          className="w-14 h-14 rounded-xl object-contain bg-white border border-black p-1 shrink-0"
                         />
                       ) : (
-                        <div className="shrink-0 p-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div className="shrink-0 p-2 rounded-xl bg-white border border-black">
                           <PillGraphic
                             shape={visual.shape}
                             color={visual.color}
@@ -436,39 +458,42 @@ export default function SeniorModePage() {
 
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm md:text-base text-slate-900 truncate">
+                          <span className="font-black text-sm md:text-base text-black truncate">
                             {language === 'HI' ? visual.purposeLabelHindi : item.medicationName}
                           </span>
-                          <span className="text-[11px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md">
+                          <span className="text-[11px] font-black bg-black text-white px-2 py-0.5 rounded">
                             {item.dosage}
                           </span>
                         </div>
 
-                        <div className="text-xs text-slate-500 truncate mt-0.5">
+                        <div className="text-xs font-bold text-zinc-600 truncate mt-0.5">
                           {language === 'HI' ? visual.colorLabelHindi : visual.colorLabelEnglish}
                         </div>
 
-                        <div className="text-[11px] font-bold text-teal-800 mt-1 flex items-center gap-2">
-                          <span>⏰ {item.scheduledTimeStr} {parseInt(item.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}</span>
+                        <div className="text-[11px] font-black text-emerald-800 mt-1 flex items-center gap-2">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3 text-black" />
+                            <span>{item.scheduledTimeStr} {parseInt(item.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}</span>
+                          </span>
                           <span>•</span>
                           <span>{language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
                       {isDone ? (
-                        <span className="px-3 py-1.5 rounded-xl bg-teal-50 text-teal-800 font-bold text-xs flex items-center gap-1 border border-teal-200">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-teal-700" />
-                          <span>{language === 'HI' ? 'पूर्ण' : 'Taken'}</span>
+                        <span className="px-3 py-1.5 rounded-xl bg-emerald-700 text-white font-black text-xs flex items-center gap-1 border border-black">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>{language === 'HI' ? 'पूर्ण' : 'TAKEN'}</span>
                         </span>
                       ) : (
                         <button
                           onClick={() => handleMarkTaken(item)}
-                          className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1"
+                          className="px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1 border border-black"
                         >
-                          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                          <span>{language === 'HI' ? 'दवाई ली' : 'Take'}</span>
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                          <span>{language === 'HI' ? 'दवाई ली' : 'TAKE'}</span>
                         </button>
                       )}
 
@@ -476,11 +501,11 @@ export default function SeniorModePage() {
                       <button
                         onClick={() => speak(visual.voiceHindiScript, { lang: 'hi-IN', englishFallbackText: visual.voiceEnglishScript })}
                         disabled={isLoadingVoice}
-                        className="p-2 rounded-xl bg-slate-100/80 hover:bg-slate-200/80 text-slate-700 active:scale-95 transition-all"
+                        className="p-2.5 rounded-xl bg-white hover:bg-zinc-100 text-black border border-black active:scale-95 transition-all"
                         title="Listen with Sarvam AI"
                         aria-label="Listen with Sarvam AI"
                       >
-                        {isLoadingVoice ? <Loader2 className="w-4 h-4 animate-spin text-teal-700" /> : <Volume2 className="w-4 h-4" />}
+                        {isLoadingVoice ? <Loader2 className="w-4 h-4 animate-spin text-black" /> : <Volume2 className="w-4 h-4 text-emerald-700" />}
                       </button>
                     </div>
                   </div>

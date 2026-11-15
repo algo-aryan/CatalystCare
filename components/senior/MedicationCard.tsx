@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { Check, Clock, Volume2, VolumeX, Loader2, Sparkles, MapPin } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, Clock, Volume2, VolumeX, Loader2, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { PillGraphic } from './PillGraphic';
 import { TodayDoseSlot } from '@/lib/clinical/adherence-engine';
 
@@ -25,14 +24,15 @@ export function MedicationCard({
   isLoadingVoice = false,
   language = 'EN',
 }: MedicationCardProps) {
-  const isOverdue = slot.status === 'OVERDUE' || slot.status === 'MISSED';
+  const [imageError, setImageError] = useState(false);
   const isTaken = slot.status === 'ADMINISTERED';
+  const isOverdue = slot.status === 'OVERDUE' || slot.status === 'MISSED';
 
   const visual = slot.visualIdentity || {
     shape: 'ROUND_TABLET' as const,
-    color: '#FFFFFF',
-    colorLabelEnglish: 'White Round Tablet',
-    colorLabelHindi: 'सफ़ेद गोल गोली',
+    color: '#000000',
+    colorLabelEnglish: 'Round Tablet',
+    colorLabelHindi: 'गोल गोली',
     purposeLabelEnglish: 'Routine Medicine',
     purposeLabelHindi: 'दवाई',
     instructionsEnglish: slot.instructions,
@@ -53,36 +53,25 @@ export function MedicationCard({
     <article
       role="article"
       aria-label={`Medication ${slot.medicationName}`}
-      className={`relative overflow-hidden rounded-3xl p-5 md:p-6 transition-all backdrop-blur-xl border ${
-        isOverdue
-          ? 'bg-gradient-to-b from-amber-50/90 to-white/90 border-amber-300/80 shadow-[0_12px_36px_rgba(245,158,11,0.12)]'
-          : 'bg-white/85 border-white/70 shadow-[0_12px_36px_rgba(15,23,42,0.07)] ring-1 ring-slate-900/5'
-      }`}
+      className="bg-white border-2 border-black rounded-3xl p-5 md:p-6 shadow-md transition-all"
     >
-      {/* Top Chromatic Light Specular Highlight */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-400/30 to-transparent pointer-events-none" />
-
-      {/* Top Meta Bar */}
-      <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-100/80">
+      {/* Top Clinical Status Header: Green, Black, White */}
+      <div className="flex items-center justify-between gap-3 pb-3 border-b-2 border-black">
         <div className="flex items-center gap-2">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide transition-all shadow-sm ${
-              isOverdue
-                ? 'bg-amber-100/90 text-amber-900 border border-amber-200'
-                : isTaken
-                ? 'bg-emerald-100/90 text-emerald-900 border border-emerald-200'
-                : 'bg-teal-50/90 text-teal-900 border border-teal-200/80'
+            className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border ${
+              isTaken
+                ? 'bg-emerald-700 text-white border-emerald-800'
+                : 'bg-black text-white border-black'
             }`}
           >
-            {isOverdue
-              ? language === 'HI' ? 'समय बीत चुका है' : 'Overdue'
-              : isTaken
-              ? language === 'HI' ? 'पूर्ण' : 'Taken'
-              : language === 'HI' ? 'अभी का समय' : 'Due Now'}
+            {isTaken
+              ? (language === 'HI' ? 'स्थिति: पूर्ण' : 'STATUS: TAKEN')
+              : (language === 'HI' ? 'स्थिति: वर्तमान खुराक' : 'STATUS: SCHEDULED')}
           </span>
 
-          <span className="text-xs md:text-sm font-bold text-slate-600 flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
+          <span className="text-xs md:text-sm font-black text-black flex items-center gap-1 border border-black/20 bg-zinc-50 px-2.5 py-1 rounded-full">
+            <Clock className="w-3.5 h-3.5 text-black" />
             <span>{slot.scheduledTimeStr} {parseInt(slot.scheduledTimeStr.split(':')[0]) >= 12 ? 'PM' : 'AM'}</span>
           </span>
         </div>
@@ -91,123 +80,129 @@ export function MedicationCard({
         <button
           onClick={handleVoiceClick}
           disabled={isLoadingVoice}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-xs border backdrop-blur-sm transition-all active:scale-95 outline-none shadow-sm ${
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full font-black text-xs border-2 transition-all active:scale-95 outline-none ${
             isSpeaking
-              ? 'bg-rose-50/90 text-rose-700 border-rose-300 animate-pulse'
+              ? 'bg-black text-white border-black animate-pulse'
               : isLoadingVoice
-              ? 'bg-teal-50/90 text-teal-800 border-teal-300'
-              : 'bg-white/80 hover:bg-white text-slate-700 border-slate-200 hover:border-teal-300 hover:text-teal-900'
+              ? 'bg-zinc-100 text-black border-black'
+              : 'bg-white hover:bg-emerald-50 text-emerald-800 border-emerald-700'
           }`}
-          aria-label="Listen with Sarvam AI"
+          aria-label="Listen with Sarvam AI Voice"
         >
           {isLoadingVoice ? (
             <>
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-teal-700" />
-              <span>Voice Loading...</span>
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-black" />
+              <span>VOICE LOADING...</span>
             </>
           ) : isSpeaking ? (
             <>
-              <VolumeX className="w-3.5 h-3.5 text-rose-600" />
-              <span>Stop Voice</span>
+              <VolumeX className="w-3.5 h-3.5 text-white" />
+              <span>STOP VOICE</span>
             </>
           ) : (
             <>
-              <Volume2 className="w-3.5 h-3.5 text-teal-700" />
-              <span>Listen (Sarvam AI)</span>
+              <Volume2 className="w-3.5 h-3.5 text-emerald-700" />
+              <span>LISTEN (SARVAM AI)</span>
             </>
           )}
         </button>
       </div>
 
-      {/* Bedside Recognition Photo + Pill Visual Identity */}
+      {/* Large Clear Medicine Image: Isolated Macro Product Shot */}
       <div className="pt-4 pb-2">
-        {visual.photoUrl && (
-          <div className="mb-4 relative rounded-2xl overflow-hidden border border-slate-200/80 shadow-inner group">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className="relative rounded-2xl overflow-hidden border-2 border-black bg-white flex items-center justify-center min-h-[240px] max-h-[320px] p-2">
+          {visual.photoUrl && !imageError ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={visual.photoUrl}
               alt={visual.photoAlt || slot.medicationName}
-              className="w-full h-44 object-cover object-center group-hover:scale-102 transition-transform duration-300"
+              onError={() => setImageError(true)}
+              className="w-full h-60 md:h-68 object-contain object-center"
             />
-            {/* Frosted Bedside Recognition Tag */}
-            <div className="absolute bottom-2.5 left-2.5 right-2.5 px-3 py-1.5 rounded-xl bg-slate-950/75 backdrop-blur-md border border-white/20 text-white flex items-center justify-between text-xs font-semibold shadow-lg">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-                <span className="truncate">
-                  {language === 'HI' ? 'बिस्तर के पास रात की मेज पर पहचानें' : 'Bedside Nightstand Recognition'}
-                </span>
-              </span>
-              <span className="text-[11px] font-normal text-slate-300 shrink-0 hidden sm:inline">
-                {visual.shape === 'OVAL_TABLET' ? 'Foil Strip' : 'Pills / Blister'}
+          ) : (
+            <div className="py-8 flex flex-col items-center justify-center">
+              <PillGraphic
+                shape={visual.shape}
+                color={visual.color}
+                secondaryColor={visual.secondaryColor}
+                size="lg"
+              />
+              <span className="text-xs font-bold text-black mt-2">
+                {language === 'HI' ? visual.colorLabelHindi : visual.colorLabelEnglish}
               </span>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Content details and Pill graphic */}
-        <div className="flex items-start gap-4">
-          {/* Pill Graphic Illustration */}
-          <div className="shrink-0 p-3 rounded-2xl bg-slate-50/80 border border-slate-100 flex flex-col items-center justify-center min-w-[76px] shadow-sm">
-            <PillGraphic
-              shape={visual.shape}
-              color={visual.color}
-              secondaryColor={visual.secondaryColor}
-              size="md"
-            />
-            <span className="text-[10px] font-bold mt-1 text-slate-600 text-center leading-tight">
-              {language === 'HI' ? visual.colorLabelHindi : visual.colorLabelEnglish}
+          {/* Professional Clinical Identification Label Tag */}
+          <div className="absolute top-2 left-2 px-2.5 py-1 rounded-md bg-black text-white text-[10px] font-black uppercase tracking-wider flex items-center gap-1 border border-white">
+            <ShieldCheck className="w-3 h-3 text-emerald-400" />
+            <span>
+              {language === 'HI' ? 'सटीक दवा पहचान' : 'MEDICINE IDENTIFICATION'}
             </span>
           </div>
 
-          {/* Text descriptions */}
-          <div className="flex-1 min-w-0">
-            <div className="text-xs font-bold text-teal-700 uppercase tracking-wider flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-teal-600" />
-              <span>{language === 'HI' ? visual.purposeLabelHindi : visual.purposeLabelEnglish}</span>
-            </div>
+          <div className="absolute bottom-2 right-2 px-2.5 py-1 rounded-md bg-white border border-black text-black text-[11px] font-black">
+            {slot.dosage}
+          </div>
+        </div>
 
-            <h2 className="text-xl md:text-2xl font-black text-slate-900 truncate mt-0.5">
-              {language === 'HI' ? visual.purposeLabelHindi : slot.medicationName}
-            </h2>
+        {/* Clinical Information & Instructions */}
+        <div className="mt-4 space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className="px-2.5 py-0.5 rounded bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-black uppercase tracking-wider">
+              {language === 'HI' ? visual.purposeLabelHindi : visual.purposeLabelEnglish}
+            </span>
+            <span className="text-xs font-bold text-zinc-600">
+              {visual.colorLabelEnglish}
+            </span>
+          </div>
 
-            <div className="text-xs font-semibold text-slate-500 mt-0.5">
-              {slot.medicationName} • {slot.dosage}
-            </div>
+          <h2 className="text-xl md:text-2xl font-black text-black tracking-tight leading-tight">
+            {slot.medicationName}
+          </h2>
 
-            <p className="text-xs md:text-sm font-medium text-slate-700 mt-2 leading-relaxed">
-              {language === 'HI' ? visual.instructionsHindi : visual.instructionsEnglish}
-            </p>
+          <p className="text-sm font-semibold text-zinc-800 leading-relaxed bg-zinc-50 border border-zinc-200 p-3 rounded-xl">
+            {language === 'HI' ? visual.instructionsHindi : visual.instructionsEnglish}
+          </p>
 
-            <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-teal-50/80 border border-teal-100 text-xs font-bold text-teal-900">
-              <span>🍽️</span>
-              <span>{language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish}</span>
-            </div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black text-white text-xs font-black">
+            <span>TIMING:</span>
+            <span>{language === 'HI' ? visual.mealTimingHindi : visual.mealTimingEnglish}</span>
           </div>
         </div>
       </div>
 
-      {/* Action Buttons: High Touch Target & Tactile Sheen */}
-      <div className="pt-4 mt-3 border-t border-slate-100 grid grid-cols-2 gap-3">
+      {/* Action Buttons: Pure High-Contrast Green & Black */}
+      <div className="pt-4 mt-3 border-t-2 border-black grid grid-cols-2 gap-3">
         <button
           onClick={() => onTaken(slot)}
           disabled={isTaken}
-          className={`min-h-[50px] text-sm md:text-base font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] outline-none shadow-md ${
+          className={`min-h-[52px] text-base font-black rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] outline-none shadow-md ${
             isTaken
-              ? 'bg-slate-200 text-slate-500 cursor-not-allowed shadow-none'
-              : 'bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white shadow-emerald-700/20'
+              ? 'bg-zinc-200 text-zinc-500 border-2 border-zinc-300 cursor-not-allowed shadow-none'
+              : 'bg-emerald-700 hover:bg-emerald-800 text-white border-2 border-black active:bg-emerald-900'
           }`}
         >
-          <Check className="w-5 h-5 stroke-[2.5]" />
-          <span>{language === 'HI' ? 'दवाई ले ली' : 'I Took This Pill'}</span>
+          {isTaken ? (
+            <>
+              <CheckCircle2 className="w-5 h-5 text-zinc-500" />
+              <span>{language === 'HI' ? 'दवाई ली जा चुकी है' : 'DOSE TAKEN'}</span>
+            </>
+          ) : (
+            <>
+              <Check className="w-5 h-5 stroke-[3]" />
+              <span>{language === 'HI' ? 'दवाई ले ली' : 'I TOOK THIS PILL'}</span>
+            </>
+          )}
         </button>
 
         <button
           onClick={() => onSnooze(slot)}
           disabled={isTaken}
-          className="min-h-[50px] text-xs md:text-sm font-bold rounded-2xl flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] outline-none border bg-white/90 hover:bg-white text-slate-700 border-slate-200 shadow-sm"
+          className="min-h-[52px] text-xs md:text-sm font-black rounded-2xl flex items-center justify-center gap-1.5 transition-all active:scale-[0.98] outline-none border-2 border-black bg-white hover:bg-zinc-100 text-black shadow-sm"
         >
-          <Clock className="w-4 h-4 text-slate-500" />
-          <span>{language === 'HI' ? '३० मिनट बाद याद दिलाएं' : 'Remind in 30 Mins'}</span>
+          <Clock className="w-4 h-4 text-black" />
+          <span>{language === 'HI' ? '३० मिनट बाद याद दिलाएं' : 'REMIND IN 30 MINS'}</span>
         </button>
       </div>
     </article>

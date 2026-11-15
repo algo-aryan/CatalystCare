@@ -825,6 +825,78 @@
       "timestamp": "2026-11-15T05:50:18.428Z",
       "hash": "0ed68a07addb7975fa583187f985560cfd145e9fa9d561895b3b3e1b465f01bd",
       "previousHash": "806ac18c1d9320e864c73de41e38db3fd7e591fc6bcda91f171297646dc06d9b"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T02:30:00.000Z. Deviation: 205 min",
+      "id": "audit_1794722121369_wnam",
+      "timestamp": "2026-11-15T05:55:21.369Z",
+      "hash": "af10c91db157b9502b588b259b7d0a6da7ba88725cb066b4d05194f5847b16c8",
+      "previousHash": "0ed68a07addb7975fa583187f985560cfd145e9fa9d561895b3b3e1b465f01bd"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Telmisartan 40 mg (Telma 40) at 2026-11-15T02:30:00.000Z. Deviation: 206 min",
+      "id": "audit_1794722132577_8p1u",
+      "timestamp": "2026-11-15T05:55:32.577Z",
+      "hash": "f274f0a2f2b45f281da8fadbbb23042201670ca154d7239331448409b50a2047",
+      "previousHash": "af10c91db157b9502b588b259b7d0a6da7ba88725cb066b4d05194f5847b16c8"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T14:30:00.000Z. Deviation: -514 min",
+      "id": "audit_1794722160909_4gu1",
+      "timestamp": "2026-11-15T05:56:00.909Z",
+      "hash": "65e9d6404de5daf605f969be24b16d59a7e4b2d01d4c74bc03cd0b96514df706",
+      "previousHash": "f274f0a2f2b45f281da8fadbbb23042201670ca154d7239331448409b50a2047"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Atorvastatin 20 mg (Atorva 20) at 2026-11-15T15:30:00.000Z. Deviation: -572 min",
+      "id": "audit_1794722281974_kg1m",
+      "timestamp": "2026-11-15T05:58:01.973Z",
+      "hash": "ff662fa6d8caec93f0bf620d12fd02a1ea12488c10c5aba97f934986519fe728",
+      "previousHash": "65e9d6404de5daf605f969be24b16d59a7e4b2d01d4c74bc03cd0b96514df706"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_SNOOZED",
+      "details": "Recorded status [SNOOZED] for Metformin 500 mg (Glycomet) at 2026-11-15T02:30:00.000Z. Deviation: 215 min",
+      "id": "audit_1794722692780_8gyj",
+      "timestamp": "2026-11-15T06:04:52.780Z",
+      "hash": "4ab9b438fc79c7b2c4948b45f2b969e71fe09ca1435c918918d7bf5cdd0c89fe",
+      "previousHash": "ff662fa6d8caec93f0bf620d12fd02a1ea12488c10c5aba97f934986519fe728"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Telmisartan 40 mg (Telma 40) at 2026-11-15T02:30:00.000Z. Deviation: 215 min",
+      "id": "audit_1794722694882_9t6u",
+      "timestamp": "2026-11-15T06:04:54.882Z",
+      "hash": "84cc3395645fe6b670c064f36048ea90d37b3c2b59ea58e796227403ed62ebd5",
+      "previousHash": "4ab9b438fc79c7b2c4948b45f2b969e71fe09ca1435c918918d7bf5cdd0c89fe"
     }
   ],
   "outboxEmails": []

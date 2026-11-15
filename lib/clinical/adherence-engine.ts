@@ -76,8 +76,8 @@ export function getTodaySchedule(patientId: string): TodayDoseSlot[] {
         : localScheduledDate.toISOString();
       const doseId = `dose_${todayStr}_${med.id}_${timeStr.replace(':', '')}`;
 
-      // Check if an adherence event has been logged for this dose slot
-      const existingEvent = events.find((e) => e.doseId === doseId || (e.medicationId === med.id && e.scheduledTime.startsWith(todayStr) && e.scheduledTime.includes(timeStr)));
+      // Check if an adherence event has been logged for this specific dose slot (most recent event takes precedence)
+      const existingEvent = [...events].reverse().find((e) => e.doseId === doseId);
 
       const status = computeDoseStatus(scheduledDateTime, existingEvent);
 

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const events = db.getAdherenceEvents();
     
     // Filter out today's events for the patient to reset today's schedule
-    const filtered = events.filter((e) => !e.scheduledTime.startsWith(todayStr));
+    const filtered = events.filter((e) => !e.scheduledTime?.startsWith(todayStr) && !e.doseId?.includes(todayStr));
     
     // @ts-ignore - internal data reset
     db['data'].adherenceEvents = filtered;
