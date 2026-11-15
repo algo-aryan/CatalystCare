@@ -81,10 +81,12 @@
         "mealTimingEnglish": "Morning Empty Stomach (Before Breakfast)",
         "mealTimingHindi": "सुबह खाली पेट (नाश्ते से पहले)",
         "voiceHindiScript": "सविता जी, यह आपकी गैस और एसिडिटी की हल्की पीली गोली है। सुबह खाली पेट नाश्ते से आधा घंटा पहले एक गोली लें।",
-        "voiceEnglishScript": "Savita ji, this is your morning acidity relief tablet. It is a pale yellow oval pill. Take 1 tablet on an empty stomach before breakfast."
+        "voiceEnglishScript": "Savita ji, this is your morning acidity relief tablet. It is a pale yellow oval pill. Take 1 tablet on an empty stomach before breakfast.",
+        "photoUrl": "/medications/pantoprazole.jpg",
+        "photoAlt": "Alu-Alu silver foil blister pack and pale yellow oval tablet of Pantoprazole 40mg"
       },
       "interactionWarnings": [],
-      "status": "DISCONTINUED",
+      "status": "ACTIVE",
       "createdAt": "2026-10-16T05:34:29.761Z"
     },
     {
@@ -115,7 +117,9 @@
         "mealTimingEnglish": "Right After Meals (Breakfast & Dinner)",
         "mealTimingHindi": "खाने के तुरंत बाद (नाश्ता व भोजन)",
         "voiceHindiScript": "सविता जी, यह आपकी शुगर नियंत्रण की सफ़ेद गोल गोली है। नाश्ते के तुरंत बाद एक गोली पानी के साथ लें।",
-        "voiceEnglishScript": "Savita ji, this is your blood sugar control tablet. It is a white round pill. Please take 1 tablet with breakfast."
+        "voiceEnglishScript": "Savita ji, this is your blood sugar control tablet. It is a white round pill. Please take 1 tablet with breakfast.",
+        "photoUrl": "/medications/metformin.jpg",
+        "photoAlt": "Metformin 500mg white round scored tablets with center line and silver blister strip"
       },
       "interactionWarnings": [],
       "status": "ACTIVE",
@@ -148,7 +152,9 @@
         "mealTimingEnglish": "Morning with Water",
         "mealTimingHindi": "सुबह नाश्ते के समय",
         "voiceHindiScript": "सविता जी, यह आपकी ब्लड प्रेशर की गुलाबी लंबी गोली है। सुबह एक गोली पानी के साथ लें।",
-        "voiceEnglishScript": "Savita ji, this is your blood pressure control tablet. It is a pink oval pill. Please take 1 tablet with a glass of water."
+        "voiceEnglishScript": "Savita ji, this is your blood pressure control tablet. It is a pink oval pill. Please take 1 tablet with a glass of water.",
+        "photoUrl": "/medications/telmisartan.jpg",
+        "photoAlt": "Pink oval tablets of Telmisartan 40mg and metallic silver blister strip"
       },
       "interactionWarnings": [],
       "status": "ACTIVE",
@@ -181,7 +187,9 @@
         "mealTimingEnglish": "Bedtime (Night)",
         "mealTimingHindi": "रात को सोने से पहले",
         "voiceHindiScript": "सविता जी, यह आपकी रात की कोलेस्ट्रॉल की छोटी गोली है। सोने से पहले पानी के साथ एक गोली लें।",
-        "voiceEnglishScript": "Savita ji, this is your cholesterol protection tablet. It is a small white round pill. Please take 1 tablet before going to bed."
+        "voiceEnglishScript": "Savita ji, this is your cholesterol protection tablet. It is a small white round pill. Please take 1 tablet before going to bed.",
+        "photoUrl": "/medications/atorvastatin.jpg",
+        "photoAlt": "Small white round tablets of Atorvastatin 20mg with silver foil blister strip"
       },
       "interactionWarnings": [
         {
@@ -897,6 +905,42 @@
       "timestamp": "2026-11-15T06:04:54.882Z",
       "hash": "84cc3395645fe6b670c064f36048ea90d37b3c2b59ea58e796227403ed62ebd5",
       "previousHash": "4ab9b438fc79c7b2c4948b45f2b969e71fe09ca1435c918918d7bf5cdd0c89fe"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T02:30:00.000Z. Deviation: 218 min",
+      "id": "audit_1794722852279_r65c",
+      "timestamp": "2026-11-15T06:07:32.279Z",
+      "hash": "63a7ec59ce86be669f7eda14e3b9b31f97f363e0f7acea062f64673b0e5f9ef9",
+      "previousHash": "84cc3395645fe6b670c064f36048ea90d37b3c2b59ea58e796227403ed62ebd5"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Telmisartan 40 mg (Telma 40) at 2026-11-15T02:30:00.000Z. Deviation: 218 min",
+      "id": "audit_1794722871598_ys2f",
+      "timestamp": "2026-11-15T06:07:51.598Z",
+      "hash": "52abe5aac7784de42b6cb22c594bdb36f93820379bad376311387ed50dd289cf",
+      "previousHash": "63a7ec59ce86be669f7eda14e3b9b31f97f363e0f7acea062f64673b0e5f9ef9"
+    },
+    {
+      "patientId": "patient_savita_sharma",
+      "actorUserId": "user_patient_savita",
+      "actorName": "Savita Sharma",
+      "actorRole": "PATIENT",
+      "action": "MED_ADMINISTERED",
+      "details": "Recorded status [ADMINISTERED] for Metformin 500 mg (Glycomet) at 2026-11-15T14:30:00.000Z. Deviation: -502 min",
+      "id": "audit_1794722883405_2sgd",
+      "timestamp": "2026-11-15T06:08:03.405Z",
+      "hash": "8365feced4fac69fa5da92624974ecd0ca4e5f6a2651c64a0c8ab0b1393eed58",
+      "previousHash": "52abe5aac7784de42b6cb22c594bdb36f93820379bad376311387ed50dd289cf"
     }
   ],
   "outboxEmails": []

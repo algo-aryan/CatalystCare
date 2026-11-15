@@ -51,7 +51,25 @@ class CatalystDatabase {
         const content = fs.readFileSync(DB_FILE, 'utf-8');
         // If file contains old English seed data, refresh to Indian profile
         if (!content.includes('patient_eleanor_vance')) {
-          return JSON.parse(content);
+          const parsed = JSON.parse(content);
+          // Always ensure medications retain the latest photoUrl from seeds
+          parsed.medications = parsed.medications.map((m: any) => {
+            const seedMed = SEED_MEDICATIONS.find((s) => s.id === m.id);
+            if (seedMed?.visualIdentity) {
+              m.visualIdentity = {
+                ...seedMed.visualIdentity,
+                ...(m.visualIdentity || {}),
+                photoUrl: seedMed.visualIdentity.photoUrl,
+                photoAlt: seedMed.visualIdentity.photoAlt,
+              };
+            }
+            // Ensure all seed medications are ACTIVE for senior scheduling
+            if (seedMed) {
+              m.status = 'ACTIVE';
+            }
+            return m;
+          });
+          return parsed;
         }
       }
     } catch (e) {
@@ -111,10 +129,22 @@ class CatalystDatabase {
 
   // --- Medications ---
   getMedications(activeOnly: boolean = false): Medication[] {
+    const meds = this.data.medications.map((m) => {
+      const seedMed = SEED_MEDICATIONS.find((s) => s.id === m.id);
+      if (seedMed?.visualIdentity) {
+        m.visualIdentity = {
+          ...seedMed.visualIdentity,
+          ...(m.visualIdentity || {}),
+          photoUrl: seedMed.visualIdentity.photoUrl,
+          photoAlt: seedMed.visualIdentity.photoAlt,
+        };
+      }
+      return m;
+    });
     if (activeOnly) {
-      return this.data.medications.filter((m) => m.status === 'ACTIVE');
+      return meds.filter((m) => m.status === 'ACTIVE');
     }
-    return [...this.data.medications];
+    return meds;
   }
 
   getMedicationById(id: string): Medication | undefined {
