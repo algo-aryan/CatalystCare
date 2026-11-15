@@ -516,8 +516,8 @@ export default function SeniorModePage() {
                       <p className="text-xs text-slate-500 mt-0.5">{appt.clinicHospital}</p>
 
                       <div className="mt-3 flex items-center gap-3">
-                        <div className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-900 font-bold text-xs flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-emerald-700" />
+                        <div className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                          <Calendar className="w-3.5 h-3.5 text-emerald-100" />
                           <span>
                             {new Date(appt.appointmentTime).toLocaleDateString('en-IN', {
                               weekday: 'short',
@@ -553,9 +553,9 @@ export default function SeniorModePage() {
                 </span>
                 <a
                   href={`tel:${appointments[0]?.contactNumber || '+911147135000'}`}
-                  className="py-2.5 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200/80 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+                  className="py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
                 >
-                  <Phone className="w-3.5 h-3.5 text-emerald-700" />
+                  <Phone className="w-3.5 h-3.5 text-emerald-100" />
                   <span>{language === 'HI' ? 'क्लिनिक को कॉल करें' : 'Call Clinic'}</span>
                 </a>
               </div>
