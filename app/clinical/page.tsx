@@ -30,7 +30,8 @@ import {
   MapPin,
   Stethoscope,
   ChevronRight,
-  UserCheck
+  UserCheck,
+  Phone
 } from 'lucide-react';
 import { Medication, Appointment, AuditLogEntry, OutboxEmail } from '@/types';
 import { AdherenceMetrics, TodayDoseSlot } from '@/lib/clinical/adherence-engine';

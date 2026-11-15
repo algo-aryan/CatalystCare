@@ -7,7 +7,6 @@ import {
   ShieldCheck, 
   Users, 
   Clock, 
-  Sparkles, 
   ArrowRight, 
   KeyRound, 
   AlertCircle, 
@@ -16,7 +15,10 @@ import {
   FileText,
   MailCheck,
   Languages,
-  CheckCircle2
+  CheckCircle2,
+  Lock,
+  Activity,
+  HeartHandshake
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -75,176 +77,184 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-amber-50/30 via-slate-50 to-blue-50/40 p-4 md:p-8">
+    <main className="min-h-screen bg-gradient-to-br from-emerald-50/30 via-slate-50 to-teal-50/30 text-slate-900 antialiased selection:bg-emerald-100 selection:text-emerald-950 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header Branding */}
-        <header className="flex flex-col md:flex-row items-center justify-between gap-4 py-6 border-b border-slate-200">
+        {/* Top Header Branding */}
+        <header className="flex flex-col sm:flex-row items-center justify-between gap-4 py-5 border-b border-slate-200/70">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
-              <Heart className="w-7 h-7 fill-white" />
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-700 flex items-center justify-center text-white shadow-md shadow-emerald-700/20">
+              <Heart className="w-6 h-6 fill-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-black tracking-tight text-slate-900">CatalystCare</h1>
-                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">
-                  India Edition
+                <span className="text-xl md:text-2xl font-black tracking-tight text-slate-950">
+                  CatalystCare
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-900 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                  Geriatric Healthcare
                 </span>
               </div>
-              <p className="text-xs font-bold text-slate-500 tracking-wide">
-                PromptWars x Catalyst 2026 • Build with AI
+              <p className="text-xs font-medium text-slate-500">
+                Shared Medication Adherence & Multi-Tier Family Care
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-full shadow-sm">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-extrabold text-emerald-800">
-                Shared Care Ecosystem Online
+            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md border border-emerald-200/80 px-3.5 py-1.5 rounded-full shadow-sm">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-bold text-emerald-900">
+                Care Network Online
               </span>
             </div>
+
             <Link
               href="/api/reports/adherence?patientId=patient_savita_sharma"
               target="_blank"
-              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold bg-white border border-slate-300 hover:bg-slate-50 px-3 py-1.5 rounded-full text-slate-700 shadow-sm transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-bold bg-white/90 border border-slate-200 hover:bg-white px-3.5 py-1.5 rounded-full text-slate-700 shadow-sm transition-all"
             >
-              <FileText className="w-3.5 h-3.5 text-blue-600" />
+              <FileText className="w-3.5 h-3.5 text-emerald-700" />
               <span>Export PDF Report</span>
             </Link>
           </div>
         </header>
 
-        {/* Hero Section */}
-        <section className="text-center py-10 md:py-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold mb-4 border border-amber-200 shadow-sm">
-            <Sparkles className="w-4 h-4 text-amber-600" />
-            Elderly Care & Medication Management Platform
+        {/* Hero Section: Modern & Gradient-Infused */}
+        <section className="text-center py-12 md:py-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-900 text-xs font-bold mb-4 border border-emerald-200/80 shadow-sm">
+            <Activity className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Connected Healthcare for Seniors & Families</span>
           </div>
+
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight max-w-4xl mx-auto leading-tight">
-            Caring for Elders, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Connecting Families.</span>
+            Dignified Elderly Care,{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700">
+              Interconnected Routine.
+            </span>
           </h2>
-          <p className="text-base md:text-xl text-slate-600 mt-4 max-w-2xl mx-auto font-medium">
-            A shared, bilingual ecosystem empowering Indian seniors with voice-guided routines while keeping caretakers, doctors, and family interconnected with proactive alerts and Gemini clinical safety.
+
+          <p className="text-sm md:text-lg text-slate-600 mt-4 max-w-2xl mx-auto font-medium leading-relaxed">
+            A unified clinical ecosystem combining voice-guided schedules and bedside pill recognition for seniors with real-time adherence tracking and family emergency escalations.
           </p>
         </section>
 
-        {/* 3 Main Persona Selector Cards */}
+        {/* 3 Main Persona Selector Cards: Frosted Glass with Gradient Accents */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {/* Persona 1: Senior Patient */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-200 shadow-xl shadow-emerald-500/5 hover:border-emerald-500 transition-all flex flex-col justify-between group">
+          <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.06)] ring-1 ring-slate-900/5 hover:border-emerald-400 transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-                <Heart className="w-8 h-8 fill-emerald-600" />
+              <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-emerald-50 to-teal-50 border border-emerald-200 flex items-center justify-center mb-5 text-emerald-800 shadow-sm group-hover:scale-105 transition-transform">
+                <Heart className="w-7 h-7 fill-emerald-600 text-emerald-600" />
               </div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100/70 px-3 py-1 rounded-full">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-900 bg-emerald-100/70 px-3 py-1 rounded-full">
                 Elderly Individual
               </span>
               <h3 className="text-2xl font-black text-slate-900 mt-3">
                 Savita Sharma (76)
               </h3>
-              <p className="text-xs font-bold text-emerald-700">सविता शर्मा • नई दिल्ली</p>
-              <p className="text-slate-600 text-sm mt-3 leading-relaxed">
-                Large typography, bilingual Hindi/English voice readback, 1-tap <strong>&quot;I Took This Pill&quot;</strong> button, high-contrast AAA mode, zero cognitive burden.
+              <p className="text-xs font-bold text-emerald-800">सविता शर्मा • New Delhi</p>
+              <p className="text-slate-600 text-xs md:text-sm mt-3 leading-relaxed">
+                Direct bedside pill recognition, natural Indic voice playback, simplified one-tap dose confirmation, and large accessible controls.
               </p>
             </div>
 
             <Link
               href="/senior"
-              className="mt-6 w-full py-4 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-lg text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95 transition-all"
+              className="mt-6 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-sm md:text-base text-center flex items-center justify-center gap-2 shadow-md shadow-emerald-700/20 active:scale-95 transition-all"
             >
               <span>Enter Senior Mode</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          {/* Persona 2: Primary Caregiver */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-xl shadow-blue-500/5 hover:border-blue-500 transition-all flex flex-col justify-between group">
+          {/* Persona 2: Primary Caretaker */}
+          <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.06)] ring-1 ring-slate-900/5 hover:border-emerald-400 transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-                <ShieldCheck className="w-8 h-8" />
+              <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-slate-900 to-emerald-950 flex items-center justify-center mb-5 text-white shadow-sm group-hover:scale-105 transition-transform">
+                <ShieldCheck className="w-7 h-7 text-emerald-400" />
               </div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-800 bg-blue-100/70 px-3 py-1 rounded-full">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-800 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
                 Primary Caretaker
               </span>
               <h3 className="text-2xl font-black text-slate-900 mt-3">
                 Rahul Sharma (Son)
               </h3>
-              <p className="text-xs font-bold text-blue-700">राहुल शर्मा • Primary Caregiver</p>
-              <p className="text-slate-600 text-sm mt-3 leading-relaxed">
-                Manage medication prescriptions, schedule Fortis & Max doctor visits, verify drug interactions via Gemini AI, and trigger proactive notification scans.
+              <p className="text-xs font-bold text-slate-600">Primary Caregiver & Admin</p>
+              <p className="text-slate-600 text-xs md:text-sm mt-3 leading-relaxed">
+                Prescribe medications, screen drug-drug interactions, schedule cardiologist reviews, and monitor live adherence telemetry.
               </p>
             </div>
 
             <Link
               href="/clinical?role=CARETAKER"
-              className="mt-6 w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-lg text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 active:scale-95 transition-all"
+              className="mt-6 w-full py-3.5 px-6 rounded-2xl bg-slate-900 hover:bg-black text-white font-bold text-sm md:text-base text-center flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
             >
               <span>Open Caretaker Portal</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Persona 3: Family Member */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-indigo-200 shadow-xl shadow-indigo-500/5 hover:border-indigo-500 transition-all flex flex-col justify-between group">
+          <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.06)] ring-1 ring-slate-900/5 hover:border-emerald-400 transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform">
-                <Users className="w-8 h-8" />
+              <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-teal-50 to-emerald-50 border border-teal-200 flex items-center justify-center mb-5 text-teal-800 shadow-sm group-hover:scale-105 transition-transform">
+                <Users className="w-7 h-7 text-teal-700" />
               </div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-800 bg-indigo-100/70 px-3 py-1 rounded-full">
-                Family Member
+              <span className="text-xs font-bold uppercase tracking-wider text-teal-900 bg-teal-100/70 px-3 py-1 rounded-full">
+                Family Observer
               </span>
               <h3 className="text-2xl font-black text-slate-900 mt-3">
                 Priya Sharma (Daughter)
               </h3>
-              <p className="text-xs font-bold text-indigo-700">प्रिया शर्मा • Bengaluru</p>
-              <p className="text-slate-600 text-sm mt-3 leading-relaxed">
-                Stay at peace from afar with real-time 7-day adherence charts, read-only audit log verification, upcoming appointment reminders, and automated emergency escalations.
+              <p className="text-xs font-bold text-teal-800">Bengaluru • Remote Monitoring</p>
+              <p className="text-slate-600 text-xs md:text-sm mt-3 leading-relaxed">
+                Reassurance from afar with rolling 7-day adherence charts, cryptographic audit verification, and automated emergency alert dispatches.
               </p>
             </div>
 
             <Link
               href="/clinical?role=FAMILY_MEMBER"
-              className="mt-6 w-full py-4 px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg text-center flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 active:scale-95 transition-all"
+              className="mt-6 w-full py-3.5 px-6 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm md:text-base text-center flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
             >
               <span>View Family Feed</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </section>
 
-        {/* Passcode Pairing Section (CareLink HMAC Security) */}
-        <section className="bg-white rounded-3xl p-6 md:p-10 border border-slate-200 shadow-md mb-12">
+        {/* Secure Passcode Pairing Section: Frosted Glass */}
+        <section className="bg-white/85 backdrop-blur-xl rounded-3xl p-6 md:p-10 border border-white/80 shadow-[0_12px_36px_rgba(5,150,105,0.05)] ring-1 ring-slate-900/5 mb-12">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold mb-2">
-                <KeyRound className="w-4 h-4 text-blue-600" />
-                Secure Passcode Access (HMAC-SHA256 CareLink)
+                <KeyRound className="w-3.5 h-3.5 text-emerald-700" />
+                <span>HMAC-SHA256 Authenticated CareLink Access</span>
               </div>
               <h3 className="text-2xl md:text-3xl font-black text-slate-900">
-                Pair with an Elder&apos;s Profile
+                Pair with Elder Profile
               </h3>
-              <p className="text-slate-600 text-sm mt-1">
-                Enter the 6-character passcode provided by Savita Sharma or the clinical coordinator to securely pair your device.
+              <p className="text-slate-500 text-xs md:text-sm mt-1">
+                Enter the 6-character access passcode generated by the patient or clinical admin to securely link your device.
               </p>
             </div>
 
             {/* Quick Demo Pre-fills */}
-            <div className="mb-4 bg-slate-50 border border-slate-200 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
+            <div className="mb-4 bg-slate-50/80 border border-slate-200/80 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2">
               <span className="text-xs font-bold text-slate-600">Quick Test Demo Codes:</span>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => handleQuickFillDemoCode('CARE99', 'Rahul Sharma (Caretaker)')}
-                  className="px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-lg text-xs font-bold transition-all"
+                  className="px-3 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-all shadow-sm"
                 >
-                  Fill CARE99 (Caretaker)
+                  CARE99 (Caretaker)
                 </button>
                 <button
                   type="button"
                   onClick={() => handleQuickFillDemoCode('FAML77', 'Priya Sharma (Family)')}
-                  className="px-3 py-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 rounded-lg text-xs font-bold transition-all"
+                  className="px-3 py-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-all shadow-sm"
                 >
-                  Fill FAML77 (Family)
+                  FAML77 (Family)
                 </button>
               </div>
             </div>
@@ -260,34 +270,34 @@ export default function HomePage() {
                   placeholder="e.g. CARE99"
                   value={careLinkCode}
                   onChange={(e) => setCareLinkCode(e.target.value.toUpperCase())}
-                  className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-300 font-mono text-center tracking-widest text-2xl font-black text-slate-900 uppercase focus:border-blue-600 focus:outline-none"
+                  className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-200 font-mono text-center tracking-widest text-2xl font-black text-slate-900 uppercase focus:border-emerald-600 focus:outline-none transition-all"
                   required
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Your Full Name & Relationship
+                  Full Name & Relationship
                 </label>
                 <input
                   type="text"
                   placeholder="e.g. Rahul Sharma (Son & Caretaker)"
                   value={caregiverName}
                   onChange={(e) => setCaregiverName(e.target.value)}
-                  className="w-full px-4 py-3 rounded-2xl border border-slate-300 text-slate-900 focus:border-blue-600 focus:outline-none font-medium"
+                  className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-slate-900 focus:border-emerald-600 focus:outline-none text-xs md:text-sm font-medium transition-all"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={pairingLoading || !careLinkCode.trim()}
-                className="w-full py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg flex items-center justify-center gap-2 active:scale-95 transition-all disabled:opacity-50"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-bold text-base flex items-center justify-center gap-2 active:scale-95 transition-all shadow-md shadow-emerald-700/20 disabled:opacity-50"
               >
                 {pairingLoading ? (
                   <span>Verifying HMAC Token...</span>
                 ) : (
                   <>
-                    <KeyRound className="w-5 h-5 text-amber-400" />
+                    <KeyRound className="w-4 h-4 text-emerald-100" />
                     <span>Redeem Passcode & Open Profile</span>
                   </>
                 )}
@@ -304,16 +314,16 @@ export default function HomePage() {
               >
                 <div className="flex items-center gap-2 font-bold text-sm">
                   {pairingResult.success ? (
-                    <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                   ) : (
-                    <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                    <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
                   )}
                   <span>{pairingResult.message}</span>
                 </div>
                 {pairingResult.success && pairingResult.redirectUrl && (
                   <Link
                     href={pairingResult.redirectUrl}
-                    className="mt-2 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl text-center shadow-md transition-all"
+                    className="mt-2 py-2.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl text-center shadow-md transition-all"
                   >
                     Proceed to Paired Dashboard →
                   </Link>
@@ -323,53 +333,53 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Feature Highlights Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16 text-center">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-3">
-              <Sparkles className="w-5 h-5" />
+        {/* Core Architectural Pillars */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14 text-center">
+          <div className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)] ring-1 ring-slate-900/5">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3">
+              <Stethoscope className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-slate-900 text-base">Gemini Clinical AI</h4>
+            <h4 className="font-bold text-slate-900 text-sm md:text-base">Clinical Safety Screener</h4>
             <p className="text-xs text-slate-500 mt-1">
-              Checks drug-drug & food-drug interactions before any prescription is added.
+              Automated screening against known drug-drug and food-drug interactions.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)] ring-1 ring-slate-900/5">
+            <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center mx-auto mb-3">
               <MailCheck className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-slate-900 text-base">Proactive Reminders</h4>
+            <h4 className="font-bold text-slate-900 text-sm md:text-base">Multi-Tier Escalation</h4>
             <p className="text-xs text-slate-500 mt-1">
-              Automated email reminders with 1-click &quot;Took It&quot; action links.
+              Automated caregiver alerts with one-click direct confirmation tokens.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mx-auto mb-3">
+          <div className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)] ring-1 ring-slate-900/5">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3">
               <Languages className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-slate-900 text-base">Bilingual Voice</h4>
+            <h4 className="font-bold text-slate-900 text-sm md:text-base">Bilingual Voice Guidance</h4>
             <p className="text-xs text-slate-500 mt-1">
-              Natural Hindi and Indian English audio synthesis adapted for elders.
+              Natural Hindi and English audio synthesized specifically for elderly pacing.
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mx-auto mb-3">
-              <ShieldCheck className="w-5 h-5" />
+          <div className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.03)] ring-1 ring-slate-900/5">
+            <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center mx-auto mb-3">
+              <Lock className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-slate-900 text-base">Immutable Audit</h4>
+            <h4 className="font-bold text-slate-900 text-sm md:text-base">Cryptographic Audit</h4>
             <p className="text-xs text-slate-500 mt-1">
-              SHA-256 cryptographic hash-chain ensures tamper-evident medical logs.
+              SHA-256 tamper-evident hash-chain ensures complete auditability.
             </p>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="text-center text-xs text-slate-500 pb-8 border-t border-slate-200 pt-6">
-          <p>CatalystCare • Built for Google for Developers PromptWars x Catalyst 2026</p>
-          <p className="mt-1">Honoring Indian seniors with dignity, accessibility, and interconnected family care.</p>
+        <footer className="text-center text-xs text-slate-500 pb-8 border-t border-slate-200/80 pt-6">
+          <p className="font-semibold text-slate-700">CatalystCare Geriatric Adherence System</p>
+          <p className="mt-1">Empowering seniors with accessible, dignified, and interconnected family care.</p>
         </footer>
       </div>
     </main>

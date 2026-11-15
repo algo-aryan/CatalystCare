@@ -9,7 +9,7 @@ test('Adherence State Machine: returns recorded status if adherence event exists
     medicationId: 'm1',
     patientId: 'p1',
     scheduledTime: new Date().toISOString(),
-    status: 'ADMINISTERED',
+    status: 'ADMINISTERED' as const,
     recordedAt: new Date().toISOString(),
     deviationMinutes: 4,
   };

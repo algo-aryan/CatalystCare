@@ -999,5 +999,52 @@
       "previousHash": "e8414899310de22ff22ccfe05b4684e8b4ddbcc53b69fdb6dd10b6a597e0eb2d"
     }
   ],
-  "outboxEmails": []
+  "outboxEmails": [
+    {
+      "to": "rahul.sharma@gmail.com",
+      "subject": "🚨 URGENT: Savita Sharma missed critical medication: Telmisartan 40 mg (Telma 40)",
+      "html": "\n<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <style>\n    body { font-family: sans-serif; background: #FFF1F2; color: #0F172A; padding: 20px; font-size: 18px; }\n    .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 16px; padding: 32px; border: 3px solid #B91C1C; }\n    .alert-header { color: #B91C1C; font-size: 24px; font-weight: bold; margin-bottom: 12px; }\n    .badge { background: #FEE2E2; color: #B91C1C; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 14px; }\n    .details { background: #F8FAFC; padding: 18px; border-radius: 8px; margin: 18px 0; border: 1px solid #E2E8F0; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <div class=\"badge\">URGENT CARE ESCALATION</div>\n    <div class=\"alert-header\" style=\"margin-top: 10px;\">⚠️ Missed Critical Medication Alert</div>\n    <p>Dear <strong>Rahul Sharma (बेटा)</strong>,</p>\n    <p>Our proactive monitoring system detected that <strong>Savita Sharma</strong> has not confirmed their scheduled critical medication.</p>\n\n    <div class=\"details\">\n      <div><strong>Medication:</strong> Telmisartan 40 mg (Telma 40) (40 mg)</div>\n      <div><strong>Scheduled For:</strong> 08:00</div>\n      <div style=\"color: #B91C1C; margin-top: 6px;\"><strong>Status:</strong> Overdue > 60 minutes</div>\n    </div>\n\n    <p>Please check in with Savita Sharma to verify their well-being and assist with medication adherence.</p>\n\n    <div style=\"margin-top: 24px; font-size: 14px; color: #64748B;\">\n      CatalystCare Automated Adherence Guardian • Sent automatically per care protocol.\n    </div>\n  </div>\n</body>\n</html>\n  ",
+      "type": "EMERGENCY_ESCALATION",
+      "patientId": "patient_savita_sharma",
+      "id": "mail_1794724198515_w18x",
+      "createdAt": "2026-11-15T06:29:58.515Z",
+      "status": "SENT",
+      "sentAt": "2026-11-15T06:29:58.516Z"
+    },
+    {
+      "to": "priya.sharma@gmail.com",
+      "subject": "🚨 URGENT: Savita Sharma missed critical medication: Telmisartan 40 mg (Telma 40)",
+      "html": "\n<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <style>\n    body { font-family: sans-serif; background: #FFF1F2; color: #0F172A; padding: 20px; font-size: 18px; }\n    .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 16px; padding: 32px; border: 3px solid #B91C1C; }\n    .alert-header { color: #B91C1C; font-size: 24px; font-weight: bold; margin-bottom: 12px; }\n    .badge { background: #FEE2E2; color: #B91C1C; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 14px; }\n    .details { background: #F8FAFC; padding: 18px; border-radius: 8px; margin: 18px 0; border: 1px solid #E2E8F0; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <div class=\"badge\">URGENT CARE ESCALATION</div>\n    <div class=\"alert-header\" style=\"margin-top: 10px;\">⚠️ Missed Critical Medication Alert</div>\n    <p>Dear <strong>Priya Sharma (बेटी)</strong>,</p>\n    <p>Our proactive monitoring system detected that <strong>Savita Sharma</strong> has not confirmed their scheduled critical medication.</p>\n\n    <div class=\"details\">\n      <div><strong>Medication:</strong> Telmisartan 40 mg (Telma 40) (40 mg)</div>\n      <div><strong>Scheduled For:</strong> 08:00</div>\n      <div style=\"color: #B91C1C; margin-top: 6px;\"><strong>Status:</strong> Overdue > 60 minutes</div>\n    </div>\n\n    <p>Please check in with Savita Sharma to verify their well-being and assist with medication adherence.</p>\n\n    <div style=\"margin-top: 24px; font-size: 14px; color: #64748B;\">\n      CatalystCare Automated Adherence Guardian • Sent automatically per care protocol.\n    </div>\n  </div>\n</body>\n</html>\n  ",
+      "type": "EMERGENCY_ESCALATION",
+      "patientId": "patient_savita_sharma",
+      "id": "mail_1794724198516_05cx",
+      "createdAt": "2026-11-15T06:29:58.516Z",
+      "status": "SENT",
+      "sentAt": "2026-11-15T06:29:58.516Z"
+    },
+    {
+      "to": "savita.sharma@gmail.com",
+      "subject": "⏰ Reminder: Time for your Metformin 500 mg (Glycomet) (500 mg)",
+      "html": "\n<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <style>\n    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #F8FAFC; color: #0F172A; padding: 20px; font-size: 18px; line-height: 1.6; }\n    .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 16px; padding: 32px; border: 2px solid #CBD5E1; }\n    .header { font-size: 24px; font-weight: bold; color: #1D4ED8; margin-bottom: 16px; }\n    .med-box { background: #EFF6FF; border-left: 6px solid #1D4ED8; padding: 18px; border-radius: 8px; margin: 20px 0; }\n    .btn { display: inline-block; background-color: #047857; color: #ffffff !important; padding: 18px 36px; font-size: 20px; font-weight: bold; text-decoration: none; border-radius: 12px; margin: 20px 0; text-align: center; }\n    .footer { font-size: 14px; color: #64748B; margin-top: 24px; border-top: 1px solid #E2E8F0; padding-top: 16px; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <div class=\"header\">⏰ Medication Reminder</div>\n    <p>Hello <strong>Savita Sharma</strong>,</p>\n    <p>It is time for your scheduled medication:</p>\n    \n    <div class=\"med-box\">\n      <div style=\"font-size: 22px; font-weight: bold;\">Metformin 500 mg (Glycomet) (500 mg)</div>\n      <div style=\"margin-top: 6px; color: #334155;\">Scheduled Time: <strong>20:00</strong></div>\n      <div style=\"margin-top: 4px; color: #334155;\">Instructions: Take 1 tablet twice daily immediately after breakfast and dinner.</div>\n    </div>\n\n    <p style=\"text-align: center;\">\n      <a href=\"http://localhost:3000/api/doses/confirm?token=eyJkb3NlSWQiOiJkb3NlXzIwMjYtMTEtMTVfbWVkX21ldGZvcm1pbl8yMDAwIiwiYWN0aW9uIjoiQURNSU5JU1RFUiIsImV4cGlyZXNBdCI6MTc5NDgxMDU5ODUxNywic2lnIjoiMWJhOGY1NTdiM2IzMDg2NzJmZGEyNGU5MmU0ZmRjZjA5M2I5MWZhNGQ5ODUyNzZmMDBlNGE5NGVlZTQyOTc4ZiJ9\" class=\"btn\">✓ I Have Taken This Dose</a>\n    </p>\n\n    <div class=\"footer\">\n      CatalystCare Connected Healthcare System • Your family and care team are kept informed.\n    </div>\n  </div>\n</body>\n</html>\n  ",
+      "type": "DOSE_DUE",
+      "patientId": "patient_savita_sharma",
+      "oneClickToken": "eyJkb3NlSWQiOiJkb3NlXzIwMjYtMTEtMTVfbWVkX21ldGZvcm1pbl8yMDAwIiwiYWN0aW9uIjoiQURNSU5JU1RFUiIsImV4cGlyZXNBdCI6MTc5NDgxMDU5ODUxNywic2lnIjoiMWJhOGY1NTdiM2IzMDg2NzJmZGEyNGU5MmU0ZmRjZjA5M2I5MWZhNGQ5ODUyNzZmMDBlNGE5NGVlZTQyOTc4ZiJ9",
+      "id": "mail_1794724198517_xvvq",
+      "createdAt": "2026-11-15T06:29:58.517Z",
+      "status": "SENT",
+      "sentAt": "2026-11-15T06:29:58.517Z"
+    },
+    {
+      "to": "savita.sharma@gmail.com",
+      "subject": "⏰ Reminder: Time for your Atorvastatin 20 mg (Atorva 20) (20 mg)",
+      "html": "\n<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <style>\n    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #F8FAFC; color: #0F172A; padding: 20px; font-size: 18px; line-height: 1.6; }\n    .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 16px; padding: 32px; border: 2px solid #CBD5E1; }\n    .header { font-size: 24px; font-weight: bold; color: #1D4ED8; margin-bottom: 16px; }\n    .med-box { background: #EFF6FF; border-left: 6px solid #1D4ED8; padding: 18px; border-radius: 8px; margin: 20px 0; }\n    .btn { display: inline-block; background-color: #047857; color: #ffffff !important; padding: 18px 36px; font-size: 20px; font-weight: bold; text-decoration: none; border-radius: 12px; margin: 20px 0; text-align: center; }\n    .footer { font-size: 14px; color: #64748B; margin-top: 24px; border-top: 1px solid #E2E8F0; padding-top: 16px; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <div class=\"header\">⏰ Medication Reminder</div>\n    <p>Hello <strong>Savita Sharma</strong>,</p>\n    <p>It is time for your scheduled medication:</p>\n    \n    <div class=\"med-box\">\n      <div style=\"font-size: 22px; font-weight: bold;\">Atorvastatin 20 mg (Atorva 20) (20 mg)</div>\n      <div style=\"margin-top: 6px; color: #334155;\">Scheduled Time: <strong>21:00</strong></div>\n      <div style=\"margin-top: 4px; color: #334155;\">Instructions: Take 1 tablet at bedtime with water to manage cholesterol levels.</div>\n    </div>\n\n    <p style=\"text-align: center;\">\n      <a href=\"http://localhost:3000/api/doses/confirm?token=eyJkb3NlSWQiOiJkb3NlXzIwMjYtMTEtMTVfbWVkX2F0b3J2YXN0YXRpbl8yMTAwIiwiYWN0aW9uIjoiQURNSU5JU1RFUiIsImV4cGlyZXNBdCI6MTc5NDgxMDU5ODUxNywic2lnIjoiOTk3ZmI0NjRkYmIzNjI1NjVmYTY0YmNkZTAyMjA0NTZlODkxNzBhNjAwNTI3Y2VmODczOTgzMjQ0ZDgyMTIyYiJ9\" class=\"btn\">✓ I Have Taken This Dose</a>\n    </p>\n\n    <div class=\"footer\">\n      CatalystCare Connected Healthcare System • Your family and care team are kept informed.\n    </div>\n  </div>\n</body>\n</html>\n  ",
+      "type": "DOSE_DUE",
+      "patientId": "patient_savita_sharma",
+      "oneClickToken": "eyJkb3NlSWQiOiJkb3NlXzIwMjYtMTEtMTVfbWVkX2F0b3J2YXN0YXRpbl8yMTAwIiwiYWN0aW9uIjoiQURNSU5JU1RFUiIsImV4cGlyZXNBdCI6MTc5NDgxMDU5ODUxNywic2lnIjoiOTk3ZmI0NjRkYmIzNjI1NjVmYTY0YmNkZTAyMjA0NTZlODkxNzBhNjAwNTI3Y2VmODczOTgzMjQ0ZDgyMTIyYiJ9",
+      "id": "mail_1794724198517_256y",
+      "createdAt": "2026-11-15T06:29:58.517Z",
+      "status": "SENT",
+      "sentAt": "2026-11-15T06:29:58.518Z"
+    }
+  ]
 }
