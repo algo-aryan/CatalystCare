@@ -1,0 +1,522 @@
+{
+  "users": [
+    {
+      "id": "user_patient_eleanor",
+      "email": "eleanor.vance@gmail.com",
+      "fullName": "Eleanor Vance",
+      "role": "PATIENT",
+      "phoneNumber": "+1-555-019-2831",
+      "createdAt": "2026-10-16T04:37:36.650Z"
+    },
+    {
+      "id": "user_caregiver_marcus",
+      "email": "marcus.vance@gmail.com",
+      "fullName": "Marcus Vance",
+      "role": "CARETAKER",
+      "phoneNumber": "+1-555-019-8822",
+      "createdAt": "2026-10-18T04:37:36.651Z"
+    },
+    {
+      "id": "user_family_sarah",
+      "email": "sarah.vance@outlook.com",
+      "fullName": "Sarah Vance",
+      "role": "FAMILY_MEMBER",
+      "phoneNumber": "+1-555-019-4411",
+      "createdAt": "2026-10-21T04:37:36.651Z"
+    }
+  ],
+  "patientProfile": {
+    "id": "patient_eleanor_vance",
+    "userId": "user_patient_eleanor",
+    "fullName": "Eleanor Vance",
+    "dateOfBirth": "1948-03-14",
+    "bloodGroup": "O+",
+    "primaryConditions": [
+      "Essential Hypertension",
+      "Type 2 Diabetes",
+      "Osteoarthritis"
+    ],
+    "allergies": [
+      "Penicillin (Moderate rash)"
+    ],
+    "emergencyContact": {
+      "name": "Marcus Vance (Son)",
+      "relationship": "Son & Primary Caregiver",
+      "phone": "+1-555-019-8822"
+    },
+    "preferredLanguage": "English",
+    "highContrastDefault": true,
+    "quietHours": {
+      "enabled": true,
+      "start": "22:00",
+      "end": "07:00"
+    },
+    "createdAt": "2026-10-16T04:37:36.651Z"
+  },
+  "medications": [
+    {
+      "id": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "name": "Metformin Hydrochloride",
+      "genericName": "Metformin",
+      "dosage": "500 mg",
+      "form": "TABLET",
+      "instructions": "Take 1 tablet with breakfast and dinner to lower blood sugar.",
+      "foodRelation": "WITH_MEAL",
+      "scheduledTimes": [
+        "08:00",
+        "20:00"
+      ],
+      "isCritical": true,
+      "startDate": "2024-01-01",
+      "plainLanguageSummary": "Helps keep your blood sugar in a safe, healthy balance after meals.",
+      "interactionWarnings": [],
+      "status": "ACTIVE",
+      "createdAt": "2026-10-16T04:37:36.651Z"
+    },
+    {
+      "id": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "name": "Lisinopril",
+      "genericName": "Lisinopril",
+      "dosage": "10 mg",
+      "form": "TABLET",
+      "instructions": "Take 1 tablet every morning with a full glass of water for blood pressure.",
+      "foodRelation": "NO_RESTRICTION",
+      "scheduledTimes": [
+        "08:00"
+      ],
+      "isCritical": true,
+      "startDate": "2024-01-01",
+      "plainLanguageSummary": "Relaxes your blood vessels to protect your heart and control blood pressure.",
+      "interactionWarnings": [],
+      "status": "ACTIVE",
+      "createdAt": "2026-10-16T04:37:36.651Z"
+    },
+    {
+      "id": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "name": "Atorvastatin Calcium",
+      "genericName": "Atorvastatin",
+      "dosage": "20 mg",
+      "form": "TABLET",
+      "instructions": "Take 1 tablet at bedtime to manage cholesterol levels.",
+      "foodRelation": "NO_RESTRICTION",
+      "scheduledTimes": [
+        "21:00"
+      ],
+      "isCritical": false,
+      "startDate": "2024-02-15",
+      "plainLanguageSummary": "Protects your arteries by lowering harmful cholesterol while you sleep.",
+      "interactionWarnings": [
+        {
+          "drugA": "Atorvastatin",
+          "drugB": "Grapefruit Juice",
+          "severity": "MODERATE",
+          "clinicalEffect": "May increase blood concentrations of atorvastatin leading to muscle pain.",
+          "recommendation": "Avoid consuming grapefruit or grapefruit juice while on this medication.",
+          "source": "GEMINI_CLINICAL_AI"
+        }
+      ],
+      "status": "ACTIVE",
+      "createdAt": "2026-10-16T04:37:36.651Z"
+    }
+  ],
+  "careRelationships": [
+    {
+      "id": "rel_marcus",
+      "patientId": "patient_eleanor_vance",
+      "caregiverUserId": "user_caregiver_marcus",
+      "caregiverName": "Marcus Vance",
+      "role": "CARETAKER",
+      "permissions": {
+        "canAdministerMeds": true,
+        "canEditSchedule": true,
+        "canViewAuditLog": true,
+        "canManageAppointments": true,
+        "receiveEmergencyAlerts": true
+      },
+      "linkedViaToken": "CARE99",
+      "linkedAt": "2026-10-18T04:37:36.652Z",
+      "status": "ACTIVE"
+    },
+    {
+      "id": "rel_sarah",
+      "patientId": "patient_eleanor_vance",
+      "caregiverUserId": "user_family_sarah",
+      "caregiverName": "Sarah Vance",
+      "role": "FAMILY_MEMBER",
+      "permissions": {
+        "canAdministerMeds": false,
+        "canEditSchedule": false,
+        "canViewAuditLog": true,
+        "canManageAppointments": false,
+        "receiveEmergencyAlerts": true
+      },
+      "linkedViaToken": "FAML77",
+      "linkedAt": "2026-10-21T04:37:36.652Z",
+      "status": "ACTIVE"
+    }
+  ],
+  "adherenceEvents": [
+    {
+      "id": "adh_2026-11-09_metformin_am",
+      "doseId": "dose_2026-11-09_met_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-09T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-09T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-09_lisinopril_am",
+      "doseId": "dose_2026-11-09_lis_0800",
+      "medicationId": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-09T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-09T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-09_metformin_pm",
+      "doseId": "dose_2026-11-09_met_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-09T20:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-09T20:15:00.000Z",
+      "deviationMinutes": 15
+    },
+    {
+      "id": "adh_2026-11-09_atorvastatin_pm",
+      "doseId": "dose_2026-11-09_ator_2100",
+      "medicationId": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-09T21:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-09T21:02:00.000Z",
+      "deviationMinutes": 2
+    },
+    {
+      "id": "adh_2026-11-10_metformin_am",
+      "doseId": "dose_2026-11-10_met_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-10T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-10T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-10_lisinopril_am",
+      "doseId": "dose_2026-11-10_lis_0800",
+      "medicationId": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-10T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-10T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-10_metformin_pm",
+      "doseId": "dose_2026-11-10_met_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-10T20:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-10T20:15:00.000Z",
+      "deviationMinutes": 15
+    },
+    {
+      "id": "adh_2026-11-10_atorvastatin_pm",
+      "doseId": "dose_2026-11-10_ator_2100",
+      "medicationId": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-10T21:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-10T21:02:00.000Z",
+      "deviationMinutes": 2
+    },
+    {
+      "id": "adh_2026-11-11_metformin_am",
+      "doseId": "dose_2026-11-11_met_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-11T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-11T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-11_lisinopril_am",
+      "doseId": "dose_2026-11-11_lis_0800",
+      "medicationId": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-11T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-11T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-11_metformin_pm",
+      "doseId": "dose_2026-11-11_met_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-11T20:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-11T20:15:00.000Z",
+      "deviationMinutes": 15
+    },
+    {
+      "id": "adh_2026-11-11_atorvastatin_pm",
+      "doseId": "dose_2026-11-11_ator_2100",
+      "medicationId": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-11T21:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-11T21:02:00.000Z",
+      "deviationMinutes": 2
+    },
+    {
+      "id": "adh_2026-11-12_metformin_am",
+      "doseId": "dose_2026-11-12_met_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-12T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-12T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-12_lisinopril_am",
+      "doseId": "dose_2026-11-12_lis_0800",
+      "medicationId": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-12T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-12T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-12_metformin_pm",
+      "doseId": "dose_2026-11-12_met_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-12T20:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-12T20:15:00.000Z",
+      "deviationMinutes": 15
+    },
+    {
+      "id": "adh_2026-11-12_atorvastatin_pm",
+      "doseId": "dose_2026-11-12_ator_2100",
+      "medicationId": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-12T21:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-12T21:02:00.000Z",
+      "deviationMinutes": 2
+    },
+    {
+      "id": "adh_2026-11-13_metformin_am",
+      "doseId": "dose_2026-11-13_met_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-13T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-13T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-13_lisinopril_am",
+      "doseId": "dose_2026-11-13_lis_0800",
+      "medicationId": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-13T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-13T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-13_metformin_pm",
+      "doseId": "dose_2026-11-13_met_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-13T20:00:00.000Z",
+      "status": "MISSED",
+      "recordedAt": "2026-11-13T22:00:00.000Z",
+      "deviationMinutes": 120,
+      "notes": "Fell asleep early after dinner"
+    },
+    {
+      "id": "adh_2026-11-13_atorvastatin_pm",
+      "doseId": "dose_2026-11-13_ator_2100",
+      "medicationId": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-13T21:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-13T21:02:00.000Z",
+      "deviationMinutes": 2
+    },
+    {
+      "id": "adh_2026-11-14_metformin_am",
+      "doseId": "dose_2026-11-14_met_0800",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-14T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-14T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-14_lisinopril_am",
+      "doseId": "dose_2026-11-14_lis_0800",
+      "medicationId": "med_lisinopril",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-14T08:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-14T08:05:00.000Z",
+      "administeredBy": {
+        "userId": "user_patient_eleanor",
+        "role": "PATIENT",
+        "name": "Eleanor Vance"
+      },
+      "deviationMinutes": 5
+    },
+    {
+      "id": "adh_2026-11-14_metformin_pm",
+      "doseId": "dose_2026-11-14_met_2000",
+      "medicationId": "med_metformin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-14T20:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-14T20:15:00.000Z",
+      "deviationMinutes": 15
+    },
+    {
+      "id": "adh_2026-11-14_atorvastatin_pm",
+      "doseId": "dose_2026-11-14_ator_2100",
+      "medicationId": "med_atorvastatin",
+      "patientId": "patient_eleanor_vance",
+      "scheduledTime": "2026-11-14T21:00:00.000Z",
+      "status": "ADMINISTERED",
+      "recordedAt": "2026-11-14T21:02:00.000Z",
+      "deviationMinutes": 2
+    }
+  ],
+  "appointments": [
+    {
+      "id": "appt_cardiology_followup",
+      "patientId": "patient_eleanor_vance",
+      "doctorName": "Dr. Robert Chen, MD",
+      "specialty": "Cardiovascular Care",
+      "clinicHospital": "St. Jude Heart & Vascular Institute, Suite 402",
+      "appointmentTime": "2026-11-17T08:37:36.652Z",
+      "contactNumber": "+1-555-901-2244",
+      "reason": "Quarterly hypertension review & ECG evaluation",
+      "notes": "Bring current medication log and blood pressure journal.",
+      "status": "SCHEDULED",
+      "reminderSent": true,
+      "createdAt": "2026-11-05T04:37:36.652Z"
+    },
+    {
+      "id": "appt_endocrinology",
+      "patientId": "patient_eleanor_vance",
+      "doctorName": "Dr. Anita Desai, MD",
+      "specialty": "Endocrinology & Diabetes",
+      "clinicHospital": "Metro Health Pavilion",
+      "appointmentTime": "2026-11-29T04:37:36.652Z",
+      "contactNumber": "+1-555-772-8810",
+      "reason": "Routine HbA1c screening",
+      "notes": "Fast for 8 hours prior to appointment.",
+      "status": "SCHEDULED",
+      "reminderSent": false,
+      "createdAt": "2026-11-10T04:37:36.652Z"
+    }
+  ],
+  "careLinkTokens": [],
+  "auditLogs": [
+    {
+      "id": "audit_init_01",
+      "timestamp": "2026-10-18T04:37:36.652Z",
+      "patientId": "patient_eleanor_vance",
+      "actorUserId": "user_patient_eleanor",
+      "actorName": "Eleanor Vance",
+      "actorRole": "PATIENT",
+      "action": "CARELINK_CREATED",
+      "details": "Generated 6-char CareLink token for Marcus Vance (Caretaker)",
+      "hash": "8f4c28b5e2b001a1829e",
+      "previousHash": "00000000000000000000"
+    },
+    {
+      "id": "audit_init_02",
+      "timestamp": "2026-10-18T05:37:36.652Z",
+      "patientId": "patient_eleanor_vance",
+      "actorUserId": "user_caregiver_marcus",
+      "actorName": "Marcus Vance",
+      "actorRole": "CARETAKER",
+      "action": "CARELINK_REDEEMED",
+      "details": "Redeemed CareLink token. Full administration permissions granted.",
+      "hash": "3d8a11bc029ff100a921",
+      "previousHash": "8f4c28b5e2b001a1829e"
+    }
+  ],
+  "outboxEmails": []
+}
